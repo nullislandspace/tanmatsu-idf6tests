@@ -1,0 +1,135 @@
+{
+ "meta": {
+  "host_time": "20260914T192200Z",
+  "port": "rfc2217://localhost:4001",
+  "suite": "canary",
+  "args": "idle=2 reads=30",
+  "variant": "nobsp",
+  "git_commit": "8aaa7bca10",
+  "git_dirty": false
+ },
+ "ready": {
+  "t": "PONG",
+  "variant": "nobsp",
+  "mounted": true,
+  "idle_left_s": 299,
+  "free_int": 497103,
+  "free_psram": 33025996
+ },
+ "begin": {
+  "t": "begin",
+  "variant": "nobsp",
+  "suite": "canary",
+  "args": "idle=2 reads=30",
+  "idf": "v6.0.2",
+  "hosted": 1,
+  "chunked_msync": 0,
+  "pm": 1,
+  "psram_mhz": 200,
+  "int_wdt_ms": 300,
+  "bsp_init": 0,
+  "grace_boot": 0,
+  "usb_host": 0,
+  "int_mounted": 0,
+  "reset_reason": 3,
+  "free_int": 497015,
+  "largest_int": 319488,
+  "free_psram": 33025996,
+  "card_name": "SE16G",
+  "card_mb": 15193,
+  "card_khz": 40000
+ },
+ "pattern": {
+  "t": "pattern",
+  "written": false,
+  "baseline": true
+ },
+ "cases": [
+  {
+   "t": "case",
+   "suite": "canary",
+   "dest": "page",
+   "io": "unbuf",
+   "method": "direct",
+   "chunk": 4096,
+   "vbuf": 0,
+   "dmabuf": 1,
+   "size": 150000,
+   "off": 4096,
+   "rep": 1,
+   "addr": "0x48292000",
+   "ok": false,
+   "n": 150000,
+   "errno": 0,
+   "bad": 104,
+   "bad_fill": 58,
+   "bad_zero": 0,
+   "runs": 26,
+   "gran": "4",
+   "us": 25005,
+   "kbps": 5858,
+   "detail": [
+    {
+     "s": 4244,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 6144,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 8336,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 16532,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 18572,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 23284,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 32916,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 49300,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 57492,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 65684,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    }
+   ]
+  }
+ ],
+ "summary": null,
+ "end": null,
+ "corrupt_lines": 0,
+ "crash_lines": [
+  "Guru Meditation Error: Core  0 panic'ed (Load access fault). Exception was unhandled.",
+  "ESP-ROM:esp32p4-eco2-20240710",
+  "rst:0xc (SW_CPU_RESET),boot:0x1c (SPI_FAST_FLASH_BOOT)"
+ ],
+ "verdict": "crash",
+ "recovery": 0
+}

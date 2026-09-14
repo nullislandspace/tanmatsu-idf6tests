@@ -1,0 +1,5 @@
+# graceenv (boots like tanmatsu-graceloader) with the pmfix esp_driver_sdmmc patch
+# (ESP_PM_CPU_FREQ_MAX instead of ESP_PM_APB_FREQ_MAX).
+CONFIG_IDF6TEST_VARIANT_NAME="gracefix"
+CONFIG_IDF6TEST_BSP_INIT=n
+CONFIG_IDF6TEST_GRACE_BOOT=y

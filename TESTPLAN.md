@@ -33,30 +33,33 @@ Conventions:
 ### Phase 2 — reproduce on `base`
 - [x] 2.1 `base`: `matrix` 258/258 ok, `grace` (+ real `app.so` segments) 38/38 ok, `sweep` over 25 MB of PSRAM addresses 36/36 ok, `grace usbhost=1` ok. **Not reproduced on base.**
 - [x] 2.3 Approached graceloader's boot: new variant `graceenv` (no `bsp_device_initialize()`, USB PHY switch, `/int` WL mount, USB HID host — exactly graceloader's `app_main` before the load). **Reproduced** on the first run (see §6 "graceenv reproduction").
-- [ ] 2.2 Characterise / bisect which graceenv difference matters (variant `nobsp` + runtime args `usbphy=1 intmount=1 usbhost=1`, `canary` suite).
+- [x] 2.2 Bisected: `nobsp` (only difference to base: no `bsp_device_initialize()`) reproduces without any of graceloader's other boot steps. The BSP's DSI display driver holds `ESP_PM_CPU_FREQ_MAX`; without it DFS runs.
 
 ### Phase 3 — discriminate (only on a reproducing configuration)
-- [ ] H1…H9, see §2.
+- [x] Root cause found: **H12** (DFS/MSPI low-speed switching during SD DMA into PSRAM), see §2 and §6. H1–H9 not needed any more.
 
 ### Phase 4 — workarounds and cost
-- [ ] M0…M6 on `base` (+ `nohosted` as speed reference), see §5.
+- [x] Measured on `pmfix` (all methods correct there), see §5. App-level lock validated in `graceenv`.
 
 ### Phase 5 — conclude
-- [ ] §12 in `idf6_sd_fuckup.md`, recommendation for graceloader & co, upstream report draft if a driver bug is confirmed.
+- [x] §12 in `idf6_sd_fuckup.md`; `upstream-report.md` draft. Open: why IDF 5.5.1 did not show it (DFS/MSPI code paths are equivalent).
 
 ## 2. Hypotheses
 
 | ID | Hypothesis | Test | Status | Evidence |
 |---|---|---|---|---|
 | H1 | `dma_aligned_buffer` interaction | `REMOUNT dmabuf=0` | refuted once on graceloader (fuckup §7); retest here | |
-| H2 | DMA into PSRAM itself (mapping / 200 M timing) | psram-aligned vs psram-unaligned vs internal; 0xEE runs; address correlation | open | |
-| H3 | SDMMC controller sharing with ESP-Hosted | variant `nohosted` | open | |
-| H4 | cache msync (non-chunked C2M) | variant `chunkedmsync` | open | |
-| H5 | DFS / PM clock changes | variant `nopm` | open | |
-| H6 | PSRAM 200 MHz as DMA target | variant `psram80m` | open | |
-| H7 | descriptor ring wrap (fuckup §8) | variant `ringfix` | open | |
-| H8 | ISR refill / slot interleave | variant `isrtrace` (instrumented driver) | open | |
-| H9 | other 6.0.2 driver change | variant `drv551` / bisect | open | |
+| H2 | DMA into PSRAM itself (address mapping) | `sweep` over 25 MB of PSRAM | refuted (addresses irrelevant on base) | `20260914T180356Z-base-sweep` |
+| H3 | SDMMC controller sharing with ESP-Hosted | variant `nohosted` | not needed: fix works with hosted on | `pmfix`, `gracefix` |
+| H4 | cache msync (non-chunked C2M) | variant `chunkedmsync` | not needed | |
+| H5 | DFS / PM clock changes | runtime PM locks | → H12 | |
+| H6 | PSRAM 200 MHz as DMA target | variant `psram80m` | → H12 (the MSPI speed *switch* is the problem) | |
+| H7 | descriptor ring wrap (fuckup §8) | variant `ringfix` | not needed: unpatched ring + CPU lock is correct | `pmfix-matrix` |
+| H8 | ISR refill / slot interleave | variant `isrtrace` (instrumented driver) | not needed | |
+| H9 | other 6.0.2 driver change | variant `drv551` / bisect | not needed | |
+| H10 | USB host (graceloader's gl_input) | `base usbhost=1` | refuted | `20260914T180959Z-base-grace` |
+| H11 | graceloader boot environment | variants `graceenv`, `nobsp` | **reproduces**; `nobsp` alone is enough | `181244Z-graceenv-grace`, `182051Z-nobsp-canary` |
+| H12 | **DFS: SDMMC takes only `ESP_PM_APB_FREQ_MAX`, CPU/AXI drops below PSRAM speed, MSPI switches to low-speed mode during DMA into PSRAM** | `pmlock=cpu/apb/nosleep`, variants `pmfix`, `gracefix` | **confirmed** | see §6 |
 
 ## 3. Run log
 
@@ -70,23 +73,57 @@ Conventions:
 | 09-14 | 77adbe0+ | base | grace usbhost=1 file=… | `results/*-base-grace` | ok | USB HID host running: still fine |
 | 09-14 | 77adbe0+ | graceenv | grace file=… | `results/20260914T181244Z-graceenv-grace` | **BAD + crash** | 3rd case (150000 @4096 → 0x48082000): 130 bad bytes in 33 scattered 4-byte words; then panic in `heap_caps_free` (TLSF block header below the buffer corrupt) |
 | 09-14 | 77adbe0+ | graceenv | canary idle=10 reads=20 | `results/20260914T181630Z-graceenv-canary` | **BAD + crash** | idle 10 s: canary clean. 1st read (→ 0x48292000): 158 bad bytes, words `0xffffffff` / untouched fill; 2 MB canary below it clean; next `aligned_alloc` panicked: PSRAM heap lock pointer = 0xffffffff (heap control struct at PSRAM start corrupt). Panic was HALT → badge hung, user power-cycled. |
+| 09-14 | 7ee84cb | nobsp | canary idle=3 reads=10 | `20260914T182051Z-nobsp-canary` | **BAD + crash** | no BSP init, no other graceloader steps: reproduces |
+| 09-14 | 7ee84cb+ | nobsp | canary reads=20 **pmlock=cpu** | `20260914T183555Z-nobsp-canary` | ok | 20/20 |
+| 09-14 | 7ee84cb+ | nobsp | canary reads=20 (no lock) | `20260914T183618Z-nobsp-canary` | **BAD + crash** | control; auto-recovery worked |
+| 09-14 | 7ee84cb+ | nobsp | canary pmlock=apb | `20260914T183653Z-nobsp-canary` | crash | interrupt WDT on CPU1 in `mspi_timing_change_speed_mode_cache_safe` during baseline |
+| 09-14 | 7ee84cb+ | nobsp | canary pmlock=nosleep | `20260914T183728Z-nobsp-canary` | crash | same interrupt WDT |
+| 09-14 | 7ee84cb+ | nobsp | matrix pmlock=cpu | `20260914T183919Z-nobsp-matrix` | ok | 258/258 |
+| 09-14 | 7ee84cb+ | nobsp | grace reps=5 pmlock=cpu file=… | `20260914T184005Z-nobsp-grace` | ok | 95/95 |
+| 09-14 | 8aaa7bc | pmfix | canary reads=30 | `20260914T191812Z-pmfix-canary` | ok | driver patch only, no app lock |
+| 09-14 | 8aaa7bc | pmfix | matrix | `20260914T191834Z-pmfix-matrix` | ok | 258/258 |
+| 09-14 | 8aaa7bc | pmfix | grace reps=5 file=… | `20260914T191920Z-pmfix-grace` | ok | 95/95 |
+| 09-14 | 8aaa7bc | nobsp | canary reads=30 | `20260914T192200Z-nobsp-canary` | **BAD + crash** | drift check after pmfix: still fails |
+| 09-14 | 8aaa7bc+ | gracefix | canary reads=30 | `20260914T192422Z-gracefix-canary` | ok | graceloader env + driver patch |
+| 09-14 | 8aaa7bc+ | gracefix | grace reps=5 file=… | `20260914T192446Z-gracefix-grace` | ok | 95/95 |
+| 09-14 | 8aaa7bc+ | nobsp | canary method=staged chunk=4096 | `20260914T192556Z-nobsp-canary` | ok | graceloader's current workaround, 150 K: 30/30 |
+| 09-14 | 8aaa7bc+ | nobsp | canary method=staged size=1048576 | `20260914T192615Z-nobsp-canary` | **HW WDT reset** | `rst:0x7 HP_SYS_HP_WDT_RESET` during the 4 K internal baseline reads — staging does not prevent lock-ups |
+| 09-14 | 8aaa7bc+ | pmfix | workaround reps=3 | `20260914T192853Z-pmfix-workaround` | ok | 108/108, speeds in §5 |
+| 09-14 | 8aaa7bc+ | graceenv | canary reads=30 pmlock=cpu | `20260914T193205Z-graceenv-canary` | ok | app-level lock in graceloader env, unpatched driver |
+| 09-14 | 8aaa7bc+ | graceenv | grace reps=5 pmlock=cpu file=… | `20260914T193229Z-graceenv-grace` | ok | 95/95 |
 
 ## 4. Tried / dead ends
 
 - (from graceloader, 2026-09-06) `host.dma_aligned_buffer = NULL` did not fix
   graceloader's ELF load (fuckup §7).
+- `base` never reproduces, whatever the read pattern, address (sweep) or USB
+  host: the display driver's PM lock hides the bug.
+- PM locks `apb` and `nosleep` are not enough (interrupt WDT in the MSPI speed
+  switch); only `ESP_PM_CPU_FREQ_MAX` works.
+- Graceloader's 4 K staging avoids the corrupted *bytes* but not the
+  DFS-related lock-ups (HW WDT reset seen during plain internal reads).
+- Invalid run removed: `20260914T190309Z-pmfix-canary` captured the launcher
+  booting (pmfix install had failed on a full `/int`), not the test app.
+- Installing one app per variant into `/int` filled it; now one AppFS-only app.
 
 ## 5. Workaround scoreboard
 
 | Method | 150 K | 1 M | 4 M | Correct? |
 |---|---|---|---|---|
-| M0 direct fread into aligned PSRAM | | | | |
-| M1 staged 4 K internal | | | | |
-| M2 staged 16/32/64 K internal | | | | |
-| M3 direct, chunks ≤ 16 K / ≤ 12 K | | | | |
-| M4 unaligned PSRAM (driver bounce), dmabuf on/off | | | | |
-| M5 setvbuf internal 8 K / 64 K | | | | |
-| M6 driver-level fix | | | | |
+Measured on `pmfix` (driver fixed, so every method is correct; KB/s, mean of 3), `20260914T192853Z-pmfix-workaround`:
+
+| Method | 150 K | 1 M | 4 M | Correct without the PM fix? |
+|---|---|---|---|---|
+| M0 direct fread into aligned PSRAM | 12022 | 13006 | 13215 | **no** |
+| M0' default stdio / fast 8 K / fast 64 K | 11992 / 12034 / 12023 | 13004 / 13010 / 13008 | 13219 / 13221 / 13220 | **no** |
+| M1 staged 4 K internal (graceloader today) | 6781 | 6769 | 6849 | bytes yes, lock-ups possible |
+| M2 staged 16 / 32 / 64 K internal | 9103 / 9912 / 10325 | 9305 / 10248 / 10851 | 9434 / 10390 / 10998 | (not tested) |
+| M3 direct, chunks 12 K / 16 K | 9686 / 9823 | 10349 / 10398 | 10577 / 10583 | (not tested) |
+| M4 unaligned PSRAM, dmabuf=2 KB (graceloader) / NULL | 4303 / 9178 | 4330 / 9335 | 4456 / 9457 | (not tested) |
+| **M6 hold `ESP_PM_CPU_FREQ_MAX` (app) or pmfix (driver)** | = M0 | = M0 | = M0 | **yes** (canary/matrix/grace) |
+
+Side finding: graceloader's 2 KB `host.dma_aligned_buffer` halves unaligned-read
+speed (4.3 vs 9.3 MB/s) because every bounce is 4 sectors.
 
 ## 6. Notes
 
@@ -103,6 +140,33 @@ ESP-Hosted SDIO settings are identical. Differences:
   required by main); graceloader has it off. Disabled in `sdkconfigs/tanmatsu`
   to match.
 - graceloader has USB host options (it links usb host); irrelevant.
+
+### Root cause (2026-09-14)
+
+- `CONFIG_PM_ENABLE=y` + `CONFIG_PM_DFS_INIT_AUTO=y`: CPU scales between 360
+  and 40 MHz.
+- On the P4, whenever the target CPU frequency is below `CONFIG_SPIRAM_SPEED`
+  (200), `esp_clk_utils_mspi_speed_mode_sync_*` calls
+  `mspi_timing_change_speed_mode_cache_safe()`, which stalls the other core,
+  freezes the ext-mem cache and switches flash/PSRAM MSPI to a 20 MHz
+  low-speed mode (and back). IDF comment: AXI frequency must stay ≥ PSRAM
+  frequency "to avoid writing MSPI FIFO overflow".
+- The SDMMC driver (`sd_host_sdmmc.c:105`) only creates an
+  `ESP_PM_APB_FREQ_MAX` lock. On the P4 that does not keep the CPU at or above
+  200 MHz, so DFS switches happen during SD DMA transfers into PSRAM →
+  scattered lost/`0xffffffff` words in the destination *and* damaged PSRAM
+  memory the CPU wrote shortly before (heap metadata) → crashes. It can also
+  deadlock (interrupt WDT / HP WDT reset) inside the speed switch.
+- The MIPI DSI DPI driver holds `ESP_PM_CPU_FREQ_MAX` for its lifetime
+  ("to ensure PSRAM bandwidth and usability during DFS"). Every app that
+  initialises the BSP display is therefore immune; graceloader loads apps
+  **before** anything initialises the display.
+- Fix: hold `ESP_PM_CPU_FREQ_MAX` while using the SD card (app level), or patch
+  the driver (`patches/pmfix/esp_driver_sdmmc/cpu-freq-max-pm-lock.patch`).
+  Both verified; no throughput cost.
+- Open: why IDF 5.5.1 was not affected. `clk_utils.c`, `pm_impl.c` APB/CPU
+  mode selection and `mspi_timing_enter_low_speed_mode` (20 MHz) are
+  equivalent in both trees. Would need an IDF 5.5.1 build of `nobsp`.
 
 ### graceenv reproduction (2026-09-14)
 

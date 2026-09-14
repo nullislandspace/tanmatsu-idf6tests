@@ -1,0 +1,13 @@
+--- a/src/sd_host_sdmmc.c	2026-09-14 20:40:38.684845022 +0200
++++ b/src/sd_host_sdmmc.c	2026-09-14 20:40:38.699844926 +0200
+@@ -102,7 +102,9 @@
+     ESP_GOTO_ON_ERROR(esp_intr_alloc(ETS_SDIO_HOST_INTR_SOURCE, 0, &sd_host_isr, ctlr, &ctlr->intr_handle), err, TAG, "failed to install interrupt service");
+ 
+ #if CONFIG_PM_ENABLE
+-    ESP_GOTO_ON_ERROR(esp_pm_lock_create(ESP_PM_APB_FREQ_MAX, 0, "sdmmc", &ctlr->pm_lock), err, TAG, "failed to create pm lock");
++    // CPU_FREQ_MAX, not APB_FREQ_MAX: on the ESP32-P4, APB_MAX lets DFS drop the CPU (and AXI) below the PSRAM
++    // speed and switch MSPI to low-speed mode, which corrupts DMA transfers into PSRAM (cf. esp_lcd_panel_dpi.c).
++    ESP_GOTO_ON_ERROR(esp_pm_lock_create(ESP_PM_CPU_FREQ_MAX, 0, "sdmmc", &ctlr->pm_lock), err, TAG, "failed to create pm lock");
+ #endif //CONFIG_PM_ENABLE
+ 
+     sdmmc_hal_init(&ctlr->hal);

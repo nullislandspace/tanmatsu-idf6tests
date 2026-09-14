@@ -1,0 +1,108 @@
+W (2062) console: Unknown command: IPING
+@@SDT-PONG@@ {"t":"PONG","variant":"pmfix","mounted":true,"idle_left_s":299,"free_int":497103,"free_psram":33025996} @@e4868303@@
+==============================================================
+IDF6 SD test, variant pmfix: RUN canary idle=2 reads=30
+@@SDT-BEGIN@@ {"t":"begin","variant":"pmfix","suite":"canary","args":"idle=2 reads=30","idf":"v6.0.2","hosted":1,"chunked_msync":0,"pm":1,"psram_mhz":200,"int_wdt_ms":300,"bsp_init":0,"grace_boot":0,"usb_host":0,"int_mounted":0,"reset_reason":3,"free_int":497015,"largest_int":319488,"free_psram":33025996,"card_name":"SE16G","card_mb":15193,"card_khz":40000} @@b015ce51@@
+Pattern file present (8 MB), verifying through 4 KB internal reads...
+  baseline OK (1893 ms)
+@@SDT-PATTERN@@ {"t":"pattern","written":false,"baseline":true} @@12cca7a0@@
+Canary: 2048 KB at 0x48089038 .. 0x48289038
+@@SDT-CANARY@@ {"t":"canary","when":"idle","round":1,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@6fea24c0@@
+@@SDT-CANARY@@ {"t":"canary","when":"idle","round":2,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@b0a33475@@
+  page     unbuf   direct     db1  150000 @4096     #1: ok  12039 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":1,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12167,"kbps":12039,"detail":[]} @@ec8a09ce@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":1,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@9881f31d@@
+  page     unbuf   direct     db1  150000 @4096     #2: ok  12036 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":2,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12170,"kbps":12036,"detail":[]} @@91c67e1a@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":2,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@47c8e3a8@@
+  page     unbuf   direct     db1  150000 @4096     #3: ok  12044 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":3,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12162,"kbps":12044,"detail":[]} @@6093a9a5@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":3,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@0d0fec3b@@
+  page     unbuf   direct     db1  150000 @4096     #4: ok  12049 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":4,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12157,"kbps":12049,"detail":[]} @@a7ec8e79@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":4,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@222bc483@@
+  page     unbuf   direct     db1  150000 @4096     #5: ok  12048 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":5,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12158,"kbps":12048,"detail":[]} @@7d232894@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":5,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@68eccb10@@
+  page     unbuf   direct     db1  150000 @4096     #6: ok  12051 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":6,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12155,"kbps":12051,"detail":[]} @@5f79d20b@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":6,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@b7a5dba5@@
+  page     unbuf   direct     db1  150000 @4096     #7: ok  12047 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":7,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12159,"kbps":12047,"detail":[]} @@ea14280d@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":7,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@fd62d436@@
+  page     unbuf   direct     db1  150000 @4096     #8: ok  12032 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":8,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12174,"kbps":12032,"detail":[]} @@97298311@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":8,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@e9ed8ad5@@
+  page     unbuf   direct     db1  150000 @4096     #9: ok  12012 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":9,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12194,"kbps":12012,"detail":[]} @@602b03b1@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":9,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@a32a8546@@
+  page     unbuf   direct     db1  150000 @4096     #10: ok  12038 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":10,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12168,"kbps":12038,"detail":[]} @@0512120a@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":10,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@8d4b8ea7@@
+  page     unbuf   direct     db1  150000 @4096     #11: ok  12039 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":11,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12167,"kbps":12039,"detail":[]} @@dfddb4e7@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":11,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@c78c8134@@
+  page     unbuf   direct     db1  150000 @4096     #12: ok  12046 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":12,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12160,"kbps":12046,"detail":[]} @@38253134@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":12,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@18c59181@@
+  page     unbuf   direct     db1  150000 @4096     #13: ok  12032 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":13,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12174,"kbps":12032,"detail":[]} @@8debf0fa@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":13,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@52029e12@@
+  page     unbuf   direct     db1  150000 @4096     #14: ok  12038 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":14,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12168,"kbps":12038,"detail":[]} @@803c4a17@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":14,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@7d26b6aa@@
+  page     unbuf   direct     db1  150000 @4096     #15: ok  12055 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":15,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12151,"kbps":12055,"detail":[]} @@ec7bf3c5@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":15,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@37e1b939@@
+  page     unbuf   direct     db1  150000 @4096     #16: ok  12039 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":16,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12167,"kbps":12039,"detail":[]} @@a24b9443@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":16,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@e8a8a98c@@
+  page     unbuf   direct     db1  150000 @4096     #17: ok  12042 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":17,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12164,"kbps":12042,"detail":[]} @@92715ae0@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":17,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@a26fa61f@@
+  page     unbuf   direct     db1  150000 @4096     #18: ok  12047 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":18,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12159,"kbps":12047,"detail":[]} @@75f803fb@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":18,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@b6e0f8fc@@
+  page     unbuf   direct     db1  150000 @4096     #19: ok  12029 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":19,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12177,"kbps":12029,"detail":[]} @@b6be2469@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":19,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@fc27f76f@@
+  page     unbuf   direct     db1  150000 @4096     #20: ok  12006 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":20,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12200,"kbps":12006,"detail":[]} @@0f872d0b@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":20,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@369f80b4@@
+  page     unbuf   direct     db1  150000 @4096     #21: ok  12040 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":21,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12166,"kbps":12040,"detail":[]} @@3643ecac@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":21,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@7c588f27@@
+  page     unbuf   direct     db1  150000 @4096     #22: ok  12034 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":22,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12172,"kbps":12034,"detail":[]} @@2ca2824c@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":22,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@a3119f92@@
+  page     unbuf   direct     db1  150000 @4096     #23: ok  12051 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":23,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12155,"kbps":12051,"detail":[]} @@0cd253f8@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":23,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@e9d69001@@
+  page     unbuf   direct     db1  150000 @4096     #24: ok  12037 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":24,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12169,"kbps":12037,"detail":[]} @@0a6156f0@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":24,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@c6f2b8b9@@
+  page     unbuf   direct     db1  150000 @4096     #25: ok  12046 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":25,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12160,"kbps":12046,"detail":[]} @@f7f6a2c0@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":25,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@8c35b72a@@
+  page     unbuf   direct     db1  150000 @4096     #26: ok  12058 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":26,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12148,"kbps":12058,"detail":[]} @@bcc778a1@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":26,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@537ca79f@@
+  page     unbuf   direct     db1  150000 @4096     #27: ok  12021 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":27,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12185,"kbps":12021,"detail":[]} @@1830e57e@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":27,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@19bba80c@@
+  page     unbuf   direct     db1  150000 @4096     #28: ok  11995 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":28,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12212,"kbps":11995,"detail":[]} @@86f53701@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":28,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@0d34f6ef@@
+  page     unbuf   direct     db1  150000 @4096     #29: ok  12040 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":29,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12166,"kbps":12040,"detail":[]} @@e76e5ad7@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":29,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@47f3f97c@@
+  page     unbuf   direct     db1  150000 @4096     #30: ok  12043 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":30,"addr":"0x48292000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12163,"kbps":12043,"detail":[]} @@7c44ffd4@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":30,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@5fd38545@@
+Canary: 0 changed words in total
+canary: 30 cases, 30 good, 0 BAD, 0 skipped
+@@SDT-SUMMARY@@ {"t":"summary","suite":"canary","cases":30,"good":30,"bad":0,"skipped":0} @@26d911a6@@
+RESULT: all reads correct
+Run took 6614 ms
+@@SDT-END@@ {"t":"end","suite":"canary","status":"ok","ms":6614} @@7d837fb9@@
+@@SDT-BYE@@ {"t":"bye"} @@9f989734@@

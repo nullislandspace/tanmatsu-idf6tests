@@ -8,7 +8,16 @@ committed (`ee85b37`). The attribution is [espressif/esp-idf#16233][16233],
 which Espressif filed and then closed *"Resolution: NA"* — i.e. acknowledged
 and not fixed.
 
-> **Update 2026-09-14 — read §11 first.** A side-by-side reading of the
+> **Update 2026-09-14, evening — root cause found, read §12 first.** The
+> corruption is caused by dynamic frequency scaling: the SDMMC driver only
+> holds `ESP_PM_APB_FREQ_MAX`, which on the ESP32-P4 lets the CPU drop below
+> the PSRAM speed, so the PSRAM MSPI interface is switched to low-speed mode
+> while SD DMA writes into PSRAM. Apps with the display initialised are immune
+> because the DSI driver holds `ESP_PM_CPU_FREQ_MAX`; graceloader loads before
+> any display exists. Fix: hold `ESP_PM_CPU_FREQ_MAX`. Not related to
+> ESP-Hosted, the descriptor ring or `dma_aligned_buffer`.
+>
+> **Update 2026-09-14 — read §11 next.** A side-by-side reading of the
 > IDF 5.5.1 and 6.0.2 SDMMC drivers found that IDF 5.5.1 *already* shared one
 > controller between the SD card and ESP-Hosted, with the same primitives, and
 > an IDF 5.5.1 app with ESP-Hosted active does large direct-to-PSRAM reads
@@ -516,7 +525,96 @@ Build variants (each its own app slug, so all can be installed side by side):
 | `ringfix` | `esp_driver_sdmmc` override with the §8 wrap fixed | is the ring wrap involved? (§10.3) |
 | `chunkedmsync` | `CONFIG_ESP_MM_CACHE_MSYNC_C2M_CHUNKED_OPS=y` | is the cache sync involved? |
 
-## 12. References
+## 12. Test results, 2026-09-14: DFS is the cause
+
+Test app `../tanmatsu-idf6tests` (tracking: its `TESTPLAN.md`, raw results in
+`results/`). Automated: build → AppFS install → start → CRC-framed records over
+the debug console → exit to launcher, with automatic reset/recovery on crashes.
+
+### 12.1 Reproduction
+
+- The normal test app (BSP initialised, as most apps) **never** failed: 258
+  read cases from 4 K to 4 M into PSRAM (aligned, unaligned, `aligned_alloc`
+  4096), real ELF segment loads, buffers swept across 25 MB of PSRAM, USB host
+  running.
+- Booting like graceloader (no `bsp_device_initialize()`) failed on the first
+  150 KB read, every time. Graceloader's other boot steps (USB PHY switch,
+  `/int` mount, USB HID host) are irrelevant: skipping only the BSP init is
+  enough.
+- Pattern: **scattered single 4-byte words** wrong (still the fill value, or
+  `0xffffffff`) — not 4 KB / 512 B blocks. At the same time PSRAM the CPU wrote
+  shortly before is damaged: the TLSF header below the buffer, the PSRAM
+  heap's control structure → load/store access faults in `malloc`/`free`
+  right afterwards. A 2 MB canary block in between was never touched; nothing
+  changed while idle.
+- This also explains §3's "wrong but deterministic after cache sync" and §10's
+  watchdog reboot loop (`rst:0x7 HP_SYS_HP_WDT_RESET`, reproduced here during
+  plain 4 KB internal reads).
+
+### 12.2 Mechanism
+
+1. `CONFIG_PM_ENABLE=y`, `CONFIG_PM_DFS_INIT_AUTO=y`: the CPU scales 360 ↔ 40 MHz.
+2. On the P4 (`MSPI_TIMING_LL_PSRAM_FREQ_AXI_CONSTRAINED`), each switch to a CPU
+   frequency below `CONFIG_SPIRAM_SPEED` (200) runs
+   `mspi_timing_change_speed_mode_cache_safe()`
+   (`esp_hw_support/clk_utils.c`): stall the other core, freeze the
+   external-memory cache, reprogram flash/PSRAM MSPI to 20 MHz low-speed mode,
+   and back on the way up. The comment there: AXI frequency must be ≥ the MSPI
+   PSRAM frequency "to avoid writing MSPI FIFO overflow".
+3. `esp_driver_sdmmc/src/sd_host_sdmmc.c:105` creates the controller's PM lock
+   as `ESP_PM_APB_FREQ_MAX`. That does not keep the P4's CPU at ≥ 200 MHz, so
+   frequency switches — and MSPI speed-mode switches — happen in the middle of
+   SD DMA transfers into PSRAM.
+4. `esp_lcd/dsi/esp_lcd_panel_dpi.c:263-269` holds `ESP_PM_CPU_FREQ_MAX` for the
+   panel's lifetime, "to ensure PSRAM bandwidth and usability during DFS".
+   Any app with the display up never runs DFS below max, so never sees this.
+
+### 12.3 Evidence
+
+All in the test app, same build unless noted, results files in
+`../tanmatsu-idf6tests/results/`:
+
+| Configuration | Result |
+|---|---|
+| no BSP init, no PM lock | BAD + crash, 5 of 5 runs |
+| no BSP init, app holds `ESP_PM_CPU_FREQ_MAX` | canary 20/20, matrix 258/258, grace 95/95 |
+| no BSP init, app holds `ESP_PM_APB_FREQ_MAX` or `ESP_PM_NO_LIGHT_SLEEP` | interrupt WDT inside `mspi_timing_change_speed_mode_cache_safe` |
+| no BSP init, driver patched to `ESP_PM_CPU_FREQ_MAX` (`pmfix`) | canary 30/30, matrix 258/258, grace 95/95 |
+| graceloader boot, driver patched (`gracefix`) | canary 30/30, grace 95/95 |
+| graceloader boot, app holds `ESP_PM_CPU_FREQ_MAX` | canary 30/30, grace 95/95 |
+| no BSP init, no lock, re-run after the fixes (drift check) | BAD + crash |
+
+### 12.4 Consequences for the earlier sections
+
+- §5 (ESP-Hosted sharing): not involved; the fix works with ESP-Hosted active.
+- §8 (descriptor ring wrap): real code difference, but not the cause — the
+  unpatched ring reads 258/258 correct with the PM lock.
+- §4 workaround (4 KB staging): avoids the bad bytes (DMA only into internal
+  RAM), costs ~48 % throughput (6.8 vs 13 MB/s), and does **not** prevent the
+  DFS lock-ups.
+- §9 "any read > 16 KB into PSRAM is suspect": replace with "any SD DMA while
+  DFS may scale the CPU below the PSRAM speed is suspect".
+- **Still open:** why IDF 5.5.1 did not show it. `clk_utils.c`, the APB/CPU
+  mode selection in `pm_impl.c` and the 20 MHz low-speed mode are equivalent
+  in both trees. Settling it needs the `nobsp` repro built on 5.5.1.
+
+### 12.5 Recommendation
+
+- **graceloader:** create an `ESP_PM_CPU_FREQ_MAX` lock and acquire it at the
+  top of `app_main()` (before `sdcard_init()`), never release it — exactly what
+  the display driver would do anyway once the app starts. Then the 4 KB
+  staging in `kbelfx_load()` can go back to a plain `fread()` (≈ 2× faster
+  loads).
+- **graceloader, optional:** drop `host.dma_aligned_buffer` (2 KB). It makes the
+  driver's bounce path read 4 sectors at a time: 4.3 MB/s vs 9.3 MB/s with
+  NULL for unaligned destinations.
+- **Other apps** that use the SD card before or without initialising the
+  display (loaders, headless tools): same lock.
+- **Upstream:** report that the SDMMC host's `ESP_PM_APB_FREQ_MAX` lock is
+  insufficient on the P4 with PSRAM (draft: `../tanmatsu-idf6tests/upstream-report.md`).
+  Other DMA drivers with APB locks that can target PSRAM may be affected too.
+
+## 13. References
 
 - [espressif/esp-idf#16233 — SDMMC and ESP-Hosted SDIO cannot coexist][16233]
 - [`sd_trans_sdmmc.c` commit history](https://github.com/espressif/esp-idf/commits/master/components/esp_driver_sdmmc/src/sd_trans_sdmmc.c) — `402bf0c` is the rewrite

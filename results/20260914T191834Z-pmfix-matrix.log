@@ -1,0 +1,579 @@
+I (1322) esp_psram: SPI SRAM memory test OK
+I (1331) cpu_start: Pro cpu start user code
+I (1331) cpu_start: cpu freq: 360000000 Hz
+I (1332) app_init: Application information:
+I (1332) app_init: Project name:     application
+I (1332) app_init: App version:      pre-v6-refresh-backup-5-g7ee84c
+I (1332) app_init: Compile time:     Sep 14 2026 20:59:23
+I (1332) app_init: ELF file SHA256:  fbc46778c...
+I (1333) app_init: ESP-IDF:          v6.0.2
+I (1333) efuse_init: Min chip rev:     v0.1
+I (1333) efuse_init: Max chip rev:     v1.99 
+I (1333) efuse_init: Chip rev:         v1.3
+I (1333) heap_init: Initializing. RAM available for dynamic allocation:
+I (1334) heap_init: At 4FF1C180 len 0001EE40 (123 KiB): RETENT_RAM
+I (1334) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1334) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1335) heap_init: At 50108180 len 00007E80 (31 KiB): RTCRAM
+I (1335) heap_init: At 30100088 len 00001F78 (7 KiB): SPM
+I (1335) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1336) spi_flash: detected chip: winbond
+I (1336) spi_flash: flash io: qio
+I (1338) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1339) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1340) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1340) main_task: Started on CPU0
+I (1340) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1340) main_task: Calling app_main()
+I (1370) sdcard: Power cycling SD card...
+W (1370) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (1670) sdcard: SD card power cycle complete
+I (1670) sdcard: Initializing SD card (SDMMC 4-bit mode)
+I (1670) sdcard: Mounting filesystem
+I (1840) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (pmfix) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+@@SDT-PONG@@ {"t":"PONG","variant":"pmfix","mounted":true,"idle_left_s":299,"free_int":497103,"free_psram":33025996} @@e4868303@@
+==============================================================
+IDF6 SD test, variant pmfix: RUN matrix 
+@@SDT-BEGIN@@ {"t":"begin","variant":"pmfix","suite":"matrix","args":"","idf":"v6.0.2","hosted":1,"chunked_msync":0,"pm":1,"psram_mhz":200,"int_wdt_ms":300,"bsp_init":0,"grace_boot":0,"usb_host":0,"int_mounted":0,"reset_reason":3,"free_int":497015,"largest_int":319488,"free_psram":33025996,"card_name":"SE16G","card_mb":15193,"card_khz":40000} @@c0ed308e@@
+Pattern file present (8 MB), verifying through 4 KB internal reads...
+  baseline OK (1892 ms)
+@@SDT-PATTERN@@ {"t":"pattern","written":false,"baseline":true} @@12cca7a0@@
+Reads into psram:
+  psram    unbuf   direct     db1    4096 @0        #1: ok  6289 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":636,"kbps":6289,"detail":[]} @@3e9dd5cb@@
+  psram    unbuf   direct     db1    4096 @0        #2: ok  6024 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":664,"kbps":6024,"detail":[]} @@790eabd1@@
+  psram    unbuf   direct     db1    4096 @1048576  #1: ok  7547 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":530,"kbps":7547,"detail":[]} @@19213444@@
+  psram    unbuf   direct     db1    4096 @1048576  #2: ok  7547 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":530,"kbps":7547,"detail":[]} @@1360591b@@
+  psram    unbuf   direct     db1    4096 @1048699  #1: ok  3215 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1244,"kbps":3215,"detail":[]} @@2e39b430@@
+  psram    unbuf   direct     db1    4096 @1048699  #2: ok  3218 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1243,"kbps":3218,"detail":[]} @@badeb245@@
+  psram    unbuf   direct     db1    8192 @0        #1: ok  9205 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":869,"kbps":9205,"detail":[]} @@82624692@@
+  psram    unbuf   direct     db1    8192 @0        #2: ok  9237 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":866,"kbps":9237,"detail":[]} @@f5dad383@@
+  psram    unbuf   direct     db1    8192 @1048576  #1: ok  10443 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":766,"kbps":10443,"detail":[]} @@dbb14d13@@
+  psram    unbuf   direct     db1    8192 @1048576  #2: ok  10443 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":766,"kbps":10443,"detail":[]} @@206f401b@@
+  psram    unbuf   direct     db1    8192 @1048699  #1: ok  3595 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2225,"kbps":3595,"detail":[]} @@2e9628e3@@
+  psram    unbuf   direct     db1    8192 @1048699  #2: ok  3589 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2229,"kbps":3589,"detail":[]} @@39fbd44c@@
+  psram    unbuf   direct     db1   12288 @0        #1: ok  10879 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1103,"kbps":10879,"detail":[]} @@6fa6edc7@@
+  psram    unbuf   direct     db1   12288 @0        #2: ok  10889 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1102,"kbps":10889,"detail":[]} @@e3ca3870@@
+  psram    unbuf   direct     db1   12288 @1048576  #1: ok  11916 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1007,"kbps":11916,"detail":[]} @@b487af05@@
+  psram    unbuf   direct     db1   12288 @1048576  #2: ok  11964 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1003,"kbps":11964,"detail":[]} @@19c1029c@@
+  psram    unbuf   direct     db1   12288 @1048699  #1: ok  3723 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3223,"kbps":3723,"detail":[]} @@b95caac8@@
+  psram    unbuf   direct     db1   12288 @1048699  #2: ok  3723 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3223,"kbps":3723,"detail":[]} @@b77cfcf7@@
+  psram    unbuf   direct     db1   16384 @0        #1: ok  11834 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1352,"kbps":11834,"detail":[]} @@5361ff19@@
+  psram    unbuf   direct     db1   16384 @0        #2: ok  11843 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1351,"kbps":11843,"detail":[]} @@a8517a6b@@
+  psram    unbuf   direct     db1   16384 @1048576  #1: ok  12779 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1252,"kbps":12779,"detail":[]} @@bf6d1b08@@
+  psram    unbuf   direct     db1   16384 @1048576  #2: ok  12738 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1256,"kbps":12738,"detail":[]} @@7f37f933@@
+  psram    unbuf   direct     db1   16384 @1048699  #1: ok  3849 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4156,"kbps":3849,"detail":[]} @@c3d21f72@@
+  psram    unbuf   direct     db1   16384 @1048699  #2: ok  3851 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4154,"kbps":3851,"detail":[]} @@521ac7fc@@
+  psram    unbuf   direct     db1   20480 @0        #1: ok  10615 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1884,"kbps":10615,"detail":[]} @@2e54a254@@
+  psram    unbuf   direct     db1   20480 @0        #2: ok  10626 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1882,"kbps":10626,"detail":[]} @@4979bd5a@@
+  psram    unbuf   direct     db1   20480 @1048576  #1: ok  11173 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1790,"kbps":11173,"detail":[]} @@433b5c91@@
+  psram    unbuf   direct     db1   20480 @1048576  #2: ok  11179 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1789,"kbps":11179,"detail":[]} @@8adfbbb7@@
+  psram    unbuf   direct     db1   20480 @1048699  #1: ok  3855 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5187,"kbps":3855,"detail":[]} @@76c0903e@@
+  psram    unbuf   direct     db1   20480 @1048699  #2: ok  3850 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5194,"kbps":3850,"detail":[]} @@60985ed5@@
+  psram    unbuf   direct     db1   32768 @0        #1: ok  12279 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2606,"kbps":12279,"detail":[]} @@f76a28be@@
+  psram    unbuf   direct     db1   32768 @0        #2: ok  12336 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2594,"kbps":12336,"detail":[]} @@47882dca@@
+  psram    unbuf   direct     db1   32768 @1048576  #1: ok  12514 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2557,"kbps":12514,"detail":[]} @@0e53abf8@@
+  psram    unbuf   direct     db1   32768 @1048576  #2: ok  12524 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2555,"kbps":12524,"detail":[]} @@745efa68@@
+  psram    unbuf   direct     db1   32768 @1048699  #1: ok  4028 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7943,"kbps":4028,"detail":[]} @@6abd876a@@
+  psram    unbuf   direct     db1   32768 @1048699  #2: ok  4031 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7938,"kbps":4031,"detail":[]} @@069b733f@@
+  psram    unbuf   direct     db1   65536 @0        #1: ok  12379 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5170,"kbps":12379,"detail":[]} @@ae731ec7@@
+  psram    unbuf   direct     db1   65536 @0        #2: ok  12465 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5134,"kbps":12465,"detail":[]} @@117a3e2d@@
+  psram    unbuf   direct     db1   65536 @1048576  #1: ok  12675 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5049,"kbps":12675,"detail":[]} @@943954d9@@
+  psram    unbuf   direct     db1   65536 @1048576  #2: ok  12680 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5047,"kbps":12680,"detail":[]} @@8ca17f0f@@
+  psram    unbuf   direct     db1   65536 @1048699  #1: ok  4198 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":15244,"kbps":4198,"detail":[]} @@bd4f72c7@@
+  psram    unbuf   direct     db1   65536 @1048699  #2: ok  4197 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":15246,"kbps":4197,"detail":[]} @@48f98035@@
+  psram    unbuf   direct     db1  131072 @0        #1: ok  12577 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":10177,"kbps":12577,"detail":[]} @@15cf5f55@@
+  psram    unbuf   direct     db1  131072 @0        #2: ok  12509 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":10232,"kbps":12509,"detail":[]} @@11ff926a@@
+  psram    unbuf   direct     db1  131072 @1048576  #1: ok  12605 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":10154,"kbps":12605,"detail":[]} @@94e9e6f5@@
+  psram    unbuf   direct     db1  131072 @1048576  #2: ok  12631 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":10133,"kbps":12631,"detail":[]} @@b3e933e6@@
+  psram    unbuf   direct     db1  131072 @1048699  #1: ok  4258 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":30060,"kbps":4258,"detail":[]} @@d5e1ab99@@
+  psram    unbuf   direct     db1  131072 @1048699  #2: ok  4252 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":30099,"kbps":4252,"detail":[]} @@7f63baf8@@
+  psram    unbuf   direct     db1  150000 @0        #1: ok  11966 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12241,"kbps":11966,"detail":[]} @@51faca92@@
+  psram    unbuf   direct     db1  150000 @0        #2: ok  11902 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12307,"kbps":11902,"detail":[]} @@4b9d9955@@
+  psram    unbuf   direct     db1  150000 @1048576  #1: ok  11962 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12245,"kbps":11962,"detail":[]} @@c32ab180@@
+  psram    unbuf   direct     db1  150000 @1048576  #2: ok  11972 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12235,"kbps":11972,"detail":[]} @@8660e182@@
+  psram    unbuf   direct     db1  150000 @1048699  #1: ok  4217 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34736,"kbps":4217,"detail":[]} @@742e2477@@
+  psram    unbuf   direct     db1  150000 @1048699  #2: ok  4208 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34810,"kbps":4208,"detail":[]} @@aaf76b3c@@
+  psram    unbuf   direct     db1  262144 @0        #1: ok  12872 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":19888,"kbps":12872,"detail":[]} @@ede6e781@@
+  psram    unbuf   direct     db1  262144 @0        #2: ok  12896 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":19850,"kbps":12896,"detail":[]} @@29ce3f5d@@
+  psram    unbuf   direct     db1  262144 @1048576  #1: ok  12918 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":19816,"kbps":12918,"detail":[]} @@f8e411c6@@
+  psram    unbuf   direct     db1  262144 @1048576  #2: ok  12923 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":19809,"kbps":12923,"detail":[]} @@4ffb55fa@@
+  psram    unbuf   direct     db1  262144 @1048699  #1: ok  4269 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":59955,"kbps":4269,"detail":[]} @@5f0ecbc7@@
+  psram    unbuf   direct     db1  262144 @1048699  #2: ok  4269 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":59966,"kbps":4269,"detail":[]} @@c41bdb21@@
+  psram    unbuf   direct     db1 1048576 @0        #1: ok  13054 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":78439,"kbps":13054,"detail":[]} @@90b43bba@@
+  psram    unbuf   direct     db1 1048576 @0        #2: ok  13062 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":78395,"kbps":13062,"detail":[]} @@942f0f85@@
+  psram    unbuf   direct     db1 1048576 @1048576  #1: ok  13112 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":78093,"kbps":13112,"detail":[]} @@961077b6@@
+  psram    unbuf   direct     db1 1048576 @1048576  #2: ok  13112 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":78096,"kbps":13112,"detail":[]} @@2b98b4e2@@
+  psram    unbuf   direct     db1 1048576 @1048699  #1: ok  4327 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":236633,"kbps":4327,"detail":[]} @@aca555d4@@
+  psram    unbuf   direct     db1 1048576 @1048699  #2: ok  4329 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":236516,"kbps":4329,"detail":[]} @@c734b2e8@@
+  psram    unbuf   direct     db1 4194304 @0        #1: ok  13233 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":0,"rep":1,"addr":"0x48081080","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":309512,"kbps":13233,"detail":[]} @@d3f58b79@@
+  psram    unbuf   direct     db1 4194304 @0        #2: ok  13229 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":0,"rep":2,"addr":"0x48081080","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":309607,"kbps":13229,"detail":[]} @@78907838@@
+  psram    unbuf   direct     db1 4194304 @1048576  #1: ok  13285 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048576,"rep":1,"addr":"0x48081080","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":308306,"kbps":13285,"detail":[]} @@12457eaf@@
+  psram    unbuf   direct     db1 4194304 @1048576  #2: ok  13286 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048576,"rep":2,"addr":"0x48081080","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":308280,"kbps":13286,"detail":[]} @@d70c2338@@
+  psram    unbuf   direct     db1 4194304 @1048699  #1: ok  4418 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048699,"rep":1,"addr":"0x48081080","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":926948,"kbps":4418,"detail":[]} @@808baa64@@
+  psram    unbuf   direct     db1 4194304 @1048699  #2: ok  4420 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048699,"rep":2,"addr":"0x48081080","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":926689,"kbps":4420,"detail":[]} @@5d926d98@@
+Reads into psram+1:
+  psram+1  unbuf   direct     db1    4096 @0        #1: ok  3805 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1051,"kbps":3805,"detail":[]} @@dc3b61a7@@
+  psram+1  unbuf   direct     db1    4096 @0        #2: ok  3972 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1007,"kbps":3972,"detail":[]} @@4752f551@@
+  psram+1  unbuf   direct     db1    4096 @1048576  #1: ok  4390 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":911,"kbps":4390,"detail":[]} @@b60fa941@@
+  psram+1  unbuf   direct     db1    4096 @1048576  #2: ok  4439 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":901,"kbps":4439,"detail":[]} @@e662a57c@@
+  psram+1  unbuf   direct     db1    4096 @1048699  #1: ok  3194 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1252,"kbps":3194,"detail":[]} @@3f4c50f0@@
+  psram+1  unbuf   direct     db1    4096 @1048699  #2: ok  3187 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1255,"kbps":3187,"detail":[]} @@d9cbd8ed@@
+  psram+1  unbuf   direct     db1    8192 @0        #1: ok  4226 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1893,"kbps":4226,"detail":[]} @@9dc1259c@@
+  psram+1  unbuf   direct     db1    8192 @0        #2: ok  4223 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1894,"kbps":4223,"detail":[]} @@3a7f3ddf@@
+  psram+1  unbuf   direct     db1    8192 @1048576  #1: ok  4385 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1824,"kbps":4385,"detail":[]} @@d66c710f@@
+  psram+1  unbuf   direct     db1    8192 @1048576  #2: ok  4383 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1825,"kbps":4383,"detail":[]} @@326d9126@@
+  psram+1  unbuf   direct     db1    8192 @1048699  #1: ok  3576 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2237,"kbps":3576,"detail":[]} @@ff2bfe50@@
+  psram+1  unbuf   direct     db1    8192 @1048699  #2: ok  3592 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2227,"kbps":3592,"detail":[]} @@9ea67f77@@
+  psram+1  unbuf   direct     db1   12288 @0        #1: ok  4293 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2795,"kbps":4293,"detail":[]} @@00d1b314@@
+  psram+1  unbuf   direct     db1   12288 @0        #2: ok  4290 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2797,"kbps":4290,"detail":[]} @@67da8b9f@@
+  psram+1  unbuf   direct     db1   12288 @1048576  #1: ok  4339 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2765,"kbps":4339,"detail":[]} @@ddc79a51@@
+  psram+1  unbuf   direct     db1   12288 @1048576  #2: ok  4339 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2765,"kbps":4339,"detail":[]} @@d3e7cc6e@@
+  psram+1  unbuf   direct     db1   12288 @1048699  #1: ok  3702 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3241,"kbps":3702,"detail":[]} @@58ebb2f1@@
+  psram+1  unbuf   direct     db1   12288 @1048699  #2: ok  3710 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3234,"kbps":3710,"detail":[]} @@11028d44@@
+  psram+1  unbuf   direct     db1   16384 @0        #1: ok  4321 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3702,"kbps":4321,"detail":[]} @@594c7266@@
+  psram+1  unbuf   direct     db1   16384 @0        #2: ok  4317 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3706,"kbps":4317,"detail":[]} @@94479348@@
+  psram+1  unbuf   direct     db1   16384 @1048576  #1: ok  4350 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3678,"kbps":4350,"detail":[]} @@2eb837d2@@
+  psram+1  unbuf   direct     db1   16384 @1048576  #2: ok  4329 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3696,"kbps":4329,"detail":[]} @@01e3eaf7@@
+  psram+1  unbuf   direct     db1   16384 @1048699  #1: ok  3861 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4143,"kbps":3861,"detail":[]} @@8625c5ab@@
+  psram+1  unbuf   direct     db1   16384 @1048699  #2: ok  3861 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4144,"kbps":3861,"detail":[]} @@50c6e8b2@@
+  psram+1  unbuf   direct     db1   20480 @0        #1: ok  4353 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4594,"kbps":4353,"detail":[]} @@f13ea69f@@
+  psram+1  unbuf   direct     db1   20480 @0        #2: ok  4359 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4588,"kbps":4359,"detail":[]} @@3c188a18@@
+  psram+1  unbuf   direct     db1   20480 @1048576  #1: ok  4226 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4732,"kbps":4226,"detail":[]} @@5eab076d@@
+  psram+1  unbuf   direct     db1   20480 @1048576  #2: ok  4227 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4731,"kbps":4227,"detail":[]} @@3fd35ddc@@
+  psram+1  unbuf   direct     db1   20480 @1048699  #1: ok  3856 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5186,"kbps":3856,"detail":[]} @@90914d04@@
+  psram+1  unbuf   direct     db1   20480 @1048699  #2: ok  3861 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5179,"kbps":3861,"detail":[]} @@77bc1d14@@
+  psram+1  unbuf   direct     db1   32768 @0        #1: ok  4348 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7359,"kbps":4348,"detail":[]} @@618d1709@@
+  psram+1  unbuf   direct     db1   32768 @0        #2: ok  4344 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7365,"kbps":4344,"detail":[]} @@897146ba@@
+  psram+1  unbuf   direct     db1   32768 @1048576  #1: ok  4259 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7513,"kbps":4259,"detail":[]} @@2ea84762@@
+  psram+1  unbuf   direct     db1   32768 @1048576  #2: ok  4297 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7447,"kbps":4297,"detail":[]} @@8a0af6fe@@
+  psram+1  unbuf   direct     db1   32768 @1048699  #1: ok  4002 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7995,"kbps":4002,"detail":[]} @@9fb0c929@@
+  psram+1  unbuf   direct     db1   32768 @1048699  #2: ok  4029 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7941,"kbps":4029,"detail":[]} @@91f5253a@@
+  psram+1  unbuf   direct     db1   65536 @0        #1: ok  4311 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":14845,"kbps":4311,"detail":[]} @@89bee2dc@@
+  psram+1  unbuf   direct     db1   65536 @0        #2: ok  4310 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":14849,"kbps":4310,"detail":[]} @@dd64b5a3@@
+  psram+1  unbuf   direct     db1   65536 @1048576  #1: ok  4328 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":14786,"kbps":4328,"detail":[]} @@56865705@@
+  psram+1  unbuf   direct     db1   65536 @1048576  #2: ok  4324 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":14800,"kbps":4324,"detail":[]} @@3ee1dbc3@@
+  psram+1  unbuf   direct     db1   65536 @1048699  #1: ok  4204 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":15223,"kbps":4204,"detail":[]} @@15819fc1@@
+  psram+1  unbuf   direct     db1   65536 @1048699  #2: ok  4204 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":15221,"kbps":4204,"detail":[]} @@b6a3d9c5@@
+  psram+1  unbuf   direct     db1  131072 @0        #1: ok  4325 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":29590,"kbps":4325,"detail":[]} @@bde06ebb@@
+  psram+1  unbuf   direct     db1  131072 @0        #2: ok  4321 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":29618,"kbps":4321,"detail":[]} @@ebefcd6c@@
+  psram+1  unbuf   direct     db1  131072 @1048576  #1: ok  4312 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":29678,"kbps":4312,"detail":[]} @@d655a6a9@@
+  psram+1  unbuf   direct     db1  131072 @1048576  #2: ok  4319 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":29632,"kbps":4319,"detail":[]} @@6299400f@@
+  psram+1  unbuf   direct     db1  131072 @1048699  #1: ok  4267 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":29996,"kbps":4267,"detail":[]} @@aaac4a3a@@
+  psram+1  unbuf   direct     db1  131072 @1048699  #2: ok  4271 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":29968,"kbps":4271,"detail":[]} @@4be36ab8@@
+  psram+1  unbuf   direct     db1  150000 @0        #1: ok  4287 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34165,"kbps":4287,"detail":[]} @@bdb25b6b@@
+  psram+1  unbuf   direct     db1  150000 @0        #2: ok  4287 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34167,"kbps":4287,"detail":[]} @@722ec0d9@@
+  psram+1  unbuf   direct     db1  150000 @1048576  #1: ok  4281 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34213,"kbps":4281,"detail":[]} @@d7589368@@
+  psram+1  unbuf   direct     db1  150000 @1048576  #2: ok  4272 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34288,"kbps":4272,"detail":[]} @@2e17a87c@@
+  psram+1  unbuf   direct     db1  150000 @1048699  #1: ok  4229 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34631,"kbps":4229,"detail":[]} @@9d32055f@@
+  psram+1  unbuf   direct     db1  150000 @1048699  #2: ok  4226 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34661,"kbps":4226,"detail":[]} @@1ebd1170@@
+  psram+1  unbuf   direct     db1  262144 @0        #1: ok  4320 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":59259,"kbps":4320,"detail":[]} @@6fd4df7e@@
+  psram+1  unbuf   direct     db1  262144 @0        #2: ok  4319 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":59263,"kbps":4319,"detail":[]} @@f9ded18a@@
+  psram+1  unbuf   direct     db1  262144 @1048576  #1: ok  4315 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":59324,"kbps":4315,"detail":[]} @@41abd2c6@@
+  psram+1  unbuf   direct     db1  262144 @1048576  #2: ok  4316 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":59304,"kbps":4316,"detail":[]} @@3a041142@@
+  psram+1  unbuf   direct     db1  262144 @1048699  #1: ok  4284 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":59752,"kbps":4284,"detail":[]} @@3fdba683@@
+  psram+1  unbuf   direct     db1  262144 @1048699  #2: ok  4284 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":59744,"kbps":4284,"detail":[]} @@b45fb0ae@@
+  psram+1  unbuf   direct     db1 1048576 @0        #1: ok  4309 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":237617,"kbps":4309,"detail":[]} @@82b94752@@
+  psram+1  unbuf   direct     db1 1048576 @0        #2: ok  4311 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":237501,"kbps":4311,"detail":[]} @@e9d2f00b@@
+  psram+1  unbuf   direct     db1 1048576 @1048576  #1: ok  4374 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":234104,"kbps":4374,"detail":[]} @@e2434efe@@
+  psram+1  unbuf   direct     db1 1048576 @1048576  #2: ok  4373 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":234133,"kbps":4373,"detail":[]} @@5e9c018b@@
+  psram+1  unbuf   direct     db1 1048576 @1048699  #1: ok  4369 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":234370,"kbps":4369,"detail":[]} @@ebdb9744@@
+  psram+1  unbuf   direct     db1 1048576 @1048699  #2: ok  4368 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":234394,"kbps":4368,"detail":[]} @@90ded8f1@@
+  psram+1  unbuf   direct     db1 4194304 @0        #1: ok  4433 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":0,"rep":1,"addr":"0x48081039","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":923831,"kbps":4433,"detail":[]} @@6b56840a@@
+  psram+1  unbuf   direct     db1 4194304 @0        #2: ok  4430 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":0,"rep":2,"addr":"0x48081039","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":924516,"kbps":4430,"detail":[]} @@5802b719@@
+  psram+1  unbuf   direct     db1 4194304 @1048576  #1: ok  4487 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048576,"rep":1,"addr":"0x48081039","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":912703,"kbps":4487,"detail":[]} @@d5df9417@@
+  psram+1  unbuf   direct     db1 4194304 @1048576  #2: ok  4484 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048576,"rep":2,"addr":"0x48081039","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":913277,"kbps":4484,"detail":[]} @@87df0289@@
+  psram+1  unbuf   direct     db1 4194304 @1048699  #1: ok  4482 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048699,"rep":1,"addr":"0x48081039","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":913676,"kbps":4482,"detail":[]} @@d021f0e7@@
+  psram+1  unbuf   direct     db1 4194304 @1048699  #2: ok  4485 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"psram+1","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048699,"rep":2,"addr":"0x48081039","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":913210,"kbps":4485,"detail":[]} @@82f99d75@@
+Reads into page:
+  page     unbuf   direct     db1    4096 @0        #1: ok  5882 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":0,"rep":1,"addr":"0x4ff2d000","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":680,"kbps":5882,"detail":[]} @@ab1a4a95@@
+  page     unbuf   direct     db1    4096 @0        #2: ok  6319 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":0,"rep":2,"addr":"0x4ff2d000","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":633,"kbps":6319,"detail":[]} @@12116dc0@@
+  page     unbuf   direct     db1    4096 @1048576  #1: ok  7434 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048576,"rep":1,"addr":"0x4ff2d000","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":538,"kbps":7434,"detail":[]} @@1e90e89e@@
+  page     unbuf   direct     db1    4096 @1048576  #2: ok  7518 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048576,"rep":2,"addr":"0x4ff2d000","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":532,"kbps":7518,"detail":[]} @@78a9523f@@
+  page     unbuf   direct     db1    4096 @1048699  #1: ok  3197 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048699,"rep":1,"addr":"0x4ff2d000","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1251,"kbps":3197,"detail":[]} @@45b22633@@
+  page     unbuf   direct     db1    4096 @1048699  #2: ok  3187 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048699,"rep":2,"addr":"0x4ff2d000","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1255,"kbps":3187,"detail":[]} @@2d03660d@@
+  page     unbuf   direct     db1    8192 @0        #1: ok  9650 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":0,"rep":1,"addr":"0x4ff2d000","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":829,"kbps":9650,"detail":[]} @@b368d255@@
+  page     unbuf   direct     db1    8192 @0        #2: ok  9615 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":0,"rep":2,"addr":"0x4ff2d000","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":832,"kbps":9615,"detail":[]} @@7e046f01@@
+  page     unbuf   direct     db1    8192 @1048576  #1: ok  10958 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048576,"rep":1,"addr":"0x4ff2d000","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":730,"kbps":10958,"detail":[]} @@50a2be32@@
+  page     unbuf   direct     db1    8192 @1048576  #2: ok  10958 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048576,"rep":2,"addr":"0x4ff2d000","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":730,"kbps":10958,"detail":[]} @@ab7cb33a@@
+  page     unbuf   direct     db1    8192 @1048699  #1: ok  3592 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048699,"rep":1,"addr":"0x4ff2d000","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2227,"kbps":3592,"detail":[]} @@91b0cc9f@@
+  page     unbuf   direct     db1    8192 @1048699  #2: ok  3593 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048699,"rep":2,"addr":"0x4ff2d000","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2226,"kbps":3593,"detail":[]} @@107c8676@@
+  page     unbuf   direct     db1   12288 @0        #1: ok  11363 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":0,"rep":1,"addr":"0x4ff2d000","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1056,"kbps":11363,"detail":[]} @@fdf5c205@@
+  page     unbuf   direct     db1   12288 @0        #2: ok  11363 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":0,"rep":2,"addr":"0x4ff2d000","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1056,"kbps":11363,"detail":[]} @@4b9dcf6e@@
+  page     unbuf   direct     db1   12288 @1048576  #1: ok  12539 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048576,"rep":1,"addr":"0x4ff2d000","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":957,"kbps":12539,"detail":[]} @@0e64c758@@
+  page     unbuf   direct     db1   12288 @1048576  #2: ok  12539 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048576,"rep":2,"addr":"0x4ff2d000","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":957,"kbps":12539,"detail":[]} @@00449167@@
+  page     unbuf   direct     db1   12288 @1048699  #1: ok  3722 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048699,"rep":1,"addr":"0x4ff2d000","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3224,"kbps":3722,"detail":[]} @@dad4e394@@
+  page     unbuf   direct     db1   12288 @1048699  #2: ok  3720 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048699,"rep":2,"addr":"0x4ff2d000","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3225,"kbps":3720,"detail":[]} @@d287d791@@
+  page     unbuf   direct     db1   16384 @0        #1: ok  12588 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":0,"rep":1,"addr":"0x4ff2d000","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1271,"kbps":12588,"detail":[]} @@6102b1cc@@
+  page     unbuf   direct     db1   16384 @0        #2: ok  12578 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":0,"rep":2,"addr":"0x4ff2d000","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1272,"kbps":12578,"detail":[]} @@307652f9@@
+  page     unbuf   direct     db1   16384 @1048576  #1: ok  13640 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048576,"rep":1,"addr":"0x4ff2d000","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1173,"kbps":13640,"detail":[]} @@e8f7560c@@
+  page     unbuf   direct     db1   16384 @1048576  #2: ok  13651 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048576,"rep":2,"addr":"0x4ff2d000","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1172,"kbps":13651,"detail":[]} @@14e77ab8@@
+  page     unbuf   direct     db1   16384 @1048699  #1: ok  3858 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048699,"rep":1,"addr":"0x4ff2d000","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4147,"kbps":3858,"detail":[]} @@48f34b36@@
+  page     unbuf   direct     db1   16384 @1048699  #2: ok  3838 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048699,"rep":2,"addr":"0x4ff2d000","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4168,"kbps":3838,"detail":[]} @@34dba9e3@@
+  page     unbuf   direct     db1   20480 @0        #1: ok  10632 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":0,"rep":1,"addr":"0x48082000","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1881,"kbps":10632,"detail":[]} @@08fb289f@@
+  page     unbuf   direct     db1   20480 @0        #2: ok  10632 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":0,"rep":2,"addr":"0x48082000","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1881,"kbps":10632,"detail":[]} @@be9325f4@@
+  page     unbuf   direct     db1   20480 @1048576  #1: ok  11166 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048576,"rep":1,"addr":"0x48082000","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1791,"kbps":11166,"detail":[]} @@b21c7535@@
+  page     unbuf   direct     db1   20480 @1048576  #2: ok  11179 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048576,"rep":2,"addr":"0x48082000","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1789,"kbps":11179,"detail":[]} @@282c3cd7@@
+  page     unbuf   direct     db1   20480 @1048699  #1: ok  3852 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048699,"rep":1,"addr":"0x48082000","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5191,"kbps":3852,"detail":[]} @@d6a9ee2d@@
+  page     unbuf   direct     db1   20480 @1048699  #2: ok  3848 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048699,"rep":2,"addr":"0x48082000","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5197,"kbps":3848,"detail":[]} @@8c9b64d0@@
+  page     unbuf   direct     db1   32768 @0        #1: ok  12265 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":0,"rep":1,"addr":"0x48082000","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2609,"kbps":12265,"detail":[]} @@901a13e9@@
+  page     unbuf   direct     db1   32768 @0        #2: ok  12331 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":0,"rep":2,"addr":"0x48082000","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2595,"kbps":12331,"detail":[]} @@a8e07dd5@@
+  page     unbuf   direct     db1   32768 @1048576  #1: ok  12514 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048576,"rep":1,"addr":"0x48082000","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2557,"kbps":12514,"detail":[]} @@aca02c98@@
+  page     unbuf   direct     db1   32768 @1048576  #2: ok  12519 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048576,"rep":2,"addr":"0x48082000","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2556,"kbps":12519,"detail":[]} @@c3be4ae9@@
+  page     unbuf   direct     db1   32768 @1048699  #1: ok  4028 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048699,"rep":1,"addr":"0x48082000","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7944,"kbps":4028,"detail":[]} @@2688ee6f@@
+  page     unbuf   direct     db1   32768 @1048699  #2: ok  4027 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048699,"rep":2,"addr":"0x48082000","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7945,"kbps":4027,"detail":[]} @@9921aa31@@
+  page     unbuf   direct     db1   65536 @0        #1: ok  12324 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":0,"rep":1,"addr":"0x48082000","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5193,"kbps":12324,"detail":[]} @@75a0faec@@
+  page     unbuf   direct     db1   65536 @0        #2: ok  12475 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":0,"rep":2,"addr":"0x48082000","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5130,"kbps":12475,"detail":[]} @@2de96f1e@@
+  page     unbuf   direct     db1   65536 @1048576  #1: ok  12670 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048576,"rep":1,"addr":"0x48082000","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5051,"kbps":12670,"detail":[]} @@715e9643@@
+  page     unbuf   direct     db1   65536 @1048576  #2: ok  12623 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048576,"rep":2,"addr":"0x48082000","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5070,"kbps":12623,"detail":[]} @@e537e103@@
+  page     unbuf   direct     db1   65536 @1048699  #1: ok  4200 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048699,"rep":1,"addr":"0x48082000","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":15237,"kbps":4200,"detail":[]} @@53dde372@@
+  page     unbuf   direct     db1   65536 @1048699  #2: ok  4200 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048699,"rep":2,"addr":"0x48082000","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":15236,"kbps":4200,"detail":[]} @@02a8488e@@
+  page     unbuf   direct     db1  131072 @0        #1: ok  12576 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":0,"rep":1,"addr":"0x48082000","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":10178,"kbps":12576,"detail":[]} @@8a1f6acf@@
+  page     unbuf   direct     db1  131072 @0        #2: ok  12523 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":0,"rep":2,"addr":"0x48082000","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":10221,"kbps":12523,"detail":[]} @@cbe76d5e@@
+  page     unbuf   direct     db1  131072 @1048576  #1: ok  12624 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048576,"rep":1,"addr":"0x48082000","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":10139,"kbps":12624,"detail":[]} @@91e0f345@@
+  page     unbuf   direct     db1  131072 @1048576  #2: ok  12618 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048576,"rep":2,"addr":"0x48082000","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":10144,"kbps":12618,"detail":[]} @@9b962575@@
+  page     unbuf   direct     db1  131072 @1048699  #1: ok  4263 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048699,"rep":1,"addr":"0x48082000","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":30025,"kbps":4263,"detail":[]} @@362f5fdc@@
+  page     unbuf   direct     db1  131072 @1048699  #2: ok  4254 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":131072,"off":1048699,"rep":2,"addr":"0x48082000","ok":true,"n":131072,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":30086,"kbps":4254,"detail":[]} @@75844248@@
+  page     unbuf   direct     db1  150000 @0        #1: ok  11998 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":0,"rep":1,"addr":"0x48082000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12209,"kbps":11998,"detail":[]} @@18343a91@@
+  page     unbuf   direct     db1  150000 @0        #2: ok  11915 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":0,"rep":2,"addr":"0x48082000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12294,"kbps":11915,"detail":[]} @@59aa4d8f@@
+  page     unbuf   direct     db1  150000 @1048576  #1: ok  11981 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048576,"rep":1,"addr":"0x48082000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12226,"kbps":11981,"detail":[]} @@1c634234@@
+  page     unbuf   direct     db1  150000 @1048576  #2: ok  11981 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048576,"rep":2,"addr":"0x48082000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12226,"kbps":11981,"detail":[]} @@e4db3a8d@@
+  page     unbuf   direct     db1  150000 @1048699  #1: ok  4217 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048699,"rep":1,"addr":"0x48082000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34730,"kbps":4217,"detail":[]} @@5ab3071b@@
+  page     unbuf   direct     db1  150000 @1048699  #2: ok  4211 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":1048699,"rep":2,"addr":"0x48082000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34785,"kbps":4211,"detail":[]} @@c4385770@@
+  page     unbuf   direct     db1  262144 @0        #1: ok  12900 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":0,"rep":1,"addr":"0x48082000","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":19844,"kbps":12900,"detail":[]} @@83d25814@@
+  page     unbuf   direct     db1  262144 @0        #2: ok  12886 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":0,"rep":2,"addr":"0x48082000","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":19866,"kbps":12886,"detail":[]} @@3c3afab5@@
+  page     unbuf   direct     db1  262144 @1048576  #1: ok  12911 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048576,"rep":1,"addr":"0x48082000","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":19827,"kbps":12911,"detail":[]} @@c2931f77@@
+  page     unbuf   direct     db1  262144 @1048576  #2: ok  12929 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048576,"rep":2,"addr":"0x48082000","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":19799,"kbps":12929,"detail":[]} @@351fbb1c@@
+  page     unbuf   direct     db1  262144 @1048699  #1: ok  4266 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048699,"rep":1,"addr":"0x48082000","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":60000,"kbps":4266,"detail":[]} @@5ffdedca@@
+  page     unbuf   direct     db1  262144 @1048699  #2: ok  4264 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":1048699,"rep":2,"addr":"0x48082000","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":60034,"kbps":4264,"detail":[]} @@fd4542a7@@
+  page     unbuf   direct     db1 1048576 @0        #1: ok  13057 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":0,"rep":1,"addr":"0x48082000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":78420,"kbps":13057,"detail":[]} @@d827b5ec@@
+  page     unbuf   direct     db1 1048576 @0        #2: ok  13057 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":0,"rep":2,"addr":"0x48082000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":78423,"kbps":13057,"detail":[]} @@d9f62b7f@@
+  page     unbuf   direct     db1 1048576 @1048576  #1: ok  13106 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048576,"rep":1,"addr":"0x48082000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":78128,"kbps":13106,"detail":[]} @@7d1a6b3a@@
+  page     unbuf   direct     db1 1048576 @1048576  #2: ok  13097 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048576,"rep":2,"addr":"0x48082000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":78185,"kbps":13097,"detail":[]} @@49c10bbe@@
+  page     unbuf   direct     db1 1048576 @1048699  #1: ok  4328 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048699,"rep":1,"addr":"0x48082000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":236571,"kbps":4328,"detail":[]} @@dad943f2@@
+  page     unbuf   direct     db1 1048576 @1048699  #2: ok  4329 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":1048699,"rep":2,"addr":"0x48082000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":236499,"kbps":4329,"detail":[]} @@dfd44a38@@
+  page     unbuf   direct     db1 4194304 @0        #1: ok  13230 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":0,"rep":1,"addr":"0x48082000","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":309592,"kbps":13230,"detail":[]} @@5e1b87ad@@
+  page     unbuf   direct     db1 4194304 @0        #2: ok  13234 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":0,"rep":2,"addr":"0x48082000","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":309501,"kbps":13234,"detail":[]} @@93e024c7@@
+  page     unbuf   direct     db1 4194304 @1048576  #1: ok  13287 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048576,"rep":1,"addr":"0x48082000","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":308265,"kbps":13287,"detail":[]} @@de30d347@@
+  page     unbuf   direct     db1 4194304 @1048576  #2: ok  13295 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048576,"rep":2,"addr":"0x48082000","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":308082,"kbps":13295,"detail":[]} @@f1b5ca2d@@
+  page     unbuf   direct     db1 4194304 @1048699  #1: ok  4416 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048699,"rep":1,"addr":"0x48082000","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":927345,"kbps":4416,"detail":[]} @@e84eac3a@@
+  page     unbuf   direct     db1 4194304 @1048699  #2: ok  4416 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4194304,"off":1048699,"rep":2,"addr":"0x48082000","ok":true,"n":4194304,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":927335,"kbps":4416,"detail":[]} @@88de59ec@@
+Reads into internal:
+  internal unbuf   direct     db1    4096 @0        #1: ok  5908 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":0,"rep":1,"addr":"0x4ff2aa80","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":677,"kbps":5908,"detail":[]} @@c6561653@@
+  internal unbuf   direct     db1    4096 @0        #2: ok  6144 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":0,"rep":2,"addr":"0x4ff2aa80","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":651,"kbps":6144,"detail":[]} @@aed1a0ba@@
+  internal unbuf   direct     db1    4096 @1048576  #1: ok  7434 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048576,"rep":1,"addr":"0x4ff2aa80","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":538,"kbps":7434,"detail":[]} @@3fc63745@@
+  internal unbuf   direct     db1    4096 @1048576  #2: ok  7532 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048576,"rep":2,"addr":"0x4ff2aa80","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":531,"kbps":7532,"detail":[]} @@d1190b16@@
+  internal unbuf   direct     db1    4096 @1048699  #1: ok  3205 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048699,"rep":1,"addr":"0x4ff2aa80","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1248,"kbps":3205,"detail":[]} @@36fe8cea@@
+  internal unbuf   direct     db1    4096 @1048699  #2: ok  3205 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":1048699,"rep":2,"addr":"0x4ff2aa80","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1248,"kbps":3205,"detail":[]} @@cd2081e2@@
+  internal unbuf   direct     db1    8192 @0        #1: ok  9615 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":0,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":832,"kbps":9615,"detail":[]} @@7b43a8df@@
+  internal unbuf   direct     db1    8192 @0        #2: ok  9603 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":0,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":833,"kbps":9603,"detail":[]} @@d726f349@@
+  internal unbuf   direct     db1    8192 @1048576  #1: ok  10958 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048576,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":730,"kbps":10958,"detail":[]} @@e1910953@@
+  internal unbuf   direct     db1    8192 @1048576  #2: ok  10958 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048576,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":730,"kbps":10958,"detail":[]} @@1a4f045b@@
+  internal unbuf   direct     db1    8192 @1048699  #1: ok  3615 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048699,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2213,"kbps":3615,"detail":[]} @@3a0f1256@@
+  internal unbuf   direct     db1    8192 @1048699  #2: ok  3603 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":8192,"off":1048699,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":8192,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2220,"kbps":3603,"detail":[]} @@c12b4f3b@@
+  internal unbuf   direct     db1   12288 @0        #1: ok  11352 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":0,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1057,"kbps":11352,"detail":[]} @@9da5f5b4@@
+  internal unbuf   direct     db1   12288 @0        #2: ok  11352 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":0,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1057,"kbps":11352,"detail":[]} @@2bcdf8df@@
+  internal unbuf   direct     db1   12288 @1048576  #1: ok  12539 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048576,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":957,"kbps":12539,"detail":[]} @@dca8b41a@@
+  internal unbuf   direct     db1   12288 @1048576  #2: ok  12539 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048576,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":957,"kbps":12539,"detail":[]} @@d288e225@@
+  internal unbuf   direct     db1   12288 @1048699  #1: ok  3726 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048699,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3220,"kbps":3726,"detail":[]} @@3b208913@@
+  internal unbuf   direct     db1   12288 @1048699  #2: ok  3729 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":12288,"off":1048699,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":12288,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":3218,"kbps":3729,"detail":[]} @@85296ba5@@
+  internal unbuf   direct     db1   16384 @0        #1: ok  12578 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":0,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1272,"kbps":12578,"detail":[]} @@04b0f86d@@
+  internal unbuf   direct     db1   16384 @0        #2: ok  12588 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":0,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1271,"kbps":12588,"detail":[]} @@55c41b58@@
+  internal unbuf   direct     db1   16384 @1048576  #1: ok  13640 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048576,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1173,"kbps":13640,"detail":[]} @@70f7bac3@@
+  internal unbuf   direct     db1   16384 @1048576  #2: ok  13651 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048576,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1172,"kbps":13651,"detail":[]} @@8ce79677@@
+  internal unbuf   direct     db1   16384 @1048699  #1: ok  3860 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048699,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4145,"kbps":3860,"detail":[]} @@ad510754@@
+  internal unbuf   direct     db1   16384 @1048699  #2: ok  3851 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":16384,"off":1048699,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":16384,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4154,"kbps":3851,"detail":[]} @@a69267b2@@
+  internal unbuf   direct     db1   20480 @0        #1: ok  11086 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":0,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1804,"kbps":11086,"detail":[]} @@303b1356@@
+  internal unbuf   direct     db1   20480 @0        #2: ok  11098 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":0,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1802,"kbps":11098,"detail":[]} @@486acd92@@
+  internal unbuf   direct     db1   20480 @1048576  #1: ok  11750 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048576,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1702,"kbps":11750,"detail":[]} @@84df667f@@
+  internal unbuf   direct     db1   20480 @1048576  #2: ok  11743 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048576,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1703,"kbps":11743,"detail":[]} @@99a18e66@@
+  internal unbuf   direct     db1   20480 @1048699  #1: ok  3854 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048699,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5189,"kbps":3854,"detail":[]} @@75b0210b@@
+  internal unbuf   direct     db1   20480 @1048699  #2: ok  3855 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":20480,"off":1048699,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":20480,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5187,"kbps":3855,"detail":[]} @@8c68664f@@
+  internal unbuf   direct     db1   32768 @0        #1: ok  13141 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":0,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2435,"kbps":13141,"detail":[]} @@c1817215@@
+  internal unbuf   direct     db1   32768 @0        #2: ok  13147 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":0,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2434,"kbps":13147,"detail":[]} @@e1a72f89@@
+  internal unbuf   direct     db1   32768 @1048576  #1: ok  13278 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048576,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2410,"kbps":13278,"detail":[]} @@5a9652f0@@
+  internal unbuf   direct     db1   32768 @1048576  #2: ok  13289 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048576,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":2408,"kbps":13289,"detail":[]} @@e64e56e7@@
+  internal unbuf   direct     db1   32768 @1048699  #1: ok  4034 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048699,"rep":1,"addr":"0x4ff2cc00","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7931,"kbps":4034,"detail":[]} @@caa46008@@
+  internal unbuf   direct     db1   32768 @1048699  #2: ok  4032 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":32768,"off":1048699,"rep":2,"addr":"0x4ff2cc00","ok":true,"n":32768,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":7935,"kbps":4032,"detail":[]} @@16d2eb5f@@
+  internal unbuf   direct     db1   65536 @0        #1: ok  13109 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":0,"rep":1,"addr":"0x4ff50740","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4882,"kbps":13109,"detail":[]} @@0452da29@@
+  internal unbuf   direct     db1   65536 @0        #2: ok  13138 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":0,"rep":2,"addr":"0x4ff50740","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4871,"kbps":13138,"detail":[]} @@847a6a35@@
+  internal unbuf   direct     db1   65536 @1048576  #1: ok  13214 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048576,"rep":1,"addr":"0x4ff50740","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4843,"kbps":13214,"detail":[]} @@bd2afa96@@
+  internal unbuf   direct     db1   65536 @1048576  #2: ok  13212 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048576,"rep":2,"addr":"0x4ff50740","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":4844,"kbps":13212,"detail":[]} @@2155facd@@
+  internal unbuf   direct     db1   65536 @1048699  #1: ok  4204 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048699,"rep":1,"addr":"0x4ff50740","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":15223,"kbps":4204,"detail":[]} @@e4cdbc3b@@
+  internal unbuf   direct     db1   65536 @1048699  #2: ok  4193 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"matrix","dest":"internal","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":1048699,"rep":2,"addr":"0x4ff50740","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":15262,"kbps":4193,"detail":[]} @@ee8e75df@@
+Summary (good/total):
+  size K         4      8     12     16     20     32     64    128    146    256   1024   4096
+  psram       6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6 
+  psram+1     6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6 
+  page        6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6    6/6 
+  internal    6/6    6/6    6/6    6/6    6/6    6/6    6/6       -      -      -      -      -
+matrix: 258 cases, 258 good, 0 BAD, 0 skipped
+@@SDT-SUMMARY@@ {"t":"summary","suite":"matrix","cases":258,"good":258,"bad":0,"skipped":0} @@4448c499@@
+RESULT: all reads correct
+Run took 33617 ms
+@@SDT-END@@ {"t":"end","suite":"matrix","status":"ok","ms":33617} @@a1711740@@
+@@SDT-BYE@@ {"t":"bye"} @@9f989734@@
