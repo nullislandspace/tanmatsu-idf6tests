@@ -150,3 +150,6 @@ make cycleall SUITE=matrix                       # all VARIANTS
 - Variants: `sdkconfigs/variant-<name>` (+ `patches/<name>/<idf component>/*.patch`
   for patched IDF components).
 - The app returns to the launcher by itself after 5 min without commands.
+- There is **one** app, `at.cavac.idf6test`, installed straight into AppFS
+  (no `/int` or `/sd` app directory). Each `make install VARIANT=…` overwrites
+  it; `sdtest.py --variant` refuses to test a mismatching build.

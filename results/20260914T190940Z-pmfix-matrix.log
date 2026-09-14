@@ -1,0 +1,87 @@
+I (1325) esp_psram: SPI SRAM memory test OK
+I (1334) cpu_start: Pro cpu start user code
+I (1334) cpu_start: cpu freq: 360000000 Hz
+I (1335) app_init: Application information:
+I (1335) app_init: Project name:     application
+I (1335) app_init: App version:      pre-v6-refresh-backup-5-g7ee84c
+I (1335) app_init: Compile time:     Sep 14 2026 20:59:23
+I (1336) app_init: ELF file SHA256:  fbc46778c...
+I (1336) app_init: ESP-IDF:          v6.0.2
+I (1336) efuse_init: Min chip rev:     v0.1
+I (1336) efuse_init: Max chip rev:     v1.99 
+I (1336) efuse_init: Chip rev:         v1.3
+I (1337) heap_init: Initializing. RAM available for dynamic allocation:
+I (1337) heap_init: At 4FF1C180 len 0001EE40 (123 KiB): RETENT_RAM
+I (1337) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1337) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1338) heap_init: At 50108180 len 00007E80 (31 KiB): RTCRAM
+I (1338) heap_init: At 30100088 len 00001F78 (7 KiB): SPM
+I (1338) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1339) spi_flash: detected chip: winbond
+I (1339) spi_flash: flash io: qio
+I (1341) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1342) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1343) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1343) main_task: Started on CPU0
+I (1343) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1343) main_task: Calling app_main()
+I (1373) sdcard: Power cycling SD card...
+W (1373) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (1673) sdcard: SD card power cycle complete
+I (1673) sdcard: Initializing SD card (SDMMC 4-bit mode)
+I (1673) sdcard: Mounting filesystem
+I (1843) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (pmfix) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+@@SDT-PONG@@ {"t":"PONG","variant":"pmfix","mounted":true,"idle_left_s":299,"free_int":497103,"free_psram":33025996} @@e4868303@@
+@@SDT-PONG@@ {"t":"PONG","variant":"pmfix","mounted":true,"idle_left_s":299,"free_int":497015,"free_psram":33025996} @@162de7ca@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":298,"free_int":497015,"free_psram":33025996} @@01a7e884@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":296,"free_int":497015,"free_psram":33025996} @@784bcad5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":294,"free_int":497015,"free_psram":33025996} @@e149c548@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":292,"free_int":497015,"free_psram":33025996} @@913ed3ae@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":290,"free_int":497015,"free_psram":33025996} @@083cdc33@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":288,"free_int":497015,"free_psram":33025996} @@46b41e7f@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":286,"free_int":497015,"free_psram":33025996} @@3f583c2e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":284,"free_int":497015,"free_psram":33025996} @@a65a33b3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":282,"free_int":497015,"free_psram":33025996} @@d62d2555@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":280,"free_int":497015,"free_psram":33025996} @@4f2f2ac8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":278,"free_int":497015,"free_psram":33025996} @@1db265c4@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":276,"free_int":497015,"free_psram":33025996} @@645e4795@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":274,"free_int":497015,"free_psram":33025996} @@fd5c4808@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":272,"free_int":497015,"free_psram":33025996} @@8d2b5eee@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":270,"free_int":497015,"free_psram":33025996} @@14295173@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":268,"free_int":497015,"free_psram":33025996} @@5aa1933f@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":266,"free_int":497015,"free_psram":33025996} @@234db16e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":264,"free_int":497015,"free_psram":33025996} @@ba4fbef3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":262,"free_int":497015,"free_psram":33025996} @@ca38a815@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":260,"free_int":497015,"free_psram":33025996} @@533aa788@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":258,"free_int":497015,"free_psram":33025996} @@93958832@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":256,"free_int":497015,"free_psram":33025996} @@ea79aa63@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":254,"free_int":497015,"free_psram":33025996} @@737ba5fe@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":252,"free_int":497015,"free_psram":33025996} @@030cb318@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":250,"free_int":497015,"free_psram":33025996} @@9a0ebc85@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":248,"free_int":497015,"free_psram":33025996} @@d4867ec9@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":246,"free_int":497015,"free_psram":33025996} @@ad6a5c98@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":244,"free_int":497015,"free_psram":33025996} @@34685305@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":242,"free_int":497015,"free_psram":33025996} @@441f45e3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":240,"free_int":497015,"free_psram":33025996} @@dd1d4a7e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":238,"free_int":497015,"free_psram":33025996} @@da8cb869@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":236,"free_int":497015,"free_psram":33025996} @@a3609a38@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":234,"free_int":497015,"free_psram":33025996} @@3a6295a5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":232,"free_int":497015,"free_psram":33025996} @@4a158343@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":230,"free_int":497015,"free_psram":33025996} @@d3178cde@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":228,"free_int":497015,"free_psram":33025996} @@9d9f4e92@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":226,"free_int":497015,"free_psram":33025996} @@e4736cc3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":224,"free_int":497015,"free_psram":33025996} @@7d71635e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":222,"free_int":497015,"free_psram":33025996} @@0d0675b8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":220,"free_int":497015,"free_psram":33025996} @@94047a25@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":218,"free_int":497015,"free_psram":33025996} @@54ab559f@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":216,"free_int":497015,"free_psram":33025996} @@2d4777ce@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":214,"free_int":497015,"free_psram":33025996} @@b4457853@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":212,"free_int":497015,"free_psram":33025996} @@c4326eb5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":210,"free_int":497015,"free_psram":33025996} @@5d306128@@

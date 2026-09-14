@@ -1,0 +1,4 @@
+# As nobsp (reproduces the corruption), with esp_driver_sdmmc patched to hold
+# ESP_PM_CPU_FREQ_MAX instead of ESP_PM_APB_FREQ_MAX during transactions.
+CONFIG_IDF6TEST_VARIANT_NAME="pmfix"
+CONFIG_IDF6TEST_BSP_INIT=n

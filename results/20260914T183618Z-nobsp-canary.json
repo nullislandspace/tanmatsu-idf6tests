@@ -1,0 +1,211 @@
+{
+ "meta": {
+  "host_time": "20260914T183618Z",
+  "port": "rfc2217://localhost:4001",
+  "suite": "canary",
+  "args": "idle=2 reads=20",
+  "variant": "nobsp",
+  "git_commit": "7ee84cb6e5",
+  "git_dirty": true
+ },
+ "ready": {
+  "t": "PONG",
+  "variant": "nobsp",
+  "mounted": true,
+  "idle_left_s": 299,
+  "free_int": 497103,
+  "free_psram": 33025996
+ },
+ "begin": {
+  "t": "begin",
+  "variant": "nobsp",
+  "suite": "canary",
+  "args": "idle=2 reads=20",
+  "idf": "v6.0.2",
+  "hosted": 1,
+  "chunked_msync": 0,
+  "pm": 1,
+  "psram_mhz": 200,
+  "int_wdt_ms": 300,
+  "bsp_init": 0,
+  "grace_boot": 0,
+  "usb_host": 0,
+  "int_mounted": 0,
+  "reset_reason": 3,
+  "free_int": 497015,
+  "largest_int": 319488,
+  "free_psram": 33025996,
+  "card_name": "SE16G",
+  "card_mb": 15193,
+  "card_khz": 40000
+ },
+ "pattern": {
+  "t": "pattern",
+  "written": false,
+  "baseline": true
+ },
+ "cases": [
+  {
+   "t": "case",
+   "suite": "canary",
+   "dest": "page",
+   "io": "unbuf",
+   "method": "direct",
+   "chunk": 4096,
+   "vbuf": 0,
+   "dmabuf": 1,
+   "size": 150000,
+   "off": 4096,
+   "rep": 1,
+   "addr": "0x48292000",
+   "ok": false,
+   "n": 150000,
+   "errno": 0,
+   "bad": 140,
+   "bad_fill": 92,
+   "bad_zero": 0,
+   "runs": 34,
+   "gran": "4",
+   "us": 25001,
+   "kbps": 5859,
+   "detail": [
+    {
+     "s": 2640,
+     "l": 12,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 4244,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 6144,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 10212,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 16532,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 18580,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 20052,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 27048,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 32916,
+     "l": 4,
+     "d": "unrecognised, first word 0xc27cc27c"
+    },
+    {
+     "s": 34968,
+     "l": 4,
+     "d": "untouched fill"
+    }
+   ]
+  },
+  {
+   "t": "case",
+   "suite": "canary",
+   "dest": "page",
+   "io": "unbuf",
+   "method": "direct",
+   "chunk": 4096,
+   "vbuf": 0,
+   "dmabuf": 1,
+   "size": 150000,
+   "off": 4096,
+   "rep": 2,
+   "addr": "0x482b7000",
+   "ok": false,
+   "n": 150000,
+   "errno": 0,
+   "bad": 108298,
+   "bad_fill": 514,
+   "bad_zero": 436,
+   "runs": 10,
+   "gran": "4",
+   "us": 25455,
+   "kbps": 5754,
+   "detail": [
+    {
+     "s": 4244,
+     "l": 4,
+     "d": "unrecognised, first word 0x4e20ffff"
+    },
+    {
+     "s": 6136,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 11256,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 16532,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 18580,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 27016,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 37012,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 38912,
+     "l": 4,
+     "d": "unrecognised, first word 0xb62f54ef"
+    },
+    {
+     "s": 40956,
+     "l": 108548,
+     "d": "unrecognised, first word 0x54efffff"
+    },
+    {
+     "s": 149760,
+     "l": 128,
+     "d": "unrecognised, first word 0x538b0000"
+    }
+   ]
+  }
+ ],
+ "summary": null,
+ "end": null,
+ "corrupt_lines": 0,
+ "crash_lines": [
+  "Guru Meditation Error: Core  0 panic'ed (Store access fault). Exception was unhandled.",
+  "ESP-ROM:esp32p4-eco2-20240710",
+  "rst:0xc (SW_CPU_RESET),boot:0x31f (SPI_FAST_FLASH_BOOT)"
+ ],
+ "verdict": "crash",
+ "recovery": 0
+}

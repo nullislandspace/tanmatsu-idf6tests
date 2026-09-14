@@ -1,0 +1,54 @@
+{
+ "meta": {
+  "host_time": "20260914T183653Z",
+  "port": "rfc2217://localhost:4001",
+  "suite": "canary",
+  "args": "idle=2 reads=20 pmlock=apb",
+  "variant": "nobsp",
+  "git_commit": "7ee84cb6e5",
+  "git_dirty": true
+ },
+ "ready": {
+  "t": "PONG",
+  "variant": "nobsp",
+  "mounted": true,
+  "idle_left_s": 299,
+  "free_int": 497103,
+  "free_psram": 33025996
+ },
+ "begin": {
+  "t": "begin",
+  "variant": "nobsp",
+  "suite": "canary",
+  "args": "idle=2 reads=20 pmlock=apb",
+  "idf": "v6.0.2",
+  "hosted": 1,
+  "chunked_msync": 0,
+  "pm": 1,
+  "psram_mhz": 200,
+  "int_wdt_ms": 300,
+  "bsp_init": 0,
+  "grace_boot": 0,
+  "usb_host": 0,
+  "int_mounted": 0,
+  "reset_reason": 3,
+  "free_int": 497015,
+  "largest_int": 319488,
+  "free_psram": 33025996,
+  "card_name": "SE16G",
+  "card_mb": 15193,
+  "card_khz": 40000
+ },
+ "pattern": null,
+ "cases": [],
+ "summary": null,
+ "end": null,
+ "corrupt_lines": 0,
+ "crash_lines": [
+  "Guru Meditation Error: Core  1 panic'ed (Interrupt wdt timeout on CPU1). ",
+  "ESP-ROM:esp32p4-eco2-20240710",
+  "rst:0xc (SW_CPU_RESET),boot:0x31f (SPI_FAST_FLASH_BOOT)"
+ ],
+ "verdict": "crash",
+ "recovery": 0
+}

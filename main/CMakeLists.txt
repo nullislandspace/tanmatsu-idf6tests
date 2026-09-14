@@ -24,6 +24,7 @@ idf_component_register(
         esp_system
         gl_input
         wear_levelling
+        esp_pm
         ${extra_requires}
     INCLUDE_DIRS
         "."

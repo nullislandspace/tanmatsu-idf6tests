@@ -17,6 +17,7 @@
 #include "esp_heap_caps.h"
 #include "esp_idf_version.h"
 #include "esp_log.h"
+#include "esp_pm.h"
 #include "esp_system.h"
 #include "esp_timer.h"
 #include "esp_vfs_fat.h"
@@ -192,6 +193,25 @@ static void mount_int(void) {
     if (res != ESP_OK) ESP_LOGE(TAG, "Failed to mount /int: %s", esp_err_to_name(res));
 }
 
+// RUN ... pmlock=cpu|apb|nosleep holds that PM lock for the duration of the
+// suite. The DSI display driver holds ESP_PM_CPU_FREQ_MAX while the display
+// runs ("to ensure PSRAM bandwidth and usability during DFS"); the SDMMC
+// driver only takes ESP_PM_APB_FREQ_MAX per transaction.
+static esp_pm_lock_handle_t pm_locks[3];
+
+static esp_pm_lock_handle_t get_pm_lock(const char* args) {
+    char name[16];
+    if (!sdtest_arg_str(args, "pmlock", name, sizeof(name))) return NULL;
+    static const char* const names[3] = {"cpu", "apb", "nosleep"};
+    static const esp_pm_lock_type_t types[3] = {ESP_PM_CPU_FREQ_MAX, ESP_PM_APB_FREQ_MAX, ESP_PM_NO_LIGHT_SLEEP};
+    for (int i = 0; i < 3; i++) {
+        if (strcmp(name, names[i]) != 0) continue;
+        if (!pm_locks[i] && esp_pm_lock_create(types[i], 0, "idf6test", &pm_locks[i]) != ESP_OK) return NULL;
+        return pm_locks[i];
+    }
+    return NULL;
+}
+
 static void emit_begin(const char* suite, const char* args) {
     sdmmc_card_t* card = sdcard_get_card();
     report_emitf("BEGIN",
@@ -257,6 +277,8 @@ static void run_command(char* line) {
     if (sdtest_arg_int(args, "usbhost", 0)) start_usb_host();
     emit_begin(suite, args);
 
+    esp_pm_lock_handle_t pm_lock = get_pm_lock(args);
+    if (pm_lock) esp_pm_lock_acquire(pm_lock);
     int64_t     t0     = esp_timer_get_time();
     const char* status = "error";
     if (!sdcard_is_mounted()) {
@@ -279,6 +301,7 @@ static void run_command(char* line) {
                 break;
         }
     }
+    if (pm_lock) esp_pm_lock_release(pm_lock);
     int64_t ms = (esp_timer_get_time() - t0) / 1000;
     snprintf(text, sizeof(text), "Run took %lld ms", ms);
     log_line(text);

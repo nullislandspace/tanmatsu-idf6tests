@@ -88,10 +88,12 @@ badgelink:
 	git clone https://github.com/badgeteam/esp32-component-badgelink.git badgelink
 	cd badgelink/tools; ./install.sh
 
-APP_SLUG ?= at.cavac.idf6test.$(VARIANT)
-APP_INSTALL_BASE_PATH ?= /int/apps/
-APP_INSTALL_PATH = $(APP_INSTALL_BASE_PATH)$(APP_SLUG)
-APP_TITLE ?= IDF6 SD test $(VARIANT)
+# One app for all variants, installed straight into AppFS (no /int or /sd app
+# directory, so the launcher's own AppFS management never touches it). Each
+# install overwrites the single copy; the app reports its variant, and
+# tools/sdtest.py refuses to test a different variant than asked for.
+APP_SLUG ?= at.cavac.idf6test
+APP_TITLE ?= IDF6 SD test
 APP_VERSION ?= 1
 
 # Writing an AppFS entry erases flash sectors and takes several seconds, far
@@ -104,20 +106,7 @@ BADGELINK := tools/badgelink_retry.sh $(BADGELINK_CONN)
 
 .PHONY: install
 install: build mode_badgelink
-	@echo "=== Installing application ==="
-	@echo "Creating directory $(APP_INSTALL_PATH)..."
-	$(BADGELINK) fs mkdir $(APP_INSTALL_PATH) || true
-	@echo "Uploading metadata.json..."
-	sed 's/@VARIANT@/$(VARIANT)/g' metadata/metadata.json > $(BUILD)/metadata.json
-	$(BADGELINK) fs upload $(APP_INSTALL_PATH)/metadata.json $(BUILD)/metadata.json
-	@echo "Uploading icons..."
-	$(BADGELINK) fs upload $(APP_INSTALL_PATH)/icon16.png metadata/icon16.png
-	$(BADGELINK) fs upload $(APP_INSTALL_PATH)/icon32.png metadata/icon32.png
-	$(BADGELINK) fs upload $(APP_INSTALL_PATH)/icon64.png metadata/icon64.png
-	@echo "Uploading application.bin..."
-	$(BADGELINK) fs upload $(APP_INSTALL_PATH)/application.bin $(BUILD)/application.bin
-	@echo "Updating AppFS copy of $(APP_SLUG)..."
-	@# `badgelink start` boots the AppFS copy, not /int/apps.
+	@echo "=== Installing $(APP_SLUG) ($(VARIANT)) into AppFS ==="
 	$(BADGELINK) --timeout $(APPFS_TIMEOUT) appfs upload $(APP_SLUG) "$(APP_TITLE)" $(APP_VERSION) $(BUILD)/application.bin
 	@echo "=== Installation complete ==="
 

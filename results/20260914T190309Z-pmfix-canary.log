@@ -1,0 +1,446 @@
+I (1670) sdcard: SD card power cycle complete
+I (1670) sdcard: Initializing SD card (SDMMC 4-bit mode)
+I (1670) sdcard: Mounting filesystem
+I (1840) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (pmfix) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+@@SDT-PONG@@ {"t":"PONG","variant":"pmfix","mounted":true,"idle_left_s":299,"free_int":497103,"free_psram":33025996} @@e4868303@@
+@@SDT-PONG@@ {"t":"PONG","variant":"pmfix","mounted":true,"idle_left_s":299,"free_int":497015,"free_psram":33025996} @@162de7ca@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":298,"free_int":497015,"free_psram":33025996} @@01a7e884@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":296,"free_int":497015,"free_psram":33025996} @@784bcad5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":294,"free_int":497015,"free_psram":33025996} @@e149c548@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":292,"free_int":497015,"free_psram":33025996} @@913ed3ae@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":290,"free_int":497015,"free_psram":33025996} @@083cdc33@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":288,"free_int":497015,"free_psram":33025996} @@46b41e7f@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":286,"free_int":497015,"free_psram":33025996} @@3f583c2e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":284,"free_int":497015,"free_psram":33025996} @@a65a33b3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":282,"free_int":497015,"free_psram":33025996} @@d62d2555@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":280,"free_int":497015,"free_psram":33025996} @@4f2f2ac8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":278,"free_int":497015,"free_psram":33025996} @@1db265c4@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":276,"free_int":497015,"free_psram":33025996} @@645e4795@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":274,"free_int":497015,"free_psram":33025996} @@fd5c4808@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":272,"free_int":497015,"free_psram":33025996} @@8d2b5eee@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":270,"free_int":497015,"free_psram":33025996} @@14295173@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":268,"free_int":497015,"free_psram":33025996} @@5aa1933f@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":266,"free_int":497015,"free_psram":33025996} @@234db16e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":264,"free_int":497015,"free_psram":33025996} @@ba4fbef3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":262,"free_int":497015,"free_psram":33025996} @@ca38a815@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":260,"free_int":497015,"free_psram":33025996} @@533aa788@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":258,"free_int":497015,"free_psram":33025996} @@93958832@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":256,"free_int":497015,"free_psram":33025996} @@ea79aa63@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":254,"free_int":497015,"free_psram":33025996} @@737ba5fe@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":252,"free_int":497015,"free_psram":33025996} @@030cb318@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":250,"free_int":497015,"free_psram":33025996} @@9a0ebc85@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":248,"free_int":497015,"free_psram":33025996} @@d4867ec9@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":246,"free_int":497015,"free_psram":33025996} @@ad6a5c98@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":244,"free_int":497015,"free_psram":33025996} @@34685305@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":242,"free_int":497015,"free_psram":33025996} @@441f45e3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":240,"free_int":497015,"free_psram":33025996} @@dd1d4a7e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":238,"free_int":497015,"free_psram":33025996} @@da8cb869@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":236,"free_int":497015,"free_psram":33025996} @@a3609a38@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":234,"free_int":497015,"free_psram":33025996} @@3a6295a5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":232,"free_int":497015,"free_psram":33025996} @@4a158343@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":230,"free_int":497015,"free_psram":33025996} @@d3178cde@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":228,"free_int":497015,"free_psram":33025996} @@9d9f4e92@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":226,"free_int":497015,"free_psram":33025996} @@e4736cc3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":224,"free_int":497015,"free_psram":33025996} @@7d71635e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":222,"free_int":497015,"free_psram":33025996} @@0d0675b8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":220,"free_int":497015,"free_psram":33025996} @@94047a25@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":218,"free_int":497015,"free_psram":33025996} @@54ab559f@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":216,"free_int":497015,"free_psram":33025996} @@2d4777ce@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":214,"free_int":497015,"free_psram":33025996} @@b4457853@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":212,"free_int":497015,"free_psram":33025996} @@c4326eb5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":210,"free_int":497015,"free_psram":33025996} @@5d306128@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":208,"free_int":497015,"free_psram":33025996} @@13b8a364@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":206,"free_int":497015,"free_psram":33025996} @@6a548135@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":204,"free_int":497015,"free_psram":33025996} @@f3568ea8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":202,"free_int":497015,"free_psram":33025996} @@8321984e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":200,"free_int":497015,"free_psram":33025996} @@1a2397d3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":198,"free_int":497015,"free_psram":33025996} @@7fdfa022@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":196,"free_int":497015,"free_psram":33025996} @@06338273@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":194,"free_int":497015,"free_psram":33025996} @@9f318dee@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":192,"free_int":497015,"free_psram":33025996} @@ef469b08@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":190,"free_int":497015,"free_psram":33025996} @@76449495@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":188,"free_int":497015,"free_psram":33025996} @@38cc56d9@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":186,"free_int":497015,"free_psram":33025996} @@41207488@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":184,"free_int":497015,"free_psram":33025996} @@d8227b15@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":182,"free_int":497015,"free_psram":33025996} @@a8556df3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":180,"free_int":497015,"free_psram":33025996} @@3157626e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":178,"free_int":497015,"free_psram":33025996} @@63ca2d62@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":176,"free_int":497015,"free_psram":33025996} @@1a260f33@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":174,"free_int":497015,"free_psram":33025996} @@832400ae@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":172,"free_int":497015,"free_psram":33025996} @@f3531648@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":170,"free_int":497015,"free_psram":33025996} @@6a5119d5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":168,"free_int":497015,"free_psram":33025996} @@24d9db99@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":166,"free_int":497015,"free_psram":33025996} @@5d35f9c8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":164,"free_int":497015,"free_psram":33025996} @@c437f655@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":162,"free_int":497015,"free_psram":33025996} @@b440e0b3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":160,"free_int":497015,"free_psram":33025996} @@2d42ef2e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":158,"free_int":497015,"free_psram":33025996} @@ededc094@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":156,"free_int":497015,"free_psram":33025996} @@9401e2c5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":154,"free_int":497015,"free_psram":33025996} @@0d03ed58@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":152,"free_int":497015,"free_psram":33025996} @@7d74fbbe@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":150,"free_int":497015,"free_psram":33025996} @@e476f423@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":148,"free_int":497015,"free_psram":33025996} @@aafe366f@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":146,"free_int":497015,"free_psram":33025996} @@d312143e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":144,"free_int":497015,"free_psram":33025996} @@4a101ba3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":142,"free_int":497015,"free_psram":33025996} @@3a670d45@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":140,"free_int":497015,"free_psram":33025996} @@a36502d8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":138,"free_int":497015,"free_psram":33025996} @@a4f4f0cf@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":136,"free_int":497015,"free_psram":33025996} @@dd18d29e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":134,"free_int":497015,"free_psram":33025996} @@441add03@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":132,"free_int":497015,"free_psram":33025996} @@346dcbe5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":130,"free_int":497015,"free_psram":33025996} @@ad6fc478@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":128,"free_int":497015,"free_psram":33025996} @@e3e70634@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":126,"free_int":497015,"free_psram":33025996} @@9a0b2465@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":124,"free_int":497015,"free_psram":33025996} @@03092bf8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":122,"free_int":497015,"free_psram":33025996} @@737e3d1e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":120,"free_int":497015,"free_psram":33025996} @@ea7c3283@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":118,"free_int":497015,"free_psram":33025996} @@2ad31d39@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":116,"free_int":497015,"free_psram":33025996} @@533f3f68@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":114,"free_int":497015,"free_psram":33025996} @@ca3d30f5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":112,"free_int":497015,"free_psram":33025996} @@ba4a2613@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":110,"free_int":497015,"free_psram":33025996} @@2348298e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":108,"free_int":497015,"free_psram":33025996} @@6dc0ebc2@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":106,"free_int":497015,"free_psram":33025996} @@142cc993@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":104,"free_int":497015,"free_psram":33025996} @@8d2ec60e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":102,"free_int":497015,"free_psram":33025996} @@fd59d0e8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":100,"free_int":497015,"free_psram":33025996} @@645bdf75@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":98,"free_int":497015,"free_psram":33025996} @@aa2a63b9@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":96,"free_int":497015,"free_psram":33025996} @@d3c641e8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":94,"free_int":497015,"free_psram":33025996} @@4ac44e75@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":92,"free_int":497015,"free_psram":33025996} @@3ab35893@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":90,"free_int":497015,"free_psram":33025996} @@a3b1570e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":88,"free_int":497015,"free_psram":33025996} @@ed399542@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":86,"free_int":497015,"free_psram":33025996} @@94d5b713@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":84,"free_int":497015,"free_psram":33025996} @@0dd7b88e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":82,"free_int":497015,"free_psram":33025996} @@7da0ae68@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":80,"free_int":497015,"free_psram":33025996} @@e4a2a1f5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":78,"free_int":497015,"free_psram":33025996} @@b63feef9@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":76,"free_int":497015,"free_psram":33025996} @@cfd3cca8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":74,"free_int":497015,"free_psram":33025996} @@56d1c335@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":72,"free_int":497015,"free_psram":33025996} @@26a6d5d3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":70,"free_int":497015,"free_psram":33025996} @@bfa4da4e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":68,"free_int":497015,"free_psram":33025996} @@f12c1802@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":66,"free_int":497015,"free_psram":33025996} @@88c03a53@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":64,"free_int":497015,"free_psram":33025996} @@11c235ce@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":62,"free_int":497015,"free_psram":33025996} @@61b52328@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":60,"free_int":497015,"free_psram":33025996} @@f8b72cb5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":58,"free_int":497015,"free_psram":33025996} @@3818030f@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":56,"free_int":497015,"free_psram":33025996} @@41f4215e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":54,"free_int":497015,"free_psram":33025996} @@d8f62ec3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":52,"free_int":497015,"free_psram":33025996} @@a8813825@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":50,"free_int":497015,"free_psram":33025996} @@318337b8@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":48,"free_int":497015,"free_psram":33025996} @@7f0bf5f4@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":46,"free_int":497015,"free_psram":33025996} @@06e7d7a5@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":44,"free_int":497015,"free_psram":33025996} @@9fe5d838@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":42,"free_int":497015,"free_psram":33025996} @@ef92cede@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":40,"free_int":497015,"free_psram":33025996} @@7690c143@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":38,"free_int":497015,"free_psram":33025996} @@71013354@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":36,"free_int":497015,"free_psram":33025996} @@08ed1105@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":34,"free_int":497015,"free_psram":33025996} @@91ef1e98@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":32,"free_int":497015,"free_psram":33025996} @@e198087e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":30,"free_int":497015,"free_psram":33025996} @@789a07e3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":28,"free_int":497015,"free_psram":33025996} @@3612c5af@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":26,"free_int":497015,"free_psram":33025996} @@4ffee7fe@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":24,"free_int":497015,"free_psram":33025996} @@d6fce863@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":22,"free_int":497015,"free_psram":33025996} @@a68bfe85@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":20,"free_int":497015,"free_psram":33025996} @@3f89f118@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":18,"free_int":497015,"free_psram":33025996} @@ff26dea2@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":16,"free_int":497015,"free_psram":33025996} @@86cafcf3@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":14,"free_int":497015,"free_psram":33025996} @@1fc8f36e@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":12,"free_int":497015,"free_psram":33025996} @@6fbfe588@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":10,"free_int":497015,"free_psram":33025996} @@f6bdea15@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":8,"free_int":497015,"free_psram":33025996} @@6aa4a180@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":6,"free_int":497015,"free_psram":33025996} @@134883d1@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":4,"free_int":497015,"free_psram":33025996} @@8a4a8c4c@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":2,"free_int":497015,"free_psram":33025996} @@fa3d9aaa@@
+@@SDT-READY@@ {"t":"READY","variant":"pmfix","mounted":true,"idle_left_s":0,"free_int":497015,"free_psram":33025996} @@633f9537@@
+W (305250) console: No command for 300 s, returning to launcher
+@@SDT-BYE@@ {"t":"bye"} @@9f989734@@
+ESP-ROM:esp32p4-eco2-20240710
+Build:Jul 10 2024
+rst:0xc (SW_CPU_RESET),boot:0x31f (SPI_FAST_FLASH_BOOT)
+Core0 Saved PC:0x4ff05106
+Core1 Saved PC:0x4ff052a8
+SPI mode:DIO, clock div:1
+load:0x4ff33e00,len:0x125c
+load:0x4ff29ed0,len:0xc48
+load:0x4ff2cbd0,len:0x3698
+entry 0x4ff29ed0
+I (1409) esp_psram: SPI SRAM memory test OK
+I (1419) cpu_start: Pro cpu start user code
+I (1419) cpu_start: cpu freq: 360000000 Hz
+I (1419) app_init: Application information:
+I (1419) app_init: Project name:     launcher
+I (1420) app_init: App version:      v0.2.6-2-g11a838d-dirty
+I (1420) app_init: Compile time:     Sep 14 2026 12:24:18
+I (1420) app_init: ELF file SHA256:  ee3fe8189...
+I (1420) app_init: ESP-IDF:          v6.0.2
+I (1420) efuse_init: Min chip rev:     v0.1
+I (1421) efuse_init: Max chip rev:     v1.99 
+I (1421) efuse_init: Chip rev:         v1.3
+I (1421) heap_init: Initializing. RAM available for dynamic allocation:
+I (1421) heap_init: At 4FF24D40 len 00016280 (88 KiB): RETENT_RAM
+I (1422) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1422) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1422) heap_init: At 501081A4 len 00007E5C (31 KiB): RTCRAM
+I (1422) heap_init: At 30100374 len 00001C8C (7 KiB): SPM
+I (1423) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1423) spi_flash: detected chip: winbond
+I (1424) spi_flash: flash io: qio
+I (1425) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1426) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1427) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1427) main_task: Started on CPU0
+I (1427) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1427) main_task: Calling app_main()
+I (1457) ST7701 panel: Install MIPI DSI LCD control IO
+I (1457) ST7701 panel: Install MIPI DSI LCD data panel
+I (1457) st7701: version: 2.0.2
+I (1597) st7701_mipi: LCD ID: FF FF FF
+I (1597) st7701_mipi:  st7701->madctl_val: 0x0, st7701->colmod_val: 0x77
+I (1817) ES8156: ES8156 detected, chip version: 0x1
+STARTUP: Applying settings...
+STARTUP: Checking bootloader...
+I (3277) spi_flash: flash io: qio
+STARTUP: Bootloader is up-to-date
+I (3297) Bootloader update: Bootloader is up to date, no update needed
+STARTUP: Mounting FAT filesystem...
+STARTUP: Loading icons...
+STARTUP: Checking I2C bus...
+I (3727) vfd: VFD at 0x13 on internal I2C switched off
+STARTUP: Initializing coprocessor...
+STARTUP: Mounting AppFS filesystem...
+I (3757) appfs: Meta page 0: valid (serial 222)
+I (3757) appfs: Meta page 1: valid (serial 221)
+I (3757) appfs: Using page 0 as current.
+STARTUP: Initializing clock...
+STARTUP: Initializing event handler...
+I (3797) Event: SD card inserted
+I (3797) sdcard: Acquiring SD LDO power control handle
+I (3797) sdcard: Initializing SD card
+I (3797) sdcard: Power cycling SD card...
+W (3797) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (4097) sdcard: Mounting filesystem
+I (4267) sdcard: Filesystem mounted
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+I (4267) Event: Audio jack removed
+STARTUP: Initializing certificate store...
+I (4287) Custom certificates: Adding Letsencrypt ISRG ROOT X1 certificate to CA store
+I (4287) Custom certificates: Adding Letsencrypt ISRG ROOT X2 certificate to CA store
+I (4287) Custom certificates: Adding Tanmatsu APPS certificate to CA store
+I (4297) Custom certificates: Adding Tanmatsu OTA certificate to CA store
+STARTUP: Initializing radio...
+W (4407) WiFi remote: Starting ESP hosted...
+
+I (4407) transport: Attempt connection with slave: retry[0]
+I (4407) sdio_wrapper: SDIO master: Slot 1, Data-Lines: 4-bit Freq(KHz)[40000 KHz]
+I (4407) sdio_wrapper: GPIOs: CLK[17] CMD[16] D0[18] D1[19] D2[20] D3[21] Slave_Reset[4294967295]
+I (4407) sdio_wrapper: Queues: Tx[20] Rx[20] SDIO-Rx-Mode[1]
+E (4637) sdio_wrapper: sdio_card_fn_init failed
+I (4767) sdio_wrapper: Function 0 Blocksize: 512
+I (4767) sdio_wrapper: Function 1 Blocksize: 512
+I (4867) H_SDIO_DRV: Card init success, TRANSPORT_RX_ACTIVE
+I (4867) transport: set_transport_state: 1
+I (4867) transport: Waiting for esp_hosted slave to be ready
+I (4927) H_SDIO_DRV: Starting SDIO process rx task
+I (4927) H_SDIO_DRV: SDIO Host operating in STREAMING MODE
+I (4927) H_SDIO_DRV: Open data path at slave
+### recovery after crash
+I (1402) esp_psram: SPI SRAM memory test OK
+I (1412) cpu_start: Pro cpu start user code
+I (1412) cpu_start: cpu freq: 360000000 Hz
+I (1412) app_init: Application information:
+I (1413) app_init: Project name:     launcher
+I (1413) app_init: App version:      v0.2.6-2-g11a838d-dirty
+I (1413) app_init: Compile time:     Sep 14 2026 12:24:18
+I (1413) app_init: ELF file SHA256:  ee3fe8189...
+I (1413) app_init: ESP-IDF:          v6.0.2
+I (1414) efuse_init: Min chip rev:     v0.1
+I (1414) efuse_init: Max chip rev:     v1.99 
+I (1414) efuse_init: Chip rev:         v1.3
+I (1414) heap_init: Initializing. RAM available for dynamic allocation:
+I (1414) heap_init: At 4FF24D40 len 00016280 (88 KiB): RETENT_RAM
+I (1415) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1415) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1415) heap_init: At 501081A4 len 00007E5C (31 KiB): RTCRAM
+I (1415) heap_init: At 30100374 len 00001C8C (7 KiB): SPM
+I (1416) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1417) spi_flash: detected chip: winbond
+I (1417) spi_flash: flash io: qio
+I (1419) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1419) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1420) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1420) main_task: Started on CPU0
+I (1420) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1420) main_task: Calling app_main()
+I (1450) ST7701 panel: Install MIPI DSI LCD control IO
+I (1450) ST7701 panel: Install MIPI DSI LCD data panel
+I (1450) st7701: version: 2.0.2
+I (1590) st7701_mipi: LCD ID: FF FF FF
+I (1590) st7701_mipi:  st7701->madctl_val: 0x0, st7701->colmod_val: 0x77
+I (1810) ES8156: ES8156 detected, chip version: 0x1
+STARTUP: Applying settings...
+STARTUP: Checking bootloader...
+I (3270) spi_flash: flash io: qio
+STARTUP: Bootloader is up-to-date
+I (3290) Bootloader update: Bootloader is up to date, no update needed
+STARTUP: Mounting FAT filesystem...
+STARTUP: Loading icons...
+STARTUP: Checking I2C bus...
+I (3720) vfd: VFD at 0x13 on internal I2C switched off
+STARTUP: Initializing coprocessor...
+STARTUP: Mounting AppFS filesystem...
+I (3760) appfs: Meta page 0: valid (serial 222)
+I (3760) appfs: Meta page 1: valid (serial 221)
+I (3760) appfs: Using page 0 as current.
+STARTUP: Initializing clock...
+STARTUP: Initializing event handler...
+I (3790) Event: SD card inserted
+I (3790) sdcard: Acquiring SD LDO power control handle
+I (3790) sdcard: Initializing SD card
+I (3790) sdcard: Power cycling SD card...
+W (3790) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (4090) sdcard: Mounting filesystem
+I (4260) sdcard: Filesystem mounted
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+I (4260) Event: Audio jack removed
+STARTUP: Initializing certificate store...
+I (4280) Custom certificates: Adding Letsencrypt ISRG ROOT X1 certificate to CA store
+I (4280) Custom certificates: Adding Letsencrypt ISRG ROOT X2 certificate to CA store
+I (4280) Custom certificates: Adding Tanmatsu APPS certificate to CA store
+I (4290) Custom certificates: Adding Tanmatsu OTA certificate to CA store
+STARTUP: Initializing radio...
+W (4600) WiFi remote: Starting ESP hosted...
+
+I (4600) transport: Attempt connection with slave: retry[0]
+I (4600) sdio_wrapper: SDIO master: Slot 1, Data-Lines: 4-bit Freq(KHz)[40000 KHz]
+I (4600) sdio_wrapper: GPIOs: CLK[17] CMD[16] D0[18] D1[19] D2[20] D3[21] Slave_Reset[4294967295]
+I (4600) sdio_wrapper: Queues: Tx[20] Rx[20] SDIO-Rx-Mode[1]
+E (4830) sdio_wrapper: sdio_card_fn_init failed
+E (4950) sdmmc_common: sdmmc_init_ocr: send_op_cond (1) returned 0x107
+E (4950) sdio_wrapper: sdmmc_card_init failed
+I (5080) sdio_wrapper: Function 0 Blocksize: 512
+I (5080) sdio_wrapper: Function 1 Blocksize: 512
+I (5180) H_SDIO_DRV: Card init success, TRANSPORT_RX_ACTIVE
+I (5180) transport: set_transport_state: 1
+I (5180) transport: Waiting for esp_hosted slave to be ready
+I (5220) H_SDIO_DRV: SDIO Host operating in STREAMING MODE
+I (5220) H_SDIO_DRV: Open data path at slave
+I (5220) H_SDIO_DRV: Starting SDIO process rx task
+I (5760) H_SDIO_DRV: Received ESP_PRIV_IF type message
+I (5760) transport: Received INIT event from ESP32 peripheral
+I (5760) transport: EVENT: 12
+I (5760) transport: Identified slave [esp32c6]
+I (5760) transport: SDIO mode: slave: streaming, host: streaming
+I (5760) transport: EVENT: 11
+I (5760) transport: capabilities: 0xd
+I (5760) transport: Features supported are:
+I (5760) transport: 	 * WLAN
+I (5760) transport: 	   - HCI over SDIO
+I (5760) transport: 	   - BLE only
+I (5760) transport: EVENT: 13
+I (5760) transport: ESP board type is : 13 
+
+I (5760) transport: Base transport is set-up, TRANSPORT_TX_ACTIVE
+I (5760) H_API: Transport active
+I (5770) transport: Slave chip Id[12]
+I (5770) transport: raw_tp_dir[-], flow_ctrl: low[60] high[80]
+I (5770) transport: transport_delayed_init
+I (5770) esp_cli: Registering command: crash
+I (5770) esp_cli: Registering command: reboot
+I (5770) esp_cli: Registering command: mem-dump
+I (5770) esp_cli: Registering command: task-dump
+I (5770) esp_cli: Registering command: cpu-dump
+I (5770) esp_cli: Registering command: heap-trace
+I (5770) esp_cli: Registering command: sock-dump
+I (5770) esp_cli: Registering command: host-power-save
+I (5770) hci_stub_drv: Host BT Support: Disabled
+I (5770) H_SDIO_DRV: Received INIT event
+I (5770) H_SDIO_DRV: Event type: 0x22
+I (5770) H_SDIO_DRV: Write thread started
+I (6420) RPC_WRAP: Coprocessor Boot-up
+STARTUP: Initializing BadgeLink...
+I (6440) main: WiFi task started
+I (6450) main: LoRa radio version string: SX1261 V2D 2D02
+I (6450) main: Configured radio
+I (6450) main: LoRa mode: 1
+W (6450) main: SX1262 LoRa radio detected
+W (6460) rpc_rsp: Hosted RPC_Resp [0x21b], uid [7], resp code [12290]
+I (6460) main: LoRa set to standby mode
+I (6470) USB device: USB initialization
+I (6470) tusb_desc: 
+┌─────────────────────────────────┐
+│  USB Device Descriptor Summary  │
+├───────────────────┬─────────────┤
+│bDeviceClass       │ 0           │
+├───────────────────┼─────────────┤
+│bDeviceSubClass    │ 0           │
+├───────────────────┼─────────────┤
+│bDeviceProtocol    │ 0           │
+├───────────────────┼─────────────┤
+│bMaxPacketSize0    │ 64          │
+├───────────────────┼─────────────┤
+│idVendor           │ 0x16d0      │
+├───────────────────┼─────────────┤
+│idProduct          │ 0xf9a       │
+├───────────────────┼─────────────┤
+│bcdDevice          │ 0x100       │
+├───────────────────┼─────────────┤
+│iManufacturer      │ 0x1         │
+├───────────────────┼─────────────┤
+│iProduct           │ 0x2         │
+├───────────────────┼─────────────┤
+│iSerialNumber      │ 0x4         │
+├───────────────────┼─────────────┤
+│bNumConfigurations │ 0x1         │
+└───────────────────┴─────────────┘
+I (6470) TinyUSB: TinyUSB Driver installed on port 0
+I (6480) USB device: USB initialization DONE
+I (6480) USB device: USB debug listener task started
+STARTUP: Detecting Add-On boards...
+I (6480) main: LoRa configuration set
+W (6490) Add-on: No add-on detected
+W (6490) Add-on: No add-on detected
+I (6520) hid_kbd: Waiting for HID Device to be connected
+STARTUP: Initializing audio mixer...
+I (6530) audio_mixer: Audio mixer started (chunk=256 frames, 8 streams max)
+STARTUP: Initializing plugins...
+I (6550) plugin_mgr: Initializing plugin manager
+I (6550) plugin_mgr: Loading autostart plugins...
+I (6550) audio_mixer: Audio idle and DMA drained — entering power-saving state, disabling amplifier and I2S
+I (6560) plugin_mgr: Found plugin: Music Player (at.cavac.musicplayer) at /sd/plugins/at.cavac.musicplayer
+I (6560) WiFi connection: Connecting to WiFi...
+I (6560) WiFi connection: Connecting to network in slot 0
+I (6560) plugin_mgr: Found plugin: Startup Sound (at.cavac.startup) at /sd/plugins/at.cavac.startup
+I (6560) RPC_WRAP: ESP Event: wifi station started
+I (6570) RPC_WRAP: ESP Event: wifi station started
+I (6570) main: LoRa set to RX mode
+I (6570) H_API: esp_wifi_remote_connect
+I (6570) plugin_mgr: Found plugin: Turret (at.cavac.turret) at /sd/plugins/at.cavac.turret
+I (6580) plugin_mgr: Autostart complete: 0 plugins loaded
+I (6580) pm: Frequency switching config: CPU_MAX: 360, APB_MAX: 90, APB_MIN: 40, Light sleep: ENABLED
+I (6640) RPC_WRAP: ESP Event: Station mode: Connected
+I (6640) esp_wifi_remote: esp_wifi_internal_reg_rxcb: sta: 0x400c6e18
+I (7560) WiFi connection: WiFi started
+I (7570) main: LoRa mode (after setting to RX): 5
+I (8560) WiFi connection: WiFi started
+I (9560) WiFi connection: WiFi started
+I (9770) esp_netif_handlers: sta ip: 10.0.0.238, mask: 255.255.255.0, gw: 10.0.0.138
+I (9770) WiFi connection: Connected to WiFi

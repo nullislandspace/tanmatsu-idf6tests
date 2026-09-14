@@ -215,7 +215,7 @@ def main():
 
     def finish(verdict, code):
         result["verdict"] = verdict
-        if verdict in ("crash", "link-lost", "stalled", "timeout") and not args.no_recover:
+        if verdict in ("crash", "link-lost", "stalled", "timeout", "no-connection") and not args.no_recover:
             from recover import recover
             log.write(f"### recovery after {verdict}\n")
             result["recovery"] = recover(args.port, 60, log)

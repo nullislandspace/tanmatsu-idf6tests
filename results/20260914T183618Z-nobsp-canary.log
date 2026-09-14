@@ -1,0 +1,193 @@
+I (1892) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (nobsp) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+W (1952) console: Unknown command: IPING
+@@SDT-PONG@@ {"t":"PONG","variant":"nobsp","mounted":true,"idle_left_s":299,"free_int":497103,"free_psram":33025996} @@6342248d@@
+==============================================================
+IDF6 SD test, variant nobsp: RUN canary idle=2 reads=20
+@@SDT-BEGIN@@ {"t":"begin","variant":"nobsp","suite":"canary","args":"idle=2 reads=20","idf":"v6.0.2","hosted":1,"chunked_msync":0,"pm":1,"psram_mhz":200,"int_wdt_ms":300,"bsp_init":0,"grace_boot":0,"usb_host":0,"int_mounted":0,"reset_reason":3,"free_int":497015,"largest_int":319488,"free_psram":33025996,"card_name":"SE16G","card_mb":15193,"card_khz":40000} @@54f72462@@
+Pattern file present (8 MB), verifying through 4 KB internal reads...
+  baseline OK (1995 ms)
+@@SDT-PATTERN@@ {"t":"pattern","written":false,"baseline":true} @@12cca7a0@@
+Canary: 2048 KB at 0x48089038 .. 0x48289038
+@@SDT-CANARY@@ {"t":"canary","when":"idle","round":1,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@6fea24c0@@
+@@SDT-CANARY@@ {"t":"canary","when":"idle","round":2,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@b0a33475@@
+  page     unbuf   direct     db1  150000 @4096     #1: BAD  5859 KB/s
+    140 bad bytes (92 fill, 0 zero) in 34 run(s), 4-byte granularity (first runs only)
+    +2640 len 12: unrecognised, first word 0xffffffff
+    +4244 len 4: unrecognised, first word 0xffffffff
+    +6144 len 4: untouched fill
+    +10212 len 4: untouched fill
+    +16532 len 4: unrecognised, first word 0xffffffff
+    +18580 len 4: untouched fill
+    +20052 len 4: untouched fill
+    +27048 len 4: untouched fill
+    +32916 len 4: unrecognised, first word 0xc27cc27c
+    +34968 len 4: untouched fill
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":1,"addr":"0x48292000","ok":false,"n":150000,"errno":0,"bad":140,"bad_fill":92,"bad_zero":0,"runs":34,"gran":"4","us":25001,"kbps":5859,"detail":[{"s":2640,"l":12,"d":"unrecognised, first word 0xffffffff"},{"s":4244,"l":4,"d":"unrecognised, first word 0xffffffff"},{"s":6144,"l":4,"d":"untouched fill"},{"s":10212,"l":4,"d":"untouched fill"},{"s":16532,"l":4,"d":"unrecognised, first word 0xffffffff"},{"s":18580,"l":4,"d":"untouched fill"},{"s":20052,"l":4,"d":"untouched fill"},{"s":27048,"l":4,"d":"untouched fill"},{"s":32916,"l":4,"d":"unrecognised, first word 0xc27cc27c"},{"s":34968,"l":4,"d":"untouched fill"}]} @@a85813ce@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":1,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@9881f31d@@
+  page     unbuf   direct     db1  150000 @4096     #2: BAD  5754 KB/s
+    108298 bad bytes (514 fill, 436 zero) in 10 run(s), 4-byte granularity
+    +4244 len 4: unrecognised, first word 0x4e20ffff
+    +6136 len 4: untouched fill
+    +11256 len 4: unrecognised, first word 0xffffffff
+    +16532 len 4: unrecognised, first word 0xffffffff
+    +18580 len 4: untouched fill
+    +27016 len 4: untouched fill
+    +37012 len 4: unrecognised, first word 0xffffffff
+    +38912 len 4: unrecognised, first word 0xb62f54ef
+    +40956 len 108548: unrecognised, first word 0x54efffff
+    +149760 len 128: unrecognised, first word 0x538b0000
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":2,"addr":"0x482b7000","ok":false,"n":150000,"errno":0,"bad":108298,"bad_fill":514,"bad_zero":436,"runs":10,"gran":"4","us":25455,"kbps":5754,"detail":[{"s":4244,"l":4,"d":"unrecognised, first word 0x4e20ffff"},{"s":6136,"l":4,"d":"untouched fill"},{"s":11256,"l":4,"d":"unrecognised, first word 0xffffffff"},{"s":16532,"l":4,"d":"unrecognised, first word 0xffffffff"},{"s":18580,"l":4,"d":"untouched fill"},{"s":27016,"l":4,"d":"untouched fill"},{"s":37012,"l":4,"d":"unrecognised, first word 0xffffffff"},{"s":38912,"l":4,"d":"unrecognised, first word 0xb62f54ef"},{"s":40956,"l":108548,"d":"unrecognised, first word 0x54efffff"},{"s":149760,"l":128,"d":"unrecognised, first word 0x538b0000"}]} @@af174cc9@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":2,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@47c8e3a8@@
+Guru Meditation Error: Core  0 panic'ed (Store access fault). Exception was unhandled.
+
+Core  0 register dump:
+MEPC    : 0x4ff0fbb8  RA      : 0x4ff0fb7c  SP      : 0x4ff28ac0  GP      : 0x4ff13780  
+TP      : 0x4ff293b0  T0      : 0x4007aa46  T1      : 0x30000000  T2      : 0x700ea5a8  
+S0/FP   : 0x00026000  S1      : 0x000249f0  A0      : 0x0000001a  A1      : 0x00001000  
+A2      : 0x000249f0  A3      : 0x48000084  A4      : 0x001401d2  A5      : 0x00144800  
+A6      : 0xa0000000  A7      : 0x0000000a  S2      : 0x00000000  S3      : 0x482db9ec  
+S4      : 0x48000014  S5      : 0x00001000  S6      : 0x00000010  S7      : 0x00000001  
+S8      : 0x00000012  S9      : 0x48000038  S10     : 0x00000000  S11     : 0x00000000  
+T3      : 0x00000000  T4      : 0x396b8833  T5      : 0xb223597e  T6      : 0x1265ae2a  
+MSTATUS : 0x00011880  MTVEC   : 0x4ff00003  MCAUSE  : 0x00000007  MTVAL   : 0x001401de  
+MHARTID : 0x00000000  
+
+Stack memory:
+4ff28ac0: 0x4ff29070 0x00000002 0x48081038 0x00000014 0x4ff29070 0x48089038 0x00200000 0x00000000
+4ff28ae0: 0x000249f0 0x00001000 0x48000000 0x4ff0ed24 0x4007d800 0x00000000 0x00000000 0x00000000
+4ff28b00: 0x00001000 0x00000000 0x4ff1c5b8 0x4ff0ed6a 0x4ff29070 0x48089038 0x00200000 0x4ff0119e
+4ff28b20: 0x00001000 0x00000000 0x000249f0 0x4ff01268 0x400a2f28 0x00001400 0x000249f0 0x00001000
+4ff28b40: 0x00001000 0x00000000 0x000249f0 0x4ff01162 0x4ff291cb 0x00000000 0x4ff28fcc 0x4ff08a82
+4ff28b60: 0x0001a70a 0x00000004 0x4ff133c0 0x400267ba 0x4ff291cb 0x00000000 0x4ff290d0 0x4002705c
+4ff28b80: 0x00200000 0x00000001 0x00000000 0x00000000 0x00000000 0x00000000 0x4ff293fc 0x40084882
+4ff28ba0: 0x00200000 0x48289034 0x00000000 0x00000000 0x00000000 0x00000000 0x4ff293fc 0x40084882
+4ff28bc0: 0x00200000 0x00000000 0x4ff1cfa8 0x4ff0ce62 0x00000000 0x4ff1cff4 0x4ff1cfa8 0x40082f6e
+4ff28be0: 0xffffffff 0x00000000 0x4ff1a5fb 0x00000000 0x4ff1a5fb 0x4ff293fc 0x4ff1cfa8 0x4ff28c6c
+4ff28c00: 0xffffffff 0x00000000 0xc0ad7cd7 0x00000000 0x00200000 0x48289034 0x00000000 0x00000000
+4ff28c20: 0x00000000 0x00000000 0x4ff293fc 0x40084882 0x00200000 0x00000000 0x4ff3fb04 0x4ff0ce62
+4ff28c40: 0x00000000 0x4ff3fb50 0x4ff3fb04 0x40082f6e 0x4ff1a5fa 0x0000007a 0x4ff13268 0x00000000
+4ff28c60: 0x00200004 0x400a27ac 0x4ff19f80 0x4ff1cfa8 0x4007d800 0x48289034 0xc0ad7cd7 0x00000000
+4ff28c80: 0x00200004 0x400a27ac 0x4ff19f80 0x4002880a 0x00200004 0x400a27ac 0x4ff1a000 0x40028882
+4ff28ca0: 0x9b9e9a8d 0x80808080 0x001f6fe4 0x4ff28cc8 0x0e5c72c4 0x00000000 0x00200000 0x40026d52
+4ff28cc0: 0x00000000 0x00000002 0x400a2dac 0x00000002 0x48089038 0x00200000 0x00000000 0x4ff28d30
+4ff28ce0: 0x696e676f 0x2c646573 0x400a2dac 0x00000002 0x2064726f 0x66667830 0x66666666 0x7d226666
+4ff28d00: 0x73227b2c 0x36313a22 0x2c323335 0x3a226c22 0x64222c34 0x75223a22 0x6365726e 0x696e676f
+4ff28d20: 0x2c646573 0x72696620 0x77207473 0x2064726f 0x66667800 0x66666666 0x7d226666 0x73227b2c
+4ff28d40: 0x38313a22 0x2c303835 0x3a226c22 0x64222c34 0x75223a22 0x756f746e 0x64656863 0x6c696620
+4ff28d60: 0x2c7d226c 0x2273227b 0x3037323a 0x222c3631 0x343a226c 0x2264222c 0x6e75223a 0x63756f74
+4ff28d80: 0x20646568 0x6c6c6966 0x7b2c7d22 0x3a227322 0x31303733 0x6c222c32 0x2c343a22 0x3a226422
+4ff28da0: 0x726e7522 0x676f6365 0x6573696e 0x66202c64 0x74737269 0x726f7720 0x78302064 0x66666666
+4ff28dc0: 0x66666666 0x7b2c7d22 0x3a227322 0x31393833 0x6c222c32 0x2c343a22 0x3a226422 0x726e7522
+4ff28de0: 0x676f6365 0x6573696e 0x66202c64 0x74737269 0x726f7720 0x78302064 0x66323662 0x66653435
+4ff28e00: 0x7b2c7d22 0x3a227322 0x35393034 0x6c222c36 0x30313a22 0x38343538 0x2264222c 0x6e75223a
+4ff28e20: 0x6f636572 0x73696e67 0x202c6465 0x73726966 0x6f772074 0x30206472 0x65343578 0x66666666
+4ff28e40: 0x2c7d2266 0x2273227b 0x3934313a 0x2c303637 0x3a226c22 0x2c383231 0x3a226422 0x726e7522
+4ff28e60: 0x676f6365 0x6573696e 0x66202c64 0x74737269 0x726f7720 0x78302064 0x62383335 0x30303030
+4ff28e80: 0x4f007d22 0x00000002 0x0000002c 0x00000000 0x00000000 0x00000002 0x48081038 0x00000014
+4ff28ea0: 0x4ff290d0 0x48089038 0x00200000 0x00000000 0x400a90dc 0x0007ff2b 0x48080f4f 0x4007aa74
+
+
+
+ELF file SHA256: 84e782ad7
+
+Rebooting...
+ESP-ROM:esp32p4-eco2-20240710
+Build:Jul 10 2024
+rst:0xc (SW_CPU_RESET),boot:0x31f (SPI_FAST_FLASH_BOOT)
+Core0 Saved PC:0x4ff05106
+Core1 Saved PC:0x4ff052a8
+SPI mode:DIO, clock div:1
+load:0x4ff33e00,len:0x125c
+load:0x4ff29ed0,len:0xc48
+load:0x4ff2cbd0,len:0x3698
+entry 0x4ff29ed0
+I (1317) esp_psram: SPI SRAM memory test OK
+I (1327) cpu_start: Pro cpu start user code
+I (1327) cpu_start: cpu freq: 360000000 Hz
+I (1327) app_init: Application information:
+I (1327) app_init: Project name:     application
+I (1328) app_init: App version:      pre-v6-refresh-backup-5-g7ee84c
+I (1328) app_init: Compile time:     Sep 14 2026 20:34:23
+I (1328) app_init: ELF file SHA256:  84e782ad7...
+I (1328) app_init: ESP-IDF:          v6.0.2
+I (1328) efuse_init: Min chip rev:     v0.1
+I (1329) efuse_init: Max chip rev:     v1.99 
+I (1329) efuse_init: Chip rev:         v1.3
+I (1329) heap_init: Initializing. RAM available for dynamic allocation:
+I (1329) heap_init: At 4FF1C180 len 0001EE40 (123 KiB): RETENT_RAM
+I (1330) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1330) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1330) heap_init: At 50108180 len 00007E80 (31 KiB): RTCRAM
+I (1331) heap_init: At 30100088 len 00001F78 (7 KiB): SPM
+I (1331) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1332) spi_flash: detected chip: winbond
+I (1332) spi_flash: flash io: qio
+I (1334) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1334) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1335) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1335) main_task: Started on CPU0
+I (1335) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1335) main_task: Calling app_main()
+I (1365) sdcard: Power cycling SD card...
+W (1365) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (1665) sdcard: SD card power cycle complete
+I (1665) sdcard: Initializing SD card (SDMMC 4-bit mode)
+I (1665) sdcard: Mounting filesystem
+I (1835) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (nobsp) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+@@SDT-READY@@ {"t":"READY","variant":"nobsp","mounted":true,"idle_left_s":298,"free_int":497103,"free_psram":33025996} @@74c82bc3@@
+### recovery after crash
+I (1310) esp_psram: SPI SRAM memory test OK
+I (1320) cpu_start: Pro cpu start user code
+I (1320) cpu_start: cpu freq: 360000000 Hz
+I (1320) app_init: Application information:
+I (1321) app_init: Project name:     application
+I (1321) app_init: App version:      pre-v6-refresh-backup-5-g7ee84c
+I (1321) app_init: Compile time:     Sep 14 2026 20:34:23
+I (1321) app_init: ELF file SHA256:  84e782ad7...
+I (1321) app_init: ESP-IDF:          v6.0.2
+I (1322) efuse_init: Min chip rev:     v0.1
+I (1322) efuse_init: Max chip rev:     v1.99 
+I (1322) efuse_init: Chip rev:         v1.3
+I (1322) heap_init: Initializing. RAM available for dynamic allocation:
+I (1323) heap_init: At 4FF1C180 len 0001EE40 (123 KiB): RETENT_RAM
+I (1323) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1323) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1324) heap_init: At 50108180 len 00007E80 (31 KiB): RTCRAM
+I (1324) heap_init: At 30100088 len 00001F78 (7 KiB): SPM
+I (1324) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1325) spi_flash: detected chip: winbond
+I (1325) spi_flash: flash io: qio
+I (1327) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1327) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1328) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1328) main_task: Started on CPU0
+I (1328) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1328) main_task: Calling app_main()
+I (1358) sdcard: Power cycling SD card...
+W (1358) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (1658) sdcard: SD card power cycle complete
+I (1658) sdcard: Initializing SD card (SDMMC 4-bit mode)
+I (1658) sdcard: Mounting filesystem
+I (1828) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (nobsp) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+@@SDT-PONG@@ {"t":"PONG","variant":"nobsp","mounted":true,"idle_left_s":299,"free_int":497103,"free_psram":33025996} @@6342248d@@

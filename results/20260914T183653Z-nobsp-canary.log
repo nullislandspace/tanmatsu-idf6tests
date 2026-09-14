@@ -1,0 +1,197 @@
+@@SDT-PONG@@ {"t":"PONG","variant":"nobsp","mounted":true,"idle_left_s":299,"free_int":497103,"free_psram":33025996} @@6342248d@@
+==============================================================
+IDF6 SD test, variant nobsp: RUN canary idle=2 reads=20 pmlock=apb
+@@SDT-BEGIN@@ {"t":"begin","variant":"nobsp","suite":"canary","args":"idle=2 reads=20 pmlock=apb","idf":"v6.0.2","hosted":1,"chunked_msync":0,"pm":1,"psram_mhz":200,"int_wdt_ms":300,"bsp_init":0,"grace_boot":0,"usb_host":0,"int_mounted":0,"reset_reason":3,"free_int":497015,"largest_int":319488,"free_psram":33025996,"card_name":"SE16G","card_mb":15193,"card_khz":40000} @@f1bf99cc@@
+Pattern file present (8 MB), verifying through 4 KB internal reads...
+Guru Meditation Error: Core  1 panic'ed (Interrupt wdt timeout on CPU1). 
+
+Core  1 register dump:
+MEPC    : 0x4ff00ca0  RA      : 0x4ff065ae  SP      : 0x4ff177b0  GP      : 0x4ff13780  
+TP      : 0x4ff2a080  T0      : 0x4ff02dd4  T1      : 0x00000000  T2      : 0x00000000  
+S0/FP   : 0x00000000  S1      : 0x4ff13700  A0      : 0x00000002  A1      : 0x00000002  
+A2      : 0x00010001  A3      : 0x00000001  A4      : 0x00000001  A5      : 0x00000000  
+A6      : 0x00000168  A7      : 0x00000001  S2      : 0x00000008  S3      : 0x00000000  
+S4      : 0x00000000  S5      : 0x00000000  S6      : 0x00000000  S7      : 0x00000000  
+S8      : 0x00000000  S9      : 0x00000000  S10     : 0x00000000  S11     : 0x00000000  
+T3      : 0x00000000  T4      : 0x00000000  T5      : 0x00000000  T6      : 0x00000000  
+MSTATUS : 0x00001880  MTVEC   : 0x4ff00003  MCAUSE  : 0x00001018  MTVAL   : 0x00000000  
+MHARTID : 0x00000001  
+
+Stack memory:
+4ff177b0: 0x00000000 0x00000000 0x00000000 0x4ff065ae 0x00000008 0x4ff13700 0x00000003 0x4ff050d0
+4ff177d0: 0x00000008 0x4ff13700 0x00000003 0x4ff02cae 0x00000001 0x00000168 0x00000004 0x00000000
+4ff177f0: 0x00000000 0x0000005a 0x00000001 0x00000168 0x00000001 0x00000000 0x00000000 0x00000168
+4ff17810: 0x00000008 0x00000003 0x00000001 0x4ff02dd2 0x00001880 0x4ff271c8 0x4ff271b0 0x4ff02ab4
+4ff17830: 0x4ff1bdf0 0xb8000011 0x00000001 0x4ff02cfc 0x00001880 0xb8000011 0x1f000000 0x4ff02de8
+4ff17850: 0x4ff0cd76 0x00000000 0x00000004 0x4ff002ce 0x4ff293fc 0x00000000 0x00000000 0x00000000
+4ff17870: 0x00000000 0x00000000 0x500e2000 0x4ff0875c 0x4ff08768 0x00000000 0x4ff17884 0x00000000
+4ff17890: 0x00000000 0x00000000 0x4ff1789c 0xffffffff 0x4ff1789c 0x4ff1789c 0x00000000 0x4ff178b0
+4ff178b0: 0xffffffff 0x4ff178b0 0x4ff178b0 0x00000001 0x00000001 0x00000000 0x00000001 0x00000000
+4ff178d0: 0xb33fffff 0x00000000 0x00000000 0x4ff178d8 0x00000000 0x00000000 0x00000000 0x4ff178f0
+4ff178f0: 0xffffffff 0x4ff178f0 0x4ff178f0 0x00000000 0x4ff17904 0xffffffff 0x4ff17904 0x4ff17904
+4ff17910: 0x00000001 0x00000001 0x00000000 0x00000001 0x00000000 0xb33fffff 0x00000000 0x00000000
+4ff17930: 0x4ff1792c 0x00000000 0x00000000 0x00000000 0x4ff17944 0xffffffff 0x4ff17944 0x4ff17944
+4ff17950: 0x00000000 0x4ff17958 0xffffffff 0x4ff17958 0x4ff17958 0x00000001 0x00000001 0x00000000
+4ff17970: 0x00000001 0x00000000 0xb33fffff 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000
+4ff17990: 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000
+4ff179b0: 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000
+4ff179d0: 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000
+4ff179f0: 0x00000000 0x00000000 0x00000000 0x00000000 0x74746150 0x206e7265 0x656c6966 0x65727020
+4ff17a10: 0x746e6573 0x20382820 0x2c29424d 0x72657620 0x69796669 0x7420676e 0x756f7268 0x34206867
+4ff17a30: 0x20424b20 0x65746e69 0x6c616e72 0x61657220 0x2e2e7364 0x22650a2e 0x4553223a 0x22473631
+4ff17a50: 0x6163222c 0x6d5f6472 0x313a2262 0x33393135 0x6163222c 0x6b5f6472 0x3a227a68 0x30303034
+4ff17a70: 0x40207d30 0x62316640 0x63393966 0x0a404063 0x500e2000 0x4ff0875c 0x4ff08768 0x00000101
+4ff17a90: 0x48000000 0x4a000000 0x02000000 0x00000000 0x00000000 0x00000000 0x48000000 0x4a000000
+4ff17ab0: 0x02000000 0x00000000 0x00000000 0x00000000 0x48000a08 0x48000a30 0x48000a54 0x4808101c
+4ff17ad0: 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000001
+4ff17af0: 0x00009c40 0x00000104 0x00000000 0x00000011 0x00000000 0x00000010 0x00000000 0x00000012
+4ff17b10: 0x00000000 0x00000013 0x00000000 0x00000014 0x00000000 0x00000015 0x00000000 0xffffffff
+4ff17b30: 0x00000101 0x00140014 0x00000000 0x00000000 0x00000000 0x00000000 0x4ff1d04c 0x4ff1d0cc
+4ff17b50: 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x4001c40e 0x4001c40e
+4ff17b70: 0x4001c40e 0x4001c40e 0x4001c40e 0x4001c40e 0x4001c40e 0x4001c40e 0x4001c40e 0x4001c40e
+4ff17b90: 0x4001c40e 0x4001c40e 0x4001c40e 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000
+
+Core  0 register dump:
+MEPC    : 0x4ff052ba  RA      : 0x4ff052a8  SP      : 0x4ff299b0  GP      : 0x4ff13780  
+TP      : 0x4ff29a20  T0      : 0x00000000  T1      : 0x00000000  T2      : 0x00000000  
+S0/FP   : 0x00000008  S1      : 0x00000000  A0      : 0x00000000  A1      : 0x00000000  
+A2      : 0x7f000000  A3      : 0x00000000  A4      : 0x00000001  A5      : 0x3ff06000  
+A6      : 0x00000168  A7      : 0x00000001  S2      : 0x00000001  S3      : 0x00000000  
+S4      : 0x00000000  S5      : 0x00000000  S6      : 0x00000000  S7      : 0x00000000  
+S8      : 0x00000000  S9      : 0x00000000  S10     : 0x00000000  S11     : 0x00000000  
+T3      : 0x00000000  T4      : 0x00000000  T5      : 0x00000000  T6      : 0x00000000  
+MSTATUS : 0x00011880  MTVEC   : 0x4ff00003  MCAUSE  : 0x00001018  MTVAL   : 0x00000000  
+MHARTID : 0x00000000  
+
+Stack memory:
+4ff299b0: 0x00000000 0x1f000000 0x00000000 0x400813f2 0x00000000 0x00000000 0x00000008 0x40081ae6
+4ff299d0: 0x00000000 0x00000000 0x00000000 0x40083768 0x00000000 0x00000000 0x00000000 0x400823d6
+4ff299f0: 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000
+4ff29a10: 0x00000000 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0x00000000 0x4ff132b8 0x4ff13268 0x4ff13268
+4ff29a30: 0x00000000 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0x00000000 0x4ff29464 0x4ff29464 0x00000000
+4ff29a50: 0x00000000 0x00000000 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0x00000064 0x4ff29930 0x00000000
+4ff29a70: 0x4ff16a6c 0x4ff2a0d8 0x4ff29a68 0x4ff16a64 0x00000019 0x00000000 0x00000000 0x4ff29a68
+4ff29a90: 0x00000000 0x00000000 0x4ff29464 0x454c4449 0x00000030 0x00000000 0x00000000 0x00000000
+4ff29ab0: 0x4ff29a60 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000200 0x00000600
+4ff29ad0: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29af0: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29b10: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29b30: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29b50: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29b70: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29b90: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29bb0: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29bd0: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29bf0: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29c10: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29c30: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29c50: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29c70: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29c90: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29cb0: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29cd0: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29cf0: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29d10: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29d30: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29d50: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29d70: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff29d90: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+
+
+
+ELF file SHA256: 84e782ad7
+
+Rebooting...
+ESP-ROM:esp32p4-eco2-20240710
+Build:Jul 10 2024
+rst:0xc (SW_CPU_RESET),boot:0x31f (SPI_FAST_FLASH_BOOT)
+Core0 Saved PC:0x4ff0bc7c
+Core1 Saved PC:0x4ff05140
+SPI mode:DIO, clock div:1
+load:0x4ff33e00,len:0x125c
+load:0x4ff29ed0,len:0xc48
+load:0x4ff2cbd0,len:0x3698
+entry 0x4ff29ed0
+I (1318) esp_psram: SPI SRAM memory test OK
+I (1328) cpu_start: Pro cpu start user code
+I (1328) cpu_start: cpu freq: 360000000 Hz
+I (1328) app_init: Application information:
+I (1328) app_init: Project name:     application
+I (1329) app_init: App version:      pre-v6-refresh-backup-5-g7ee84c
+I (1329) app_init: Compile time:     Sep 14 2026 20:34:23
+I (1329) app_init: ELF file SHA256:  84e782ad7...
+I (1329) app_init: ESP-IDF:          v6.0.2
+I (1329) efuse_init: Min chip rev:     v0.1
+I (1330) efuse_init: Max chip rev:     v1.99 
+I (1330) efuse_init: Chip rev:         v1.3
+I (1330) heap_init: Initializing. RAM available for dynamic allocation:
+I (1330) heap_init: At 4FF1C180 len 0001EE40 (123 KiB): RETENT_RAM
+I (1331) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1331) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1331) heap_init: At 50108180 len 00007E80 (31 KiB): RTCRAM
+I (1331) heap_init: At 30100088 len 00001F78 (7 KiB): SPM
+I (1332) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1333) spi_flash: detected chip: winbond
+I (1333) spi_flash: flash io: qio
+I (1335) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1335) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1336) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1336) main_task: Started on CPU0
+I (1336) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1336) main_task: Calling app_main()
+I (1366) sdcard: Power cycling SD card...
+W (1366) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (1666) sdcard: SD card power cycle complete
+I (1666) sdcard: Initializing SD card (SDMMC 4-bit mode)
+I (1666) sdcard: Mounting filesystem
+I (1836) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (nobsp) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+@@SDT-READY@@ {"t":"READY","variant":"nobsp","mounted":true,"idle_left_s":298,"free_int":497103,"free_psram":33025996} @@74c82bc3@@
+### recovery after crash
+I (1310) esp_psram: SPI SRAM memory test OK
+I (1320) cpu_start: Pro cpu start user code
+I (1320) cpu_start: cpu freq: 360000000 Hz
+I (1320) app_init: Application information:
+I (1320) app_init: Project name:     application
+I (1320) app_init: App version:      pre-v6-refresh-backup-5-g7ee84c
+I (1321) app_init: Compile time:     Sep 14 2026 20:34:23
+I (1321) app_init: ELF file SHA256:  84e782ad7...
+I (1321) app_init: ESP-IDF:          v6.0.2
+I (1321) efuse_init: Min chip rev:     v0.1
+I (1322) efuse_init: Max chip rev:     v1.99 
+I (1322) efuse_init: Chip rev:         v1.3
+I (1322) heap_init: Initializing. RAM available for dynamic allocation:
+I (1322) heap_init: At 4FF1C180 len 0001EE40 (123 KiB): RETENT_RAM
+I (1323) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1323) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1323) heap_init: At 50108180 len 00007E80 (31 KiB): RTCRAM
+I (1323) heap_init: At 30100088 len 00001F78 (7 KiB): SPM
+I (1324) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1325) spi_flash: detected chip: winbond
+I (1325) spi_flash: flash io: qio
+I (1327) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1327) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1328) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1328) main_task: Started on CPU0
+I (1328) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1328) main_task: Calling app_main()
+I (1358) sdcard: Power cycling SD card...
+W (1358) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (1658) sdcard: SD card power cycle complete
+I (1658) sdcard: Initializing SD card (SDMMC 4-bit mode)
+I (1658) sdcard: Mounting filesystem
+I (1828) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (nobsp) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+@@SDT-PONG@@ {"t":"PONG","variant":"nobsp","mounted":true,"idle_left_s":299,"free_int":497103,"free_psram":33025996} @@6342248d@@
