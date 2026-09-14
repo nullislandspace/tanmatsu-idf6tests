@@ -1,38 +1,46 @@
+// IDF6 SD card test -- see README.md and idf6_sd_fuckup.md.
+//
+// Mounts the SD card the way tanmatsu-graceloader does, then runs sdtest:
+// large reads straight into PSRAM (and friends), each checked against a
+// self-describing pattern file. The report goes to the console, the screen
+// and /sd/idf6test/results-<variant>.txt.
+
+#include <inttypes.h>
 #include <stdio.h>
+#include <string.h>
 #include "bsp/device.h"
 #include "bsp/display.h"
 #include "bsp/input.h"
-#include "bsp/led.h"
-#include "bsp/power.h"
-#include "custom_certificates.h"
 #include "driver/gpio.h"
-#include "esp_lcd_panel_ops.h"
-#include "esp_lcd_types.h"
+#include "esp_heap_caps.h"
+#include "esp_idf_version.h"
 #include "esp_log.h"
-#include "hal/lcd_types.h"
+#include "esp_timer.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "nvs_flash.h"
 #include "pax_fonts.h"
 #include "pax_gfx.h"
 #include "pax_text.h"
-#include "pax_types.h"
-#include "portmacro.h"
+#include "sdcard.h"
+#include "sdkconfig.h"
+#include "sdtest.h"
+
+#if CONFIG_IDF6TEST_WITH_HOSTED
 #include "wifi_connection.h"
 #include "wifi_remote.h"
-
-// Constants
-static char const TAG[] = "main";
-
-#if defined(CONFIG_BSP_TARGET_KAMI)
-#define BLACK 0
-#define WHITE 1
-#define RED   2
-#else
-#define BLACK 0xFF000000
-#define WHITE 0xFFFFFFFF
-#define RED   0xFFFF0000
 #endif
 
-// Global variables
+static char const TAG[] = "idf6test";
+
+#define BLACK 0xFF000000
+#define WHITE 0xFFFFFFFF
+
+#define FONT_SIZE    9
+#define SCREEN_LINES 52
+#define LINE_LEN     160
+#define REPORT_BYTES (256 * 1024)
+
 static size_t                     display_h_res        = 0;
 static size_t                     display_v_res        = 0;
 static bsp_display_color_format_t display_color_format = 0;
@@ -40,48 +48,141 @@ static bsp_display_endianness_t   display_data_endian  = 0;
 static pax_buf_t                  fb                   = {0};
 static QueueHandle_t              input_event_queue    = NULL;
 
-#if defined(CONFIG_BSP_TARGET_KAMI)
-// Temporary addition for supporting epaper devices (irrelevant for Tanmatsu)
-static pax_col_t palette[] = {0xffffffff, 0xff000000, 0xffff0000};  // white, black, red
-#endif
+static char   screen_lines[SCREEN_LINES][LINE_LEN];
+static int    screen_count = 0;
+static char*  report_buf   = NULL;
+static size_t report_len   = 0;
 
-static void blit(void) {
-    esp_err_t res = bsp_display_blit(0, 0, display_h_res, display_v_res, pax_buf_get_pixels(&fb));
-    if (res != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to blit to display: %d", res);
+// ---- Output -----------------------------------------------------------------
+
+static void redraw(void) {
+    if (pax_buf_get_width(&fb) == 0) return;
+    pax_background(&fb, BLACK);
+    int first = screen_count > SCREEN_LINES ? screen_count - SCREEN_LINES : 0;
+    for (int i = first, y = 0; i < screen_count; i++, y++) {
+        pax_draw_text(&fb, WHITE, pax_font_sky_mono, FONT_SIZE, 2, y * FONT_SIZE, screen_lines[i % SCREEN_LINES]);
     }
+    bsp_display_blit(0, 0, display_h_res, display_v_res, pax_buf_get_pixels(&fb));
 }
 
-static void display_message(const char* message) {
-    if (pax_buf_get_width(&fb) > 0) {
-        pax_background(&fb, BLACK);
-        pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 0, message);
-        blit();
-    } else {
-        ESP_LOGI(TAG, "Message: %s", message);
+static void log_line(const char* line) {
+    printf("%s\n", line);
+    snprintf(screen_lines[screen_count % SCREEN_LINES], LINE_LEN, "%s", line);
+    screen_count++;
+    if (report_buf) {
+        int n = snprintf(report_buf + report_len, REPORT_BYTES - report_len, "%s\n", line);
+        if (n > 0 && report_len + n < REPORT_BYTES) report_len += n;
     }
+    redraw();
 }
 
-void app_main(void) {
-    // Start the GPIO interrupt service
-    gpio_install_isr_service(0);
-
-    // Initialize the Non Volatile Storage partition
-    esp_err_t res = nvs_flash_init();
-    if (res == ESP_ERR_NVS_NO_FREE_PAGES || res == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-        res = nvs_flash_erase();
-        if (res != ESP_OK) {
-            ESP_LOGE(TAG, "Failed to erase NVS flash: %d", res);
-            return;
-        }
-        res = nvs_flash_init();
-    }
-    if (res != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to initialize NVS flash: %d", res);
+static void save_report(void) {
+    if (!report_buf) return;
+    char path[64];
+    snprintf(path, sizeof(path), "/sd/idf6test/results-%s.txt", CONFIG_IDF6TEST_VARIANT_NAME);
+    FILE* f = fopen(path, "a");
+    if (!f) {
+        ESP_LOGE(TAG, "cannot write %s", path);
         return;
     }
+    fwrite(report_buf, 1, report_len, f);
+    fprintf(f, "\n");
+    fclose(f);
+    printf("Report appended to %s\n", path);
+}
 
-    // Initialize the Board Support Package
+// ---- Display setup (from tanmatsu-template) ----------------------------------
+
+static void init_display(void) {
+    esp_err_t res =
+        bsp_display_get_parameters(&display_h_res, &display_v_res, &display_color_format, &display_data_endian);
+    if (res != ESP_OK) {
+        ESP_LOGE(TAG, "no display parameters: %d", res);
+        return;
+    }
+    pax_buf_init(&fb, NULL, display_h_res, display_v_res, PAX_BUF_24_888RGB);
+    pax_buf_reversed(&fb, display_data_endian == BSP_DISPLAY_ENDIAN_BIG);
+    switch (bsp_display_get_default_rotation()) {
+        case BSP_DISPLAY_ROTATION_90:
+            pax_buf_set_orientation(&fb, PAX_O_ROT_CCW);
+            break;
+        case BSP_DISPLAY_ROTATION_180:
+            pax_buf_set_orientation(&fb, PAX_O_ROT_HALF);
+            break;
+        case BSP_DISPLAY_ROTATION_270:
+            pax_buf_set_orientation(&fb, PAX_O_ROT_CW);
+            break;
+        default:
+            break;
+    }
+}
+
+// ---- Test run ---------------------------------------------------------------
+
+static void header(const char* what) {
+    char line[LINE_LEN];
+    log_line("==============================================================");
+    snprintf(line, sizeof(line), "IDF6 SD test, variant %s: %s", CONFIG_IDF6TEST_VARIANT_NAME, what);
+    log_line(line);
+    snprintf(line, sizeof(line), "ESP-IDF %s, ESP-Hosted %s, chunked C2M msync %s", esp_get_idf_version(),
+#if CONFIG_IDF6TEST_WITH_HOSTED
+             "on",
+#else
+             "off",
+#endif
+#if CONFIG_ESP_MM_CACHE_MSYNC_C2M_CHUNKED_OPS
+             "on"
+#else
+             "off"
+#endif
+    );
+    log_line(line);
+    snprintf(line, sizeof(line), "Free: internal %u (largest %u), PSRAM %u",
+             (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
+             (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL),
+             (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
+    log_line(line);
+}
+
+static void run_tests(const char* what) {
+    report_len = 0;
+    header(what);
+    int64_t t0 = esp_timer_get_time();
+    sdtest_run(log_line);
+    char line[LINE_LEN];
+    snprintf(line, sizeof(line), "Run took %lld s", (esp_timer_get_time() - t0) / 1000000);
+    log_line(line);
+    save_report();
+}
+
+#if CONFIG_IDF6TEST_WITH_HOSTED
+// Called from app_main, whose stack is in internal RAM: wifi_connect_try_all()
+// reads the saved networks from NVS, which needs that.
+static bool connect_wifi(void) {
+    log_line("Connecting to WiFi (networks saved in the launcher)...");
+    if (wifi_remote_initialize() != ESP_OK) {
+        log_line("  radio not responding");
+        return false;
+    }
+    wifi_connection_init_stack();
+    if (wifi_connect_try_all() != ESP_OK) {
+        log_line("  could not connect");
+        return false;
+    }
+    log_line("  connected");
+    return true;
+}
+#endif
+
+// ---- Main -------------------------------------------------------------------
+
+void app_main(void) {
+    gpio_install_isr_service(0);
+
+    // Not erased on failure: NVS holds the launcher's WiFi networks.
+    esp_err_t res = nvs_flash_init();
+    if (res != ESP_OK) ESP_LOGE(TAG, "NVS init failed: %d", res);
+
     const bsp_configuration_t bsp_configuration = {
         .display =
             {
@@ -91,257 +192,61 @@ void app_main(void) {
     };
     res = bsp_device_initialize(&bsp_configuration);
     if (res != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to initialize BSP: %d", res);
+        ESP_LOGE(TAG, "BSP init failed: %d", res);
         return;
     }
-
-    // Get display parameters and rotation
-    res = bsp_display_get_parameters(&display_h_res, &display_v_res, &display_color_format, &display_data_endian);
-    if (res != ESP_ERR_NOT_SUPPORTED) {
-        if (res != ESP_OK) {
-            ESP_LOGE(TAG, "Failed to get display parameters: %d", res);
-            return;
-        }
-
-        // Convert ESP-IDF color format into PAX buffer type
-        pax_buf_type_t format = PAX_BUF_24_888RGB;
-        switch (display_color_format) {
-            case BSP_DISPLAY_COLOR_FORMAT_1_PAL:
-                format = PAX_BUF_1_PAL;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_2_PAL:
-                format = PAX_BUF_2_PAL;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_4_PAL:
-                format = PAX_BUF_4_PAL;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_8_PAL:
-                format = PAX_BUF_8_PAL;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_16_PAL:
-                format = PAX_BUF_16_PAL;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_1_GREY:
-                format = PAX_BUF_1_GREY;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_2_GREY:
-                format = PAX_BUF_2_GREY;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_4_GREY:
-                format = PAX_BUF_4_GREY;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_8_GREY:
-                format = PAX_BUF_8_GREY;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_8_332RGB:
-                format = PAX_BUF_8_332RGB;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_16_565RGB:
-                format = PAX_BUF_16_565RGB;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_4_1111ARGB:
-                format = PAX_BUF_4_1111ARGB;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_8_2222ARGB:
-                format = PAX_BUF_8_2222ARGB;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_16_4444ARGB:
-                format = PAX_BUF_16_4444ARGB;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_24_888RGB:
-                format = PAX_BUF_24_888RGB;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_32_8888ARGB:
-                format = PAX_BUF_32_8888ARGB;
-                break;
-            case BSP_DISPLAY_COLOR_FORMAT_18_666RGB:
-            default:
-                ESP_LOGW(TAG, "BSP requests color format not supported by PAX (%u)", format);
-                break;
-        }
-
-        // Convert BSP display rotation format into PAX orientation type
-        bsp_display_rotation_t display_rotation = bsp_display_get_default_rotation();
-        pax_orientation_t      orientation      = PAX_O_UPRIGHT;
-        switch (display_rotation) {
-            case BSP_DISPLAY_ROTATION_90:
-                orientation = PAX_O_ROT_CCW;
-                break;
-            case BSP_DISPLAY_ROTATION_180:
-                orientation = PAX_O_ROT_HALF;
-                break;
-            case BSP_DISPLAY_ROTATION_270:
-                orientation = PAX_O_ROT_CW;
-                break;
-            case BSP_DISPLAY_ROTATION_0:
-            default:
-                orientation = PAX_O_UPRIGHT;
-                break;
-        }
-
-        // Initialize graphics stack
-        printf("Initializing framebuffer with w=%d h=%d format=%d endian=%d orientation=%d\n", display_h_res,
-               display_v_res, format, display_data_endian, orientation);
-        pax_buf_init(&fb, NULL, display_h_res, display_v_res, format);
-        pax_buf_reversed(&fb, display_data_endian == BSP_DISPLAY_ENDIAN_BIG);
-#if defined(CONFIG_BSP_TARGET_KAMI)
-        // Temporary addition for supporting Kami
-        fb.palette      = palette;
-        fb.palette_size = sizeof(palette) / sizeof(pax_col_t);
-#endif
-        pax_buf_set_orientation(&fb, orientation);
-    } else {
-        ESP_LOGI(TAG, "This board has no display support");
-    }
-
-    // Get input event queue from BSP
+    init_display();
     ESP_ERROR_CHECK(bsp_input_get_queue(&input_event_queue));
 
-    // LEDs
-    bsp_led_set_pixel(0, 0xFF0000);  // Red
-    bsp_led_set_pixel(1, 0x00FF00);  // Green
-    bsp_led_set_pixel(2, 0x0000FF);  // Blue
-    bsp_led_set_pixel(3, 0xFFFF00);  // Yellow
-    bsp_led_set_pixel(4, 0x00FFFF);  // Magenta
-    bsp_led_set_pixel(5, 0xFF00FF);  // Cyan
-    bsp_led_send();                  // Send data to the coprocessor
-    bsp_led_set_mode(false);         // Take control over all LEDs by disabling automatic mode
+    report_buf = heap_caps_malloc(REPORT_BYTES, MALLOC_CAP_SPIRAM);
 
-    // Start WiFi stack (if your app does not require WiFi or BLE you can remove this section)
-    pax_background(&fb, BLACK);
-    pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 0, "Connecting to radio...");
-    blit();
+    char line[LINE_LEN];
+    snprintf(line, sizeof(line), "IDF6 SD test (%s): starting in %d s so the monitor can reconnect...",
+             CONFIG_IDF6TEST_VARIANT_NAME, CONFIG_IDF6TEST_STARTUP_DELAY_MS / 1000);
+    log_line(line);
+    vTaskDelay(pdMS_TO_TICKS(CONFIG_IDF6TEST_STARTUP_DELAY_MS));
 
-    if (wifi_remote_initialize() == ESP_OK) {
-        display_message("Starting WiFi stack...");
-        wifi_connection_init_stack();  // Start the Espressif WiFi stack
-
-        display_message("Connecting to WiFi network...");
-
-        if (wifi_connect_try_all() == ESP_OK) {
-            display_message("Successfully connected to WiFi network");
-        } else {
-            display_message("Failed to connect to WiFi network");
-        }
+    // As graceloader: SD card straight after the BSP, radio left as it is.
+    res = sdcard_init();
+    if (res != ESP_OK) {
+        snprintf(line, sizeof(line), "SD card mount failed: %s. Press F1 to return to the launcher.",
+                 esp_err_to_name(res));
+        log_line(line);
     } else {
-        bsp_power_set_radio_state(BSP_POWER_RADIO_STATE_OFF);
-        ESP_LOGE(TAG, "WiFi radio not responding, WiFi not available");
-        display_message("WiFi radio unavailable");
+        run_tests("first run");
     }
 
-    vTaskDelay(pdMS_TO_TICKS(500));
-
-    // Main section of the app
-
-    // This example shows how to read from the BSP event queue to read input events
-
-    // If you want to run something at an interval in this same main thread you can replace portMAX_DELAY with an amount
-    // of ticks to wait, for example pdMS_TO_TICKS(1000)
-
-    display_message("Welcome! Press any key to trigger an event.");
-
-    while (1) {
-        bsp_input_event_t event;
-        if (xQueueReceive(input_event_queue, &event, portMAX_DELAY) == pdTRUE) {
-            switch (event.type) {
-                case INPUT_EVENT_TYPE_KEYBOARD: {
-                    if (event.args_keyboard.ascii != '\b' ||
-                        event.args_keyboard.ascii != '\t') {  // Ignore backspace & tab keyboard events
-                        if (pax_buf_get_height(&fb) <= 128) {
-                            char text[64];
-                            snprintf(text, sizeof(text), "%c %s M=%02" PRIx32, event.args_keyboard.ascii,
-                                     event.args_keyboard.utf8, event.args_keyboard.modifiers);
-                            display_message(text);
-                        } else {
-                            ESP_LOGI(TAG, "Keyboard event %c (%02x) %s", event.args_keyboard.ascii,
-                                     (uint8_t)event.args_keyboard.ascii, event.args_keyboard.utf8);
-                            if (pax_buf_get_width(&fb) > 0) {
-                                pax_simple_rect(&fb, BLACK, 0, 0, pax_buf_get_width(&fb), 72);
-                                pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 0, "Keyboard event");
-                                char text[64];
-                                snprintf(text, sizeof(text), "ASCII:     %c (0x%02x)", event.args_keyboard.ascii,
-                                         (uint8_t)event.args_keyboard.ascii);
-                                pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 18, text);
-                                snprintf(text, sizeof(text), "UTF-8:     %s", event.args_keyboard.utf8);
-                                pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 36, text);
-                                snprintf(text, sizeof(text), "Modifiers: 0x%0" PRIX32, event.args_keyboard.modifiers);
-                                pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 54, text);
-                                blit();
-                            }
-                        }
-                    }
-                    break;
+    for (;;) {
+        log_line(
+#if CONFIG_IDF6TEST_WITH_HOSTED
+            "Enter: run again   W: connect WiFi, then run again   F1/Esc: back to launcher"
+#else
+            "Enter: run again   F1/Esc: back to launcher"
+#endif
+        );
+        bool waiting = true;
+        while (waiting) {
+            bsp_input_event_t event;
+            if (xQueueReceive(input_event_queue, &event, portMAX_DELAY) != pdTRUE) continue;
+            if (event.type == INPUT_EVENT_TYPE_NAVIGATION && event.args_navigation.state) {
+                if (event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_F1 ||
+                    event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_ESC) {
+                    bsp_device_restart_to_launcher();
                 }
-                case INPUT_EVENT_TYPE_NAVIGATION: {
-                    ESP_LOGI(TAG, "Navigation event %0" PRIX32 ": %s", (uint32_t)event.args_navigation.key,
-                             event.args_navigation.state ? "pressed" : "released");
-
-                    if (event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_F1) {
-                        bsp_device_restart_to_launcher();
-                    }
-                    if (event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_F2) {
-                        bsp_input_set_backlight_brightness(0);
-                    }
-                    if (event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_F3) {
-                        bsp_input_set_backlight_brightness(100);
-                    }
-
-                    if (pax_buf_get_height(&fb) <= 128) {
-                        char text[64];
-                        snprintf(text, sizeof(text), "%02" PRIx32 " %s M=%02" PRIx32,
-                                 (uint32_t)event.args_navigation.key, event.args_navigation.state ? "P" : "R",
-                                 event.args_navigation.modifiers);
-                        display_message(text);
-                    } else {
-                        pax_simple_rect(&fb, BLACK, 0, 100, pax_buf_get_width(&fb), 72);
-                        pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 100 + 0, "Navigation event");
-                        char text[64];
-                        snprintf(text, sizeof(text), "Key:       0x%0" PRIX32, (uint32_t)event.args_navigation.key);
-                        pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 100 + 18, text);
-                        snprintf(text, sizeof(text), "State:     %s",
-                                 event.args_navigation.state ? "pressed" : "released");
-                        pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 100 + 36, text);
-                        snprintf(text, sizeof(text), "Modifiers: 0x%0" PRIX32, event.args_navigation.modifiers);
-                        pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 100 + 54, text);
-                        blit();
-                    }
-                    break;
+                if (event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_RETURN && sdcard_is_mounted()) {
+                    run_tests("run again");
+                    waiting = false;
                 }
-                case INPUT_EVENT_TYPE_ACTION: {
-                    ESP_LOGI(TAG, "Action event 0x%0" PRIX32 ": %s", (uint32_t)event.args_action.type,
-                             event.args_action.state ? "yes" : "no");
-                    if (pax_buf_get_height(&fb) <= 128) {
-                        char text[64];
-                        snprintf(text, sizeof(text), "%02" PRIx32 " %s" PRIx32, (uint32_t)event.args_action.type,
-                                 event.args_action.state ? "Y" : "N");
-                        display_message(text);
-                    } else {
-                        pax_simple_rect(&fb, BLACK, 0, 200 + 0, pax_buf_get_width(&fb), 72);
-                        pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 200 + 0, "Action event");
-                        char text[64];
-                        snprintf(text, sizeof(text), "Type:      0x%0" PRIX32, (uint32_t)event.args_action.type);
-                        pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 200 + 36, text);
-                        snprintf(text, sizeof(text), "State:     %s", event.args_action.state ? "yes" : "no");
-                        pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 200 + 54, text);
-                        blit();
-                    }
-                    break;
-                }
-                case INPUT_EVENT_TYPE_SCANCODE: {
-                    ESP_LOGI(TAG, "Scancode event 0x%0" PRIX32, (uint32_t)event.args_scancode.scancode);
-                    if (pax_buf_get_width(&fb) > 0) {
-                        pax_simple_rect(&fb, BLACK, 0, 300 + 0, pax_buf_get_width(&fb), 72);
-                        pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 300 + 0, "Scancode event");
-                        char text[64];
-                        snprintf(text, sizeof(text), "Scancode:  0x%0" PRIX32, (uint32_t)event.args_scancode.scancode);
-                        pax_draw_text(&fb, WHITE, pax_font_sky_mono, 16, 0, 300 + 36, text);
-                        blit();
-                    }
-                    break;
-                }
-                default:
-                    break;
             }
+#if CONFIG_IDF6TEST_WITH_HOSTED
+            if (event.type == INPUT_EVENT_TYPE_KEYBOARD &&
+                (event.args_keyboard.ascii == 'w' || event.args_keyboard.ascii == 'W') && sdcard_is_mounted()) {
+                if (connect_wifi()) {
+                    run_tests("with WiFi connected");
+                }
+                waiting = false;
+            }
+#endif
         }
     }
 }

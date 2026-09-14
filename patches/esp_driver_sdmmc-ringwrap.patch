@@ -1,0 +1,18 @@
+--- a/src/sd_trans_sdmmc.c	2026-09-14 15:53:45.685078678 +0200
++++ b/src/sd_trans_sdmmc.c	2026-09-14 15:53:45.700078582 +0200
+@@ -122,13 +122,13 @@
+         desc->second_address_chained = 1;
+         desc->owned_by_idmac = 1;
+         desc->buffer1_ptr = cur_trans->ptr;
+-        desc->next_desc_ptr = (last) ? NULL : slot->ctlr->dma_desc + ((next + 1) % num_desc);
++        desc->next_desc_ptr = (last) ? NULL : slot->ctlr->dma_desc + ((next + 1) % slot->ctlr->dma_desc_num);
+         assert(size_to_fill < 4 || size_to_fill % 4 == 0);
+         desc->buffer1_size = (size_to_fill + 3) & (~3);
+ 
+         cur_trans->size_remaining -= size_to_fill;
+         cur_trans->ptr += size_to_fill;
+-        cur_trans->next_desc = (cur_trans->next_desc + 1) % num_desc;
++        cur_trans->next_desc = (cur_trans->next_desc + 1) % slot->ctlr->dma_desc_num;
+         ESP_LOGV(TAG, "fill %d desc=%d rem=%d next=%d last=%d sz=%d",
+                  num_desc, next, cur_trans->size_remaining,
+                  cur_trans->next_desc, desc->last_descriptor, desc->buffer1_size);

@@ -1,0 +1,2 @@
+# As tanmatsu-graceloader: ESP-Hosted on, SD card mounted with no-op host init.
+CONFIG_IDF6TEST_VARIANT_NAME="base"

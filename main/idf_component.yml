@@ -1,5 +1,11 @@
 dependencies:
   idf: ">=6.0.2"
-  badgeteam/badge-bsp: "=1.1.0"
-  nicolaielectronics/tanmatsu-wifi: "=1.3.1"
+  # Same pins as tanmatsu-graceloader, whose SD card failure this app studies.
+  badgeteam/badge-bsp: "=1.5.0"
   robotman2412/pax-gfx: "=2.2.2"
+  # tanmatsu-wifi is what brings in ESP-Hosted. The "nohosted" variant leaves
+  # it out, so nothing but the SD card uses the SDMMC controller.
+  nicolaielectronics/tanmatsu-wifi:
+    version: "=1.3.1"
+    rules:
+      - if: "target == esp32p4 && $CONFIG{IDF6TEST_WITH_HOSTED} == True"

@@ -1,0 +1,4 @@
+# ESP-Hosted and WiFi compiled out: the SD card has the SDMMC controller to itself.
+CONFIG_IDF6TEST_VARIANT_NAME="nohosted"
+CONFIG_IDF6TEST_WITH_HOSTED=n
+CONFIG_BT_ENABLED=n

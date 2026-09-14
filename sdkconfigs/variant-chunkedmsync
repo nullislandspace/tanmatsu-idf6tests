@@ -1,0 +1,3 @@
+# As base, with chunked C2M cache sync.
+CONFIG_IDF6TEST_VARIANT_NAME="chunkedmsync"
+CONFIG_ESP_MM_CACHE_MSYNC_C2M_CHUNKED_OPS=y

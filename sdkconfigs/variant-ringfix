@@ -1,0 +1,2 @@
+# As base, with esp_driver_sdmmc patched to wrap the DMA descriptor ring on its real size.
+CONFIG_IDF6TEST_VARIANT_NAME="ringfix"

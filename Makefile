@@ -5,10 +5,12 @@ BADGELINKPORT ?= $(PORT)
 
 # Build parameters
 IDF_VERSION ?= v6.0.2
-BUILD ?= build/$(DEVICE)
+# Test variant: base, nohosted, ringfix or chunkedmsync (see README.md).
+VARIANT ?= base
+BUILD ?= build/$(DEVICE)-$(VARIANT)
 FAT ?= 0
-SDKCONFIG_DEFAULTS ?= sdkconfigs/general;sdkconfigs/$(DEVICE)
-SDKCONFIG ?= sdkconfig_$(DEVICE)
+SDKCONFIG_DEFAULTS ?= sdkconfigs/general;sdkconfigs/$(DEVICE);sdkconfigs/variant-$(VARIANT)
+SDKCONFIG ?= sdkconfig_$(DEVICE)_$(VARIANT)
 
 # SDK
 IDF_PATH ?= $(shell cat .IDF_PATH 2>/dev/null || test -d `pwd`/esp-idf && echo `pwd`/esp-idf || echo '$(HOME)/.espressif/$(IDF_VERSION)/esp-idf')
@@ -52,6 +54,13 @@ endif
 
 IDF_PARAMS := -B $(BUILD) -DDEVICE=$(DEVICE) -DSDKCONFIG_DEFAULTS="$(SDKCONFIG_DEFAULTS)" -DSDKCONFIG=$(SDKCONFIG) -DIDF_TARGET=$(IDF_TARGET) -DFAT=$(FAT)
 
+# ringfix: a copy of the IDF's esp_driver_sdmmc with patches/ applied, placed
+# where the project picks it up in preference to the IDF's.
+RINGFIX_DIR := build/components-ringfix
+ifeq ($(VARIANT), ringfix)
+IDF_PARAMS += -DIDF6TEST_EXTRA_COMPONENTS=$(CURDIR)/$(RINGFIX_DIR)
+endif
+
 #####
 
 export IDF_TOOLS_PATH
@@ -73,7 +82,7 @@ badgelink:
 	git clone https://github.com/badgeteam/esp32-component-badgelink.git badgelink
 	cd badgelink/tools; ./install.sh
 
-APP_SLUG ?= com.example.template
+APP_SLUG ?= at.cavac.idf6test.$(VARIANT)
 APP_INSTALL_BASE_PATH ?= /int/apps/
 APP_INSTALL_PATH = $(APP_INSTALL_BASE_PATH)$(APP_SLUG)
 
@@ -83,7 +92,8 @@ install: build
 	@echo "Creating directory $(APP_INSTALL_PATH)..."
 	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) fs mkdir $(APP_INSTALL_PATH) || true
 	@echo "Uploading metadata.json..."
-	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) fs upload $(APP_INSTALL_PATH)/metadata.json ../../metadata/metadata.json
+	sed 's/@VARIANT@/$(VARIANT)/g' metadata/metadata.json > $(BUILD)/metadata.json
+	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) fs upload $(APP_INSTALL_PATH)/metadata.json ../../$(BUILD)/metadata.json
 	@echo "Uploading icon16.png..."
 	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) fs upload $(APP_INSTALL_PATH)/icon16.png ../../metadata/icon16.png
 	@echo "Uploading icon32.png..."
@@ -183,11 +193,25 @@ checkbuildenv:
 # Building
 
 .PHONY: build
-build: check-sdk icons checkbuildenv
+build: check-sdk icons checkbuildenv $(if $(filter ringfix,$(VARIANT)),ringfix-component)
 	source "$(IDF_SOURCE)" >/dev/null && idf.py $(IDF_PARAMS) build
 
+.PHONY: ringfix-component
+ringfix-component:
+	rm -rf $(RINGFIX_DIR)
+	mkdir -p $(RINGFIX_DIR)
+	cp -r "$(IDF_PATH)/components/esp_driver_sdmmc" $(RINGFIX_DIR)/
+	for p in patches/esp_driver_sdmmc-*.patch; do patch -d $(RINGFIX_DIR)/esp_driver_sdmmc -p1 < $$p || exit 1; done
+
+# All four variants, one after the other.
+.PHONY: buildvariants installvariants
+buildvariants:
+	for v in base nohosted ringfix chunkedmsync; do $(MAKE) build VARIANT=$$v || exit 1; done
+installvariants:
+	for v in base nohosted ringfix chunkedmsync; do $(MAKE) install VARIANT=$$v || exit 1; done
+
 .PHONY: reconfigure
-reconfigure: check-sdk checkbuildenv
+reconfigure: check-sdk checkbuildenv $(if $(filter ringfix,$(VARIANT)),ringfix-component)
 	source "$(IDF_SOURCE)" >/dev/null && idf.py $(IDF_PARAMS) reconfigure
 
 # Hardware
