@@ -1,0 +1,132 @@
+{
+ "meta": {
+  "host_time": "20260914T181630Z",
+  "port": "rfc2217://localhost:4001",
+  "suite": "canary",
+  "args": "idle=10 reads=20",
+  "variant": "graceenv",
+  "git_commit": "77adbe0191",
+  "git_dirty": true
+ },
+ "ready": {
+  "t": "PONG",
+  "variant": "graceenv",
+  "mounted": true,
+  "idle_left_s": 299,
+  "free_int": 473603,
+  "free_psram": 33025440
+ },
+ "begin": {
+  "t": "begin",
+  "variant": "graceenv",
+  "suite": "canary",
+  "args": "idle=10 reads=20",
+  "idf": "v6.0.2",
+  "hosted": 1,
+  "chunked_msync": 0,
+  "pm": 1,
+  "psram_mhz": 200,
+  "int_wdt_ms": 300,
+  "bsp_init": 0,
+  "grace_boot": 1,
+  "usb_host": 1,
+  "int_mounted": 1,
+  "reset_reason": 3,
+  "free_int": 473603,
+  "largest_int": 319488,
+  "free_psram": 33025440,
+  "card_name": "SE16G",
+  "card_mb": 15193,
+  "card_khz": 40000
+ },
+ "pattern": {
+  "t": "pattern",
+  "written": false,
+  "baseline": true
+ },
+ "cases": [
+  {
+   "t": "case",
+   "suite": "canary",
+   "dest": "page",
+   "io": "unbuf",
+   "method": "direct",
+   "chunk": 4096,
+   "vbuf": 0,
+   "dmabuf": 1,
+   "size": 150000,
+   "off": 4096,
+   "rep": 1,
+   "addr": "0x48292000",
+   "ok": false,
+   "n": 150000,
+   "errno": 0,
+   "bad": 158,
+   "bad_fill": 95,
+   "bad_zero": 0,
+   "runs": 37,
+   "gran": "4",
+   "us": 24961,
+   "kbps": 5868,
+   "detail": [
+    {
+     "s": 2640,
+     "l": 12,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 4244,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 6152,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 16532,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 20264,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 23508,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 24724,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 27040,
+     "l": 4,
+     "d": "untouched fill"
+    },
+    {
+     "s": 32916,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    },
+    {
+     "s": 37012,
+     "l": 4,
+     "d": "unrecognised, first word 0xffffffff"
+    }
+   ]
+  }
+ ],
+ "summary": null,
+ "end": null,
+ "corrupt_lines": 0,
+ "crash_lines": [
+  "Guru Meditation Error: Core  0 panic'ed (Load access fault). Exception was unhandled."
+ ],
+ "verdict": "crash"
+}

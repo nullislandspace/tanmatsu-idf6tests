@@ -1,0 +1,98 @@
+I (1321) esp_psram: SPI SRAM memory test OK
+I (1331) cpu_start: Pro cpu start user code
+I (1331) cpu_start: cpu freq: 360000000 Hz
+I (1331) app_init: Application information:
+I (1331) app_init: Project name:     application
+I (1331) app_init: App version:      pre-v6-refresh-backup-4-g77adbe
+I (1332) app_init: Compile time:     Sep 14 2026 20:11:19
+I (1332) app_init: ELF file SHA256:  ff4dbd458...
+I (1332) app_init: ESP-IDF:          v6.0.2
+I (1332) efuse_init: Min chip rev:     v0.1
+I (1332) efuse_init: Max chip rev:     v1.99 
+I (1333) efuse_init: Chip rev:         v1.3
+I (1333) heap_init: Initializing. RAM available for dynamic allocation:
+I (1333) heap_init: At 4FF1C180 len 0001EE40 (123 KiB): RETENT_RAM
+I (1333) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1334) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1334) heap_init: At 50108180 len 00007E80 (31 KiB): RTCRAM
+I (1334) heap_init: At 30100088 len 00001F78 (7 KiB): SPM
+I (1335) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1336) spi_flash: detected chip: winbond
+I (1336) spi_flash: flash io: qio
+I (1338) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1338) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1339) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1339) main_task: Started on CPU0
+I (1339) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1339) main_task: Calling app_main()
+W (6789) console: Unknown command: I (PING
+@@SDT-PONG@@ {"t":"PONG","variant":"graceenv","mounted":true,"idle_left_s":299,"free_int":473603,"free_psram":33025440} @@39403609@@
+==============================================================
+IDF6 SD test, variant graceenv: RUN grace file=/sd/apps/at.cavac.paperclips-grace/app.so
+@@SDT-BEGIN@@ {"t":"begin","variant":"graceenv","suite":"grace","args":"file=/sd/apps/at.cavac.paperclips-grace/app.so","idf":"v6.0.2","hosted":1,"chunked_msync":0,"pm":1,"psram_mhz":200,"int_wdt_ms":300,"bsp_init":0,"grace_boot":1,"usb_host":1,"reset_reason":3,"free_int":473603,"largest_int":319488,"free_psram":33025440,"card_name":"SE16G","card_mb":15193,"card_khz":40000} @@e07ef06d@@
+Pattern file present (8 MB), verifying through 4 KB internal reads...
+  baseline OK (1982 ms)
+@@SDT-PATTERN@@ {"t":"pattern","written":false,"baseline":true} @@12cca7a0@@
+  page     default direct     db1  150000 @52       #1: ok  3910 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":52,"rep":1,"addr":"0x48082000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":37462,"kbps":3910,"detail":[]} @@86a91603@@
+  page     default direct     db1  150000 @52       #2: ok  3906 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":52,"rep":2,"addr":"0x48082000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":37495,"kbps":3906,"detail":[]} @@d5d2bdaa@@
+  page     default direct     db1  150000 @4096     #1: BAD  5756 KB/s
+    130 bad bytes (78 fill, 78 zero) in 33 run(s), 4-byte granularity (first runs only)
+    +8340 len 4: zeros (= untouched fill)
+    +11752 len 4: zeros (= untouched fill)
+    +16532 len 4: unrecognised
+    +18592 len 4: zeros (= untouched fill)
+    +20628 len 4: zeros (= untouched fill)
+    +27052 len 4: zeros (= untouched fill)
+    +32916 len 4: unrecognised
+    +34976 len 4: zeros (= untouched fill)
+    +37012 len 4: unrecognised
+    +39212 len 4: zeros (= untouched fill)
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":1,"addr":"0x48082000","ok":false,"n":150000,"errno":0,"bad":130,"bad_fill":78,"bad_zero":78,"runs":33,"gran":"4","us":25446,"kbps":5756,"detail":[{"s":8340,"l":4,"d":"zeros (= untouched fill)"},{"s":11752,"l":4,"d":"zeros (= untouched fill)"},{"s":16532,"l":4,"d":"unrecognised"},{"s":18592,"l":4,"d":"zeros (= untouched fill)"},{"s":20628,"l":4,"d":"zeros (= untouched fill)"},{"s":27052,"l":4,"d":"zeros (= untouched fill)"},{"s":32916,"l":4,"d":"unrecognised"},{"s":34976,"l":4,"d":"zeros (= untouched fill)"},{"s":37012,"l":4,"d":"unrecognised"},{"s":39212,"l":4,"d":"zeros (= untouched fill)"}]} @@7c39d66f@@
+Guru Meditation Error: Core  0 panic'ed (Load access fault). Exception was unhandled.
+
+Core  0 register dump:
+MEPC    : 0x4ff10a4a  RA      : 0x4ff0f4ac  SP      : 0x4ff28aa0  GP      : 0x4ff13780  
+TP      : 0x4ff293b0  T0      : 0x4007a4d0  T1      : 0x4ff021d0  T2      : 0x700ea5a8  
+S0/FP   : 0xffffffff  S1      : 0x48081ff8  A0      : 0x9aff9308  A1      : 0x48081ff8  
+A2      : 0x7f000000  A3      : 0x48082000  A4      : 0x00000000  A5      : 0x00000000  
+A6      : 0x80000000  A7      : 0x00000010  S2      : 0x000249f0  S3      : 0x00000000  
+S4      : 0x00000000  S5      : 0x00000000  S6      : 0x00000082  S7      : 0x00000001  
+S8      : 0x000249f0  S9      : 0x0000167c  S10     : 0x00001000  S11     : 0x00000000  
+T3      : 0x00000000  T4      : 0x396b8833  T5      : 0xb223597e  T6      : 0x1265ae2a  
+MSTATUS : 0x00011880  MTVEC   : 0x4ff00003  MCAUSE  : 0x00000005  MTVAL   : 0x00000013  
+MHARTID : 0x00000000  
+
+Stack memory:
+4ff28aa0: 0x4ff28d88 0x4ff28ec3 0x48000000 0x4ff0ecb0 0x000249f0 0x48082000 0x48000000 0x4ff0ed86
+4ff28ac0: 0x00000082 0x00006366 0x4ff290d0 0x4ff011da 0x400a2d4c 0x400a2d2c 0x00001000 0x40026f9a
+4ff28ae0: 0x00000001 0x000249f0 0x00001000 0x00000000 0x00000001 0x48082000 0x40091614 0x000249f0
+4ff28b00: 0x00000000 0x00000082 0x0000004e 0x0000004e 0x00000021 0x400ab848 0x00006366 0x00000000
+4ff28b20: 0x0000167c 0x4ff28bc4 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0x48082000 0x400a2bec
+4ff28b40: 0x400a2d6c 0x400a2d4c 0x400a2d2c 0x00001000 0x00000001 0x48082000 0x00000000 0x0000004e
+4ff28b60: 0x0000004e 0x00000021 0x40091614 0x00000000 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff28b80: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff28ba0: 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5 0xa5a5a5a5
+4ff28bc0: 0xa5a5a5a5 0x2273227b 0x3433383a 0x6c222c30 0x2c343a22 0x3a226422 0x72657a22 0x2820736f
+4ff28be0: 0x6e75203d 0x63756f74 0x20646568 0x6c6c6966 0x2c7d2229 0x2273227b 0x3731313a 0x222c3235
+4ff28c00: 0x343a226c 0x2264222c 0x657a223a 0x20736f72 0x75203d28 0x756f746e 0x64656863 0x6c696620
+4ff28c20: 0x7d22296c 0x73227b2c 0x36313a22 0x2c323335 0x3a226c22 0x64222c34 0x75223a22 0x6365726e
+4ff28c40: 0x696e676f 0x22646573 0x227b2c7d 0x313a2273 0x32393538 0x226c222c 0x222c343a 0x223a2264
+4ff28c60: 0x6f72657a 0x3d282073 0x746e7520 0x6863756f 0x66206465 0x296c6c69 0x7b2c7d22 0x3a227322
+4ff28c80: 0x32363032 0x6c222c38 0x2c343a22 0x3a226422 0x72657a22 0x2820736f 0x6e75203d 0x63756f74
+4ff28ca0: 0x20646568 0x6c6c6966 0x2c7d2229 0x2273227b 0x3037323a 0x222c3235 0x343a226c 0x2264222c
+4ff28cc0: 0x657a223a 0x20736f72 0x75203d28 0x756f746e 0x64656863 0x6c696620 0x7d22296c 0x73227b2c
+4ff28ce0: 0x32333a22 0x2c363139 0x3a226c22 0x64222c34 0x75223a22 0x6365726e 0x696e676f 0x22646573
+4ff28d00: 0x227b2c7d 0x333a2273 0x36373934 0x226c222c 0x222c343a 0x223a2264 0x6f72657a 0x3d282073
+4ff28d20: 0x746e7520 0x6863756f 0x66206465 0x296c6c69 0x7b2c7d22 0x3a227322 0x31303733 0x6c222c32
+4ff28d40: 0x2c343a22 0x3a226422 0x726e7522 0x676f6365 0x6573696e 0x2c7d2264 0x2273227b 0x3239333a
+4ff28d60: 0x222c3231 0x343a226c 0x2264222c 0x657a223a 0x20736f72 0x75203d28 0x756f746e 0x64656863
+4ff28d80: 0x6c696620 0x7d22296c 0x4ff29300 0x4008430c 0x00000000 0x00000000 0x4ff2a9d0 0x4ff0ce50
+4ff28da0: 0x00000000 0x4ff2aa1c 0x4ff2a9d0 0x400829f8 0x4ff3ed04 0x00000008 0x00000000 0x00000000
+4ff28dc0: 0x00000004 0x00000003 0x00000001 0x4ff133c0 0xffffffff 0x00000000 0x4ff17a00 0x00000000
+4ff28de0: 0x00000018 0x4ff293fc 0x4ff2a9d0 0x40082bb4 0x00009c40 0x00000004 0x4ff133c0 0x4ff0206c
+4ff28e00: 0x4ff3ed04 0x00000008 0x0000000a 0x400090d0 0x00000000 0x00000000 0x00000000 0x00000000
+4ff28e20: 0x00000000 0x00000000 0x4ff293fc 0x400a8f0b 0x00000000 0x400a8f08 0x4ff28eec 0x4ff0ce50
+4ff28e40: 0x00000000 0x4ff28ef0 0x4ff1cfa8 0x400829f8 0x00000000 0x4ff133b8 0x00000000 0x00000000
+4ff28e60: 0x00000000 0x00000000 0x4ff293fc 0x4008430c 0x00000000 0x00000000 0x4ff2a9d0 0x4ff0ce50

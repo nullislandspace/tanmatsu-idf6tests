@@ -22,6 +22,8 @@ idf_component_register(
         heap
         esp_driver_usb_serial_jtag
         esp_system
+        gl_input
+        wear_levelling
         ${extra_requires}
     INCLUDE_DIRS
         "."

@@ -193,8 +193,10 @@ def main():
     ap.add_argument("--out-dir", default="results")
     ap.add_argument("--connect-timeout", type=float, default=90)
     ap.add_argument("--run-timeout", type=float, default=3600)
-    ap.add_argument("--stall-timeout", type=float, default=180)
+    ap.add_argument("--stall-timeout", type=float, default=60)
     ap.add_argument("--no-exit", action="store_true", help="leave the app running afterwards")
+    ap.add_argument("--no-recover", action="store_true",
+                    help="after a crash, stall or lost link, do not reset the badge back to the launcher")
     args = ap.parse_args()
 
     os.makedirs(args.out_dir, exist_ok=True)
@@ -213,6 +215,10 @@ def main():
 
     def finish(verdict, code):
         result["verdict"] = verdict
+        if verdict in ("crash", "link-lost", "stalled", "timeout") and not args.no_recover:
+            from recover import recover
+            log.write(f"### recovery after {verdict}\n")
+            result["recovery"] = recover(args.port, 60, log)
         log.close()
         with open(base + ".json", "w", encoding="utf-8") as fh:
             json.dump(result, fh, indent=1)

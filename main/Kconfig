@@ -13,6 +13,22 @@ menu "IDF6 SD card test"
             host init/deinit (as tanmatsu-graceloader does). Without it, the
             SD card owns the controller alone.
 
+    config IDF6TEST_BSP_INIT
+        bool "Initialise the BSP (display, input)"
+        default y
+        help
+            tanmatsu-graceloader never calls bsp_device_initialize(). Turn
+            this off to match; the app then has no screen output or keys.
+
+    config IDF6TEST_GRACE_BOOT
+        bool "Boot like tanmatsu-graceloader"
+        default n
+        help
+            Before and after mounting the SD card, do what graceloader's
+            app_main does before it loads an app: switch the USB PHY back to
+            USB-serial/JTAG, mount /int (FAT on wear levelling), and start
+            the USB HID host (gl_input).
+
     config IDF6TEST_PATTERN_SIZE_MB
         int "Size of the pattern file on the SD card, in MB"
         default 8

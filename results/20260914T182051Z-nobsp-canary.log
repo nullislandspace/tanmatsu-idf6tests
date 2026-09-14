@@ -1,0 +1,71 @@
+@@SDT-PONG@@ {"t":"PONG","variant":"nobsp","mounted":true,"idle_left_s":299,"free_int":497103,"free_psram":33025996} @@6342248d@@
+==============================================================
+IDF6 SD test, variant nobsp: RUN canary idle=3 reads=10
+@@SDT-BEGIN@@ {"t":"begin","variant":"nobsp","suite":"canary","args":"idle=3 reads=10","idf":"v6.0.2","hosted":1,"chunked_msync":0,"pm":1,"psram_mhz":200,"int_wdt_ms":300,"bsp_init":0,"grace_boot":0,"usb_host":0,"int_mounted":0,"reset_reason":3,"free_int":497015,"largest_int":319488,"free_psram":33025996,"card_name":"SE16G","card_mb":15193,"card_khz":40000} @@9aad44d9@@
+Pattern file present (8 MB), verifying through 4 KB internal reads...
+  baseline OK (1986 ms)
+@@SDT-PATTERN@@ {"t":"pattern","written":false,"baseline":true} @@12cca7a0@@
+Canary: 2048 KB at 0x48089038 .. 0x48289038
+@@SDT-CANARY@@ {"t":"canary","when":"idle","round":1,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@6fea24c0@@
+@@SDT-CANARY@@ {"t":"canary","when":"idle","round":2,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@b0a33475@@
+@@SDT-CANARY@@ {"t":"canary","when":"idle","round":3,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@fa643be6@@
+  page     unbuf   direct     db1  150000 @4096     #1: BAD  5912 KB/s
+    145 bad bytes (104 fill, 0 zero) in 35 run(s), 4-byte granularity (first runs only)
+    +3008 len 8: unrecognised, first word 0xf817ffff
+    +4244 len 4: untouched fill
+    +8340 len 4: untouched fill
+    +16532 len 4: untouched fill
+    +24536 len 4: untouched fill
+    +24860 len 4: untouched fill
+    +34960 len 4: untouched fill
+    +37012 len 4: unrecognised, first word 0xffffffff
+    +43408 len 4: untouched fill
+    +49300 len 4: untouched fill
+@@SDT-CASE@@ {"t":"case","suite":"canary","dest":"page","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":1,"addr":"0x48292000","ok":false,"n":150000,"errno":0,"bad":145,"bad_fill":104,"bad_zero":0,"runs":35,"gran":"4","us":24775,"kbps":5912,"detail":[{"s":3008,"l":8,"d":"unrecognised, first word 0xf817ffff"},{"s":4244,"l":4,"d":"untouched fill"},{"s":8340,"l":4,"d":"untouched fill"},{"s":16532,"l":4,"d":"untouched fill"},{"s":24536,"l":4,"d":"untouched fill"},{"s":24860,"l":4,"d":"untouched fill"},{"s":34960,"l":4,"d":"untouched fill"},{"s":37012,"l":4,"d":"unrecognised, first word 0xffffffff"},{"s":43408,"l":4,"d":"untouched fill"},{"s":49300,"l":4,"d":"untouched fill"}]} @@f24b2507@@
+@@SDT-CANARY@@ {"t":"canary","when":"read","round":1,"base":"0x48089038","len":2097152,"diffs":0,"detail":[]} @@9881f31d@@
+Guru Meditation Error: Core  0 panic'ed (Load access fault). Exception was unhandled.
+
+Core  0 register dump:
+MEPC    : 0x4ff0c63c  RA      : 0x4ff0c5b8  SP      : 0x4ff28ac0  GP      : 0x4ff13780  
+TP      : 0x4ff293b0  T0      : 0x4007a984  T1      : 0x20000000  T2      : 0x700ea5a8  
+S0/FP   : 0xffffffff  S1      : 0x00001000  A0      : 0x1f000000  A1      : 0xffffffff  
+A2      : 0x00001000  A3      : 0x7f000000  A4      : 0x00010080  A5      : 0xff8c4605  
+A6      : 0xa0000000  A7      : 0x0000000a  S2      : 0xffffffff  S3      : 0x7f000000  
+S4      : 0x00200000  S5      : 0x1f000000  S6      : 0x4ff29070  S7      : 0x0000000a  
+S8      : 0x48081038  S9      : 0x00000003  S10     : 0x00000000  S11     : 0x00000000  
+T3      : 0x00000000  T4      : 0x396b8833  T5      : 0xb223597e  T6      : 0x1265ae2a  
+MSTATUS : 0x00011880  MTVEC   : 0x4ff00003  MCAUSE  : 0x00000005  MTVAL   : 0xffffffff  
+MHARTID : 0x00000000  
+
+Stack memory:
+4ff28ac0: 0x4ff29070 0x48089038 0x00200000 0x00000000 0x000249f0 0x00001000 0xffffffff 0x4ff0edde
+4ff28ae0: 0x00200000 0x4ff28b2c 0x48000000 0x4ff0ed06 0x4007d73e 0x00000000 0x00000000 0x00000000
+4ff28b00: 0x00001000 0x00000000 0x4ff1c5b8 0x4ff0ed58 0x4ff29070 0x48089038 0x00200000 0x4ff011a8
+4ff28b20: 0x00001000 0x00000000 0x000249f0 0x4ff01272 0x400a2f14 0x00001400 0x000249f0 0x00001000
+4ff28b40: 0x00001000 0x00000000 0x000249f0 0x4ff0116c 0x4ff291cb 0x00000000 0x4ff28fcc 0x4ff08a8e
+4ff28b60: 0x00000091 0x00000004 0x4ff133c0 0x400266f8 0x4ff291cb 0x00000000 0x4ff290d0 0x40026f9a
+4ff28b80: 0x00200000 0x00000001 0x00000000 0x00000000 0x00000000 0x00000000 0x4ff293fc 0x400847c0
+4ff28ba0: 0x00200000 0x48289034 0x00000000 0x00000000 0x00000000 0x00000000 0x4ff293fc 0x400847c0
+4ff28bc0: 0x00200000 0x00000000 0x4ff1cfa8 0x4ff0ce50 0x00000000 0x4ff1cff4 0x4ff1cfa8 0x40082eac
+4ff28be0: 0xffffffff 0x00000000 0x4ff1a5ef 0x00000000 0x4ff1a5ef 0x4ff293fc 0x4ff1cfa8 0x4ff28c6c
+4ff28c00: 0xffffffff 0x00000000 0xc0ad7cd7 0x00000000 0x00200000 0x48289034 0x00000000 0x00000000
+4ff28c20: 0x00000000 0x00000000 0x4ff293fc 0x400847c0 0x00200000 0x00000000 0x4ff3fb04 0x4ff0ce50
+4ff28c40: 0x00000000 0x4ff3fb50 0x4ff3fb04 0x40082eac 0x4ff1a5ee 0x0000007a 0x4ff13268 0x00000000
+4ff28c60: 0x00200004 0x400a2798 0x4ff19f74 0x4ff1cfa8 0x4007d73e 0x48289034 0xc0ad7cd7 0x00000000
+4ff28c80: 0x00200004 0x400a2798 0x4ff19f74 0x40028748 0x00200004 0x400a2798 0x4ff1a000 0x400287c0
+4ff28ca0: 0x9b9e9a8d 0x80808080 0x001fcdc4 0x4ff28cc8 0xef223865 0x00000004 0x00200000 0x40026c90
+4ff28cc0: 0x00000000 0x00000003 0x400a2d98 0x00000001 0x48089038 0x00200000 0x00000000 0x4ff28d30
+4ff28ce0: 0x20646568 0x6c6c6966 0x400a2d98 0x00000001 0x33353631 0x6c222c32 0x2c343a22 0x3a226422
+4ff28d00: 0x746e7522 0x6863756f 0x66206465 0x226c6c69 0x227b2c7d 0x323a2273 0x36333534 0x226c222c
+4ff28d20: 0x222c343a 0x223a2264 0x6f746e75 0x65686375 0x69662000 0x7d226c6c 0x73227b2c 0x34323a22
+4ff28d40: 0x2c303638 0x3a226c22 0x64222c34 0x75223a22 0x756f746e 0x64656863 0x6c696620 0x2c7d226c
+4ff28d60: 0x2273227b 0x3934333a 0x222c3036 0x343a226c 0x2264222c 0x6e75223a 0x63756f74 0x20646568
+4ff28d80: 0x6c6c6966 0x7b2c7d22 0x3a227322 0x31303733 0x6c222c32 0x2c343a22 0x3a226422 0x726e7522
+4ff28da0: 0x676f6365 0x6573696e 0x66202c64 0x74737269 0x726f7720 0x78302064 0x66666666 0x66666666
+4ff28dc0: 0x7b2c7d22 0x3a227322 0x30343334 0x6c222c38 0x2c343a22 0x3a226422 0x746e7522 0x6863756f
+4ff28de0: 0x66206465 0x226c6c69 0x227b2c7d 0x343a2273 0x30303339 0x226c222c 0x222c343a 0x223a2264
+4ff28e00: 0x6f746e75 0x65686375 0x69662064 0x7d226c6c 0x00000000 0x00000004 0x4ff133c0 0x4ff0206c
+4ff28e20: 0x00000000 0x00000000 0x0000000a 0x400090d0 0x4ff290d0 0x48089038 0x00000000 0x00000000
+4ff28e40: 0x00000000 0x00000000 0x4ff293fc 0x400a90cb 0x4ff290d0 0x400a90c8 0x4ff28f0c 0x4ff0ce50
+4ff28e60: 0x00000000 0x4ff28f10 0x4ff1cfa8 0x40082eac 0x00000000 0x400a2d74 0x4ff29054 0x00000000
+4ff28e80: 0x4ff17a00 0x00000002 0x0000002c 0x00000000 0x00000000 0x00000003 0x48081038 0x0000000a

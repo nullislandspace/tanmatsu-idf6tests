@@ -1,0 +1,4 @@
+# Like base, but without bsp_device_initialize() (as graceloader). Boot steps
+# of graceloader can be added per run: usbphy=1 intmount=1 usbhost=1.
+CONFIG_IDF6TEST_VARIANT_NAME="nobsp"
+CONFIG_IDF6TEST_BSP_INIT=n

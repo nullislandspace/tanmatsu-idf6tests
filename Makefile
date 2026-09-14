@@ -134,7 +134,12 @@ run: mode_badgelink
 SUITE ?= smoke
 ARGS ?=
 
-.PHONY: testrun cycle cycleall
+.PHONY: testrun cycle cycleall recover
+# After a crash or hang: reset the badge (as make monitor does), wait for the
+# app, send EXIT so it returns to the launcher.
+recover:
+	source "$(IDF_SOURCE)" >/dev/null && python3 tools/recover.py --port "$(PORT)"
+
 testrun:
 	source "$(IDF_SOURCE)" >/dev/null && \
 	python3 tools/sdtest.py --port "$(PORT)" --variant $(VARIANT) --suite $(SUITE) --args "$(ARGS)"

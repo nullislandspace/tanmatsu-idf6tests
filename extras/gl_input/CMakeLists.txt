@@ -1,0 +1,14 @@
+idf_component_register(
+    SRCS
+        "gl_input.c"
+        "gl_hidhost.c"
+    INCLUDE_DIRS
+        "include"
+    PRIV_REQUIRES
+        badge-bsp
+        usb_host_hid
+        freertos
+        esp_common
+        log
+        driver
+)

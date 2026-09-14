@@ -39,6 +39,10 @@
 //   grace       graceloader's load pattern; with file=  reps dmabuf file
 //               also loads that ELF's PT_LOAD segments
 //   workaround  correctness and speed of read methods   reps
+//   canary      stray-write detector: fill `mb` MB of low  mb idle reads size off psram
+//               PSRAM, check it while idle and after each SD read
+//   sweep       a few cases at rising PSRAM addresses     step reserve reps
+//               (holds `step` MB more PSRAM per round; rep = round*100+repeat)
 //
 // selftest=1 (any suite) plants a copied 4 KB block into the first case of at
 // least 16 KB, to prove the analysis reports it.
@@ -59,6 +63,8 @@
 #include "esp_log.h"
 #include "esp_memory_utils.h"
 #include "esp_timer.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "report.h"
 #include "sdcard.h"
 #include "sdkconfig.h"
@@ -74,6 +80,7 @@
 static sdtest_log_fn s_log;
 static bool          s_pattern_ok = false;
 static bool          s_selftest   = false;
+static const char*   s_args       = "";
 
 static void text(const char* fmt, ...) __attribute__((format(printf, 1, 2)));
 static void text(const char* fmt, ...) {
@@ -256,7 +263,8 @@ static const char* describe_run(const uint8_t* buf, uint64_t file_off, const run
             snprintf(out, outlen, "data from file offset %" PRIu64 " (%+lld)", src, (long long)src - (long long)at);
             return out;
         }
-        break;
+        snprintf(out, outlen, "unrecognised, first word 0x%08" PRIx32, word);
+        return out;
     }
     return "unrecognised";
 }
@@ -515,7 +523,9 @@ static int run_case(const case_t* c, tally_t* t) {
         t->bad++;
     }
     heap_caps_free(vbuf);
-    heap_caps_free(block);
+    // After a bad read the heap headers around the buffer may be damaged as
+    // well (seen on graceenv: panic in free). Leak the block instead.
+    if (result || sdtest_arg_int(s_args, "freebad", 0)) heap_caps_free(block);
     return result;
 
 emit:
@@ -586,6 +596,7 @@ static void suite_matrix(const char* args, tally_t* t) {
         text("Reads into %s:", dest_names[d]);
         for (size_t s = 0; s < MATRIX_NSIZES; s++) {
             if (matrix_sizes[s] > maxsize) continue;
+            if (d == DEST_INTERNAL && matrix_sizes[s] > INTERNAL_MAX) continue;
             for (size_t o = 0; o < sizeof(offsets) / sizeof(offsets[0]); o++) {
                 if (offsets[o] + matrix_sizes[s] > pattern_size()) continue;
                 for (int r = 1; r <= reps; r++) {
@@ -822,9 +833,143 @@ static void suite_workaround(const char* args, tally_t* t) {
     }
 }
 
+// Walk the read buffers up through PSRAM: before each step, hold another `step`
+// MB of PSRAM, so the next allocations land higher. Tests whether corruption
+// depends on the buffer's address.
+static void suite_sweep(const char* args, tally_t* t) {
+    size_t step    = sdtest_arg_int(args, "step", 2) * 1024 * 1024;
+    size_t reserve = sdtest_arg_int(args, "reserve", 6) * 1024 * 1024;
+    int    reps    = sdtest_arg_int(args, "reps", 1);
+    void** held    = calloc(64, sizeof(void*));
+    int    nheld   = 0;
+    for (int stepno = 0; held; stepno++) {
+        size_t mb = 0;
+        for (int r = 1; r <= reps; r++) {
+            static const struct {
+                dest_t dest;
+                size_t size;
+                uint8_t fill;
+            } cases[] = {
+                {DEST_PSRAM, 262144, 0xEE},
+                {DEST_PAGE,  150000, 0},
+                {DEST_PSRAM, 1048576, 0xEE},
+            };
+            for (size_t k = 0; k < sizeof(cases) / sizeof(cases[0]); k++) {
+                case_t c = default_case("sweep", args);
+                c.dest   = cases[k].dest;
+                c.size   = cases[k].size;
+                c.fill   = cases[k].fill;
+                c.off    = 4096;
+                c.rep    = stepno * 100 + r;  // step number, repeat
+                run_case(&c, t);
+            }
+        }
+        if (heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) < reserve + step || nheld >= 64) break;
+        held[nheld] = heap_caps_malloc(step, MALLOC_CAP_SPIRAM);
+        if (!held[nheld]) break;
+        text("  holding %d MB more of PSRAM (block at %p)", (int)(step / (1024 * 1024)), held[nheld]);
+        nheld++;
+        (void)mb;
+    }
+    for (int i = 0; i < nheld; i++) heap_caps_free(held[i]);
+    free(held);
+}
+
+// Canary: fill a PSRAM block (the lowest free PSRAM, as it is allocated first)
+// with a known pattern, then look for words that change while idle and while
+// the SD card is read into a separate buffer. Tells whether stray writes
+// exist at all, whether they need SD activity, and what they write.
+#define CANARY_KEY 0xC0FFEE11u
+
+static int check_canary(const uint8_t* canary, size_t len, const char* when, int round) {
+    int  diffs = 0;
+    char detail[REPORT_JSON_MAX / 2];
+    int  dpos  = 0;
+    detail[0]  = '\0';
+    for (size_t i = 0; i + 4 <= len; i += 4) {
+        uint32_t want = mix((uint32_t)(i >> 2) ^ CANARY_KEY);
+        uint32_t got;
+        memcpy(&got, canary + i, 4);
+        if (got == want) continue;
+        diffs++;
+        if (diffs <= 12) {
+            char     what[64] = "";
+            uint64_t src      = ((uint64_t)(unmix(got) ^ PATTERN_KEY)) << 2;
+            uint64_t csrc     = ((uint64_t)(unmix(got) ^ CANARY_KEY)) << 2;
+            if (src < pattern_size()) {
+                snprintf(what, sizeof(what), " = pattern file offset %" PRIu64, src);
+            } else if (csrc < len) {
+                snprintf(what, sizeof(what), " = canary word from +%" PRIu64, csrc);
+            }
+            text("    canary %s round %d: %p (+%u) = 0x%08" PRIx32 "%s", when, round, canary + i, (unsigned)i, got,
+                 what);
+            if (dpos < (int)sizeof(detail) - 80) {
+                dpos += snprintf(detail + dpos, sizeof(detail) - dpos, "%s{\"a\":\"%p\",\"v\":\"0x%08" PRIx32 "\"}",
+                                 diffs > 1 ? "," : "", canary + i, got);
+            }
+        }
+    }
+    report_emitf("CANARY", "{\"t\":\"canary\",\"when\":\"%s\",\"round\":%d,\"base\":\"%p\",\"len\":%u,"
+                           "\"diffs\":%d,\"detail\":[%s]}",
+                 when, round, canary, (unsigned)len, diffs, detail);
+    if (diffs) text("  canary %s round %d: %d changed words", when, round, diffs);
+    return diffs;
+}
+
+static void refill_canary(uint8_t* canary, size_t len) {
+    for (size_t i = 0; i + 4 <= len; i += 4) {
+        uint32_t w = mix((uint32_t)(i >> 2) ^ CANARY_KEY);
+        memcpy(canary + i, &w, 4);
+    }
+}
+
+static void suite_canary(const char* args, tally_t* t) {
+    size_t   len    = sdtest_arg_int(args, "mb", 2) * 1024 * 1024;
+    int      idle   = sdtest_arg_int(args, "idle", 5);
+    int      reads  = sdtest_arg_int(args, "reads", 20);
+    // Guard bands keep stray writes away from the heap metadata around the canary.
+    uint8_t* block  = heap_caps_malloc(len + 65536, MALLOC_CAP_SPIRAM);
+    if (!block) {
+        text("  no memory for the canary");
+        t->skipped++;
+        return;
+    }
+    uint8_t* canary = block + 32768;
+    text("Canary: %u KB at %p .. %p", (unsigned)(len / 1024), canary, canary + len);
+    refill_canary(canary, len);
+
+    int total = 0;
+    for (int s = 1; s <= idle; s++) {
+        vTaskDelay(pdMS_TO_TICKS(1000));
+        int d = check_canary(canary, len, "idle", s);
+        if (d) refill_canary(canary, len);
+        total += d;
+    }
+    for (int r = 1; r <= reads; r++) {
+        case_t c = default_case("canary", args);
+        c.dest   = sdtest_arg_int(args, "psram", 0) ? DEST_PSRAM : DEST_PAGE;
+        c.size   = sdtest_arg_int(args, "size", 150000);
+        c.off    = sdtest_arg_int(args, "off", 4096);
+        c.rep    = r;
+        run_case(&c, t);
+        int d = check_canary(canary, len, "read", r);
+        if (d) refill_canary(canary, len);
+        total += d;
+    }
+    text("Canary: %d changed words in total", total);
+    if (total) {
+        // Count stray writes as a bad case, so the run verdict reflects them.
+        t->cases++;
+        t->bad++;
+    }
+    // Leak the block if it was hit: its neighbours' heap headers may be damaged too.
+    if (!total) heap_caps_free(block);
+}
+
 sdtest_status_t sdtest_run(const char* suite, const char* args, sdtest_log_fn log) {
     s_log      = log;
     s_selftest = sdtest_arg_int(args, "selftest", 0) != 0;
+    s_args     = args;
     if (!prepare_pattern()) return SDTEST_ERROR;
 
     tally_t t = {0};
@@ -836,6 +981,10 @@ sdtest_status_t sdtest_run(const char* suite, const char* args, sdtest_log_fn lo
         suite_stress(args, &t);
     } else if (strcmp(suite, "grace") == 0) {
         suite_grace(args, &t);
+    } else if (strcmp(suite, "canary") == 0) {
+        suite_canary(args, &t);
+    } else if (strcmp(suite, "sweep") == 0) {
+        suite_sweep(args, &t);
     } else if (strcmp(suite, "workaround") == 0) {
         suite_workaround(args, &t);
     } else {

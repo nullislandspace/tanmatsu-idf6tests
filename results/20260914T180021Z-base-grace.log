@@ -1,0 +1,136 @@
+I (1326) esp_psram: SPI SRAM memory test OK
+I (1336) cpu_start: Pro cpu start user code
+I (1336) cpu_start: cpu freq: 360000000 Hz
+I (1336) app_init: Application information:
+I (1337) app_init: Project name:     application
+I (1337) app_init: App version:      pre-v6-refresh-backup-3-g122f70
+I (1337) app_init: Compile time:     Sep 14 2026 19:53:02
+I (1337) app_init: ELF file SHA256:  2ea4d3928...
+I (1337) app_init: ESP-IDF:          v6.0.2
+I (1338) efuse_init: Min chip rev:     v0.1
+I (1338) efuse_init: Max chip rev:     v1.99 
+I (1338) efuse_init: Chip rev:         v1.3
+I (1338) heap_init: Initializing. RAM available for dynamic allocation:
+I (1339) heap_init: At 4FF1EAC0 len 0001C500 (113 KiB): RETENT_RAM
+I (1339) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1339) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1340) heap_init: At 50108180 len 00007E80 (31 KiB): RTCRAM
+I (1340) heap_init: At 30100088 len 00001F78 (7 KiB): SPM
+I (1340) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1341) spi_flash: detected chip: winbond
+I (1341) spi_flash: flash io: qio
+I (1343) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1343) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1344) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1344) main_task: Started on CPU0
+I (1344) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1344) main_task: Calling app_main()
+E (1374) gpio: gpio_install_isr_service(537): GPIO isr service already installed
+I (1374) ST7701 panel: Install MIPI DSI LCD control IO
+I (1374) ST7701 panel: Install MIPI DSI LCD data panel
+I (1374) st7701: version: 2.0.2
+I (1514) st7701_mipi: LCD ID: FF FF FF
+I (1514) st7701_mipi:  st7701->madctl_val: 0x0, st7701->colmod_val: 0x77
+I (1734) ES8156: ES8156 detected, chip version: 0x1
+I (3074) sdcard: Power cycling SD card...
+W (3074) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (3374) sdcard: SD card power cycle complete
+I (3374) sdcard: Initializing SD card (SDMMC 4-bit mode)
+I (3374) sdcard: Mounting filesystem
+I (3544) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (base) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+@@SDT-PONG@@ {"t":"PONG","variant":"base","mounted":true,"idle_left_s":299,"free_int":473083,"free_psram":30718728} @@09349bc3@@
+==============================================================
+IDF6 SD test, variant base: RUN grace file=/sd/apps/at.cavac.paperclips-grace/app.so
+@@SDT-BEGIN@@ {"t":"begin","variant":"base","suite":"grace","args":"file=/sd/apps/at.cavac.paperclips-grace/app.so","idf":"v6.0.2","hosted":1,"chunked_msync":0,"pm":1,"psram_mhz":200,"int_wdt_ms":300,"reset_reason":3,"free_int":472995,"largest_int":319488,"free_psram":30718728,"card_name":"SE16G","card_mb":15193,"card_khz":40000} @@874f5ad5@@
+Pattern file present (8 MB), verifying through 4 KB internal reads...
+  baseline OK (1894 ms)
+@@SDT-PATTERN@@ {"t":"pattern","written":false,"baseline":true} @@12cca7a0@@
+  page     default direct     db1  150000 @52       #1: ok  4239 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":52,"rep":1,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34554,"kbps":4239,"detail":[]} @@c04255af@@
+  page     default direct     db1  150000 @52       #2: ok  4236 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":52,"rep":2,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34574,"kbps":4236,"detail":[]} @@91180706@@
+  page     default direct     db1  150000 @4096     #1: ok  11907 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":1,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12302,"kbps":11907,"detail":[]} @@9183ce4a@@
+  page     default direct     db1  150000 @4096     #2: ok  11880 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4096,"rep":2,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12330,"kbps":11880,"detail":[]} @@b2d17080@@
+  page     default direct     db1  150000 @4148     #1: ok  4241 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4148,"rep":1,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34535,"kbps":4241,"detail":[]} @@b2ba18c5@@
+  page     default direct     db1  150000 @4148     #2: ok  4247 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":150000,"off":4148,"rep":2,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34488,"kbps":4247,"detail":[]} @@78ad980f@@
+  page     default direct     db1  153600 @52       #1: ok  4260 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":153600,"off":52,"rep":1,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":35209,"kbps":4260,"detail":[]} @@a82c3a94@@
+  page     default direct     db1  153600 @52       #2: ok  4266 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":153600,"off":52,"rep":2,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":35154,"kbps":4266,"detail":[]} @@1f8bcb29@@
+  page     default direct     db1  153600 @4096     #1: ok  12402 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":153600,"off":4096,"rep":1,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12094,"kbps":12402,"detail":[]} @@2d7b73f3@@
+  page     default direct     db1  153600 @4096     #2: ok  12301 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":153600,"off":4096,"rep":2,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12194,"kbps":12301,"detail":[]} @@375c0fc0@@
+  page     default direct     db1  153600 @4148     #1: ok  4259 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":153600,"off":4148,"rep":1,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":35214,"kbps":4259,"detail":[]} @@a2caa678@@
+  page     default direct     db1  153600 @4148     #2: ok  4259 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":153600,"off":4148,"rep":2,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":35213,"kbps":4259,"detail":[]} @@a0df0d83@@
+  page     default direct     db1 1048576 @52       #1: ok  4281 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":52,"rep":1,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":239144,"kbps":4281,"detail":[]} @@35869658@@
+  page     default direct     db1 1048576 @52       #2: ok  4280 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":52,"rep":2,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":239202,"kbps":4280,"detail":[]} @@468d75ad@@
+  page     default direct     db1 1048576 @4096     #1: ok  12956 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":4096,"rep":1,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":79034,"kbps":12956,"detail":[]} @@d978e821@@
+  page     default direct     db1 1048576 @4096     #2: ok  12969 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":4096,"rep":2,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":78956,"kbps":12969,"detail":[]} @@05cb42bc@@
+  page     default direct     db1 1048576 @4148     #1: ok  4264 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":4148,"rep":1,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":240128,"kbps":4264,"detail":[]} @@855a56f7@@
+  page     default direct     db1 1048576 @4148     #2: ok  4264 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"default","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":1048576,"off":4148,"rep":2,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":240134,"kbps":4264,"detail":[]} @@262e4584@@
+  page     fast    direct     db1  150000 @52       #1: ok  4224 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":150000,"off":52,"rep":1,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34672,"kbps":4224,"detail":[]} @@c54f7586@@
+  page     fast    direct     db1  150000 @52       #2: ok  4224 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":150000,"off":52,"rep":2,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34678,"kbps":4224,"detail":[]} @@5ffac388@@
+  page     fast    direct     db1  150000 @4096     #1: ok  11981 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":150000,"off":4096,"rep":1,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12226,"kbps":11981,"detail":[]} @@7c281e5c@@
+  page     fast    direct     db1  150000 @4096     #2: ok  11885 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":150000,"off":4096,"rep":2,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12325,"kbps":11885,"detail":[]} @@e3c78c88@@
+  page     fast    direct     db1  150000 @4148     #1: ok  4254 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":150000,"off":4148,"rep":1,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34432,"kbps":4254,"detail":[]} @@20428151@@
+  page     fast    direct     db1  150000 @4148     #2: ok  4257 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":150000,"off":4148,"rep":2,"addr":"0x482b5000","ok":true,"n":150000,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":34406,"kbps":4257,"detail":[]} @@1ff5cf4a@@
+  page     fast    direct     db1  153600 @52       #1: ok  4274 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":153600,"off":52,"rep":1,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":35095,"kbps":4274,"detail":[]} @@33b7857a@@
+  page     fast    direct     db1  153600 @52       #2: ok  4277 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":153600,"off":52,"rep":2,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":35065,"kbps":4277,"detail":[]} @@8557e070@@
+  page     fast    direct     db1  153600 @4096     #1: ok  12399 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":153600,"off":4096,"rep":1,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12097,"kbps":12399,"detail":[]} @@819195bb@@
+  page     fast    direct     db1  153600 @4096     #2: ok  12384 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":153600,"off":4096,"rep":2,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":12112,"kbps":12384,"detail":[]} @@164d0779@@
+  page     fast    direct     db1  153600 @4148     #1: ok  4271 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":153600,"off":4148,"rep":1,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":35118,"kbps":4271,"detail":[]} @@32a01fb0@@
+  page     fast    direct     db1  153600 @4148     #2: ok  4275 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":153600,"off":4148,"rep":2,"addr":"0x482b5000","ok":true,"n":153600,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":35086,"kbps":4275,"detail":[]} @@369680ad@@
+  page     fast    direct     db1 1048576 @52       #1: ok  4282 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":1048576,"off":52,"rep":1,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":239129,"kbps":4282,"detail":[]} @@b6d3eccd@@
+  page     fast    direct     db1 1048576 @52       #2: ok  4281 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":1048576,"off":52,"rep":2,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":239165,"kbps":4281,"detail":[]} @@660baa61@@
+  page     fast    direct     db1 1048576 @4096     #1: ok  12960 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":1048576,"off":4096,"rep":1,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":79012,"kbps":12960,"detail":[]} @@81778ed1@@
+  page     fast    direct     db1 1048576 @4096     #2: ok  12949 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":1048576,"off":4096,"rep":2,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":79078,"kbps":12949,"detail":[]} @@2fc49d16@@
+  page     fast    direct     db1 1048576 @4148     #1: ok  4262 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":1048576,"off":4148,"rep":1,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":240254,"kbps":4262,"detail":[]} @@dcac0740@@
+  page     fast    direct     db1 1048576 @4148     #2: ok  4261 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"page","io":"fast","method":"direct","chunk":4096,"vbuf":8192,"dmabuf":1,"size":1048576,"off":4148,"rep":2,"addr":"0x482b5000","ok":true,"n":1048576,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":240278,"kbps":4261,"detail":[]} @@b02d1c2b@@
+  elf seg1 rep1: 179804 bytes @4096 -> 0x482b5000: ok (0 bad, first +-1, last +-1) 11898 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"elf-seg1","io":"default","method":"direct","dmabuf":1,"size":179804,"off":4096,"rep":1,"addr":"0x482b5000","ok":true,"n":179804,"bad":0,"first_bad":-1,"last_bad":-1,"us":14757,"file":"/sd/apps/at.cavac.paperclips-grace/app.so"} @@bd877900@@
+  elf seg1 rep2: 179804 bytes @4096 -> 0x482b5000: ok (0 bad, first +-1, last +-1) 12642 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"grace","dest":"elf-seg1","io":"default","method":"direct","dmabuf":1,"size":179804,"off":4096,"rep":2,"addr":"0x482b5000","ok":true,"n":179804,"bad":0,"first_bad":-1,"last_bad":-1,"us":13889,"file":"/sd/apps/at.cavac.paperclips-grace/app.so"} @@a72996be@@
+grace: 38 cases, 38 good, 0 BAD, 0 skipped
+@@SDT-SUMMARY@@ {"t":"summary","suite":"grace","cases":38,"good":38,"bad":0,"skipped":0} @@1af73cc4@@
+RESULT: all reads correct
+Run took 7744 ms
+@@SDT-END@@ {"t":"end","suite":"grace","status":"ok","ms":7744} @@a23ba490@@
+@@SDT-BYE@@ {"t":"bye"} @@9f989734@@

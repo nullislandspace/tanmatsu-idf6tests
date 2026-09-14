@@ -31,9 +31,9 @@ Conventions:
 - [x] 1.7 Two back-to-back unattended cycles OK. Self-test: planted block reported as `+4096 len 4096: data from file offset 12288 (+8192)`, 4096-byte granularity. Pattern switched to an invertible hash per word so byte counts/runs are exact.
 
 ### Phase 2 — reproduce on `base`
-- [ ] 2.1 `matrix`, `grace`, `grace` with a real graceloader app `.so`.
-- [ ] 2.2 If BAD: characterise (granularity, source offset, untouched/zeros, addresses, size threshold).
-- [ ] 2.3 If not: approach graceloader conditions one step at a time (graceconf, display=1, wifi traffic, PSRAM fragmentation, launch from SD).
+- [x] 2.1 `base`: `matrix` 258/258 ok, `grace` (+ real `app.so` segments) 38/38 ok, `sweep` over 25 MB of PSRAM addresses 36/36 ok, `grace usbhost=1` ok. **Not reproduced on base.**
+- [x] 2.3 Approached graceloader's boot: new variant `graceenv` (no `bsp_device_initialize()`, USB PHY switch, `/int` WL mount, USB HID host — exactly graceloader's `app_main` before the load). **Reproduced** on the first run (see §6 "graceenv reproduction").
+- [ ] 2.2 Characterise / bisect which graceenv difference matters (variant `nobsp` + runtime args `usbphy=1 intmount=1 usbhost=1`, `canary` suite).
 
 ### Phase 3 — discriminate (only on a reproducing configuration)
 - [ ] H1…H9, see §2.
@@ -64,6 +64,12 @@ Conventions:
 |---|---|---|---|---|---|---|
 | 09-14 | phase1 | base | smoke selftest=1 | `results/20260914T175704Z-base-smoke` | bad (planted) | detector self-test, as intended |
 | 09-14 | phase1 | base | smoke | `results/20260914T175826Z-base-smoke` | ok | 4K/64K/256K direct into PSRAM fine; ~12.5 MB/s |
+| 09-14 | 77adbe0 | base | matrix | `results/20260914T175924Z-base-matrix` | ok | 258/258, all dests, 4 K … 4 M |
+| 09-14 | 77adbe0+ | base | grace file=paperclips app.so | `results/*-base-grace` | ok | 38/38, ELF seg 179804 B @4096 → 0x482b5000 |
+| 09-14 | 77adbe0+ | base | sweep | `results/*-base-sweep` | ok | buffers 0x482b… → 0x499…, 36/36 |
+| 09-14 | 77adbe0+ | base | grace usbhost=1 file=… | `results/*-base-grace` | ok | USB HID host running: still fine |
+| 09-14 | 77adbe0+ | graceenv | grace file=… | `results/20260914T181244Z-graceenv-grace` | **BAD + crash** | 3rd case (150000 @4096 → 0x48082000): 130 bad bytes in 33 scattered 4-byte words; then panic in `heap_caps_free` (TLSF block header below the buffer corrupt) |
+| 09-14 | 77adbe0+ | graceenv | canary idle=10 reads=20 | `results/20260914T181630Z-graceenv-canary` | **BAD + crash** | idle 10 s: canary clean. 1st read (→ 0x48292000): 158 bad bytes, words `0xffffffff` / untouched fill; 2 MB canary below it clean; next `aligned_alloc` panicked: PSRAM heap lock pointer = 0xffffffff (heap control struct at PSRAM start corrupt). Panic was HALT → badge hung, user power-cycled. |
 
 ## 4. Tried / dead ends
 
@@ -97,6 +103,31 @@ ESP-Hosted SDIO settings are identical. Differences:
   required by main); graceloader has it off. Disabled in `sdkconfigs/tanmatsu`
   to match.
 - graceloader has USB host options (it links usb host); irrelevant.
+
+### graceenv reproduction (2026-09-14)
+
+- Only the graceloader-like boot reproduces; `base` (BSP initialised, display
+  framebuffer occupying low PSRAM) never failed, not even with the USB host
+  started at runtime.
+- Corruption is **scattered single 4-byte words** (not 4 KB / 512 B blocks):
+  words missing (still the fill value) or `0xffffffff`. Word granularity points
+  away from descriptor-chain/sector bugs.
+- At the same time memory **outside** the buffer is damaged: the TLSF header
+  just below the buffer, and the PSRAM heap's control structure near
+  0x48000000. A 2 MB canary block between those was **not** touched, and no
+  stray writes happened while idle. So the damage hits memory the CPU recently
+  wrote through the cache (heap metadata, freshly memset buffer) during SD DMA
+  into PSRAM — suggests a cache/PSRAM-access interaction rather than DMA to
+  random addresses.
+- Addresses: failing buffers at 0x48082000 / 0x48292000 (low PSRAM, free
+  because no framebuffer); base's buffers start at 0x482b…
+
+### Recovery (after the hang)
+
+`CONFIG_ESP_SYSTEM_PANIC_PRINT_REBOOT=y` in `sdkconfigs/tanmatsu` (was HALT).
+`tools/recover.py` / `make recover`: hard reset over `$PORT` as `make monitor`
+does → app restarts → READY → `EXIT` → launcher. `tools/sdtest.py` runs it
+automatically after crash / stall / lost link. Verified 2026-09-14.
 
 ## How to run
 

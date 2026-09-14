@@ -1,0 +1,5 @@
+# Boots like tanmatsu-graceloader: no BSP init, USB PHY switch, /int mount,
+# USB HID host started right after the SD card.
+CONFIG_IDF6TEST_VARIANT_NAME="graceenv"
+CONFIG_IDF6TEST_BSP_INIT=n
+CONFIG_IDF6TEST_GRACE_BOOT=y

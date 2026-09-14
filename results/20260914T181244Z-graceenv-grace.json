@@ -1,0 +1,181 @@
+{
+ "meta": {
+  "host_time": "20260914T181244Z",
+  "port": "rfc2217://localhost:4001",
+  "suite": "grace",
+  "args": "file=/sd/apps/at.cavac.paperclips-grace/app.so",
+  "variant": "graceenv",
+  "git_commit": "77adbe0191",
+  "git_dirty": true
+ },
+ "ready": {
+  "t": "PONG",
+  "variant": "graceenv",
+  "mounted": true,
+  "idle_left_s": 299,
+  "free_int": 473603,
+  "free_psram": 33025440
+ },
+ "begin": {
+  "t": "begin",
+  "variant": "graceenv",
+  "suite": "grace",
+  "args": "file=/sd/apps/at.cavac.paperclips-grace/app.so",
+  "idf": "v6.0.2",
+  "hosted": 1,
+  "chunked_msync": 0,
+  "pm": 1,
+  "psram_mhz": 200,
+  "int_wdt_ms": 300,
+  "bsp_init": 0,
+  "grace_boot": 1,
+  "usb_host": 1,
+  "reset_reason": 3,
+  "free_int": 473603,
+  "largest_int": 319488,
+  "free_psram": 33025440,
+  "card_name": "SE16G",
+  "card_mb": 15193,
+  "card_khz": 40000
+ },
+ "pattern": {
+  "t": "pattern",
+  "written": false,
+  "baseline": true
+ },
+ "cases": [
+  {
+   "t": "case",
+   "suite": "grace",
+   "dest": "page",
+   "io": "default",
+   "method": "direct",
+   "chunk": 4096,
+   "vbuf": 0,
+   "dmabuf": 1,
+   "size": 150000,
+   "off": 52,
+   "rep": 1,
+   "addr": "0x48082000",
+   "ok": true,
+   "n": 150000,
+   "errno": 0,
+   "bad": 0,
+   "bad_fill": 0,
+   "bad_zero": 0,
+   "runs": 0,
+   "gran": "",
+   "us": 37462,
+   "kbps": 3910,
+   "detail": []
+  },
+  {
+   "t": "case",
+   "suite": "grace",
+   "dest": "page",
+   "io": "default",
+   "method": "direct",
+   "chunk": 4096,
+   "vbuf": 0,
+   "dmabuf": 1,
+   "size": 150000,
+   "off": 52,
+   "rep": 2,
+   "addr": "0x48082000",
+   "ok": true,
+   "n": 150000,
+   "errno": 0,
+   "bad": 0,
+   "bad_fill": 0,
+   "bad_zero": 0,
+   "runs": 0,
+   "gran": "",
+   "us": 37495,
+   "kbps": 3906,
+   "detail": []
+  },
+  {
+   "t": "case",
+   "suite": "grace",
+   "dest": "page",
+   "io": "default",
+   "method": "direct",
+   "chunk": 4096,
+   "vbuf": 0,
+   "dmabuf": 1,
+   "size": 150000,
+   "off": 4096,
+   "rep": 1,
+   "addr": "0x48082000",
+   "ok": false,
+   "n": 150000,
+   "errno": 0,
+   "bad": 130,
+   "bad_fill": 78,
+   "bad_zero": 78,
+   "runs": 33,
+   "gran": "4",
+   "us": 25446,
+   "kbps": 5756,
+   "detail": [
+    {
+     "s": 8340,
+     "l": 4,
+     "d": "zeros (= untouched fill)"
+    },
+    {
+     "s": 11752,
+     "l": 4,
+     "d": "zeros (= untouched fill)"
+    },
+    {
+     "s": 16532,
+     "l": 4,
+     "d": "unrecognised"
+    },
+    {
+     "s": 18592,
+     "l": 4,
+     "d": "zeros (= untouched fill)"
+    },
+    {
+     "s": 20628,
+     "l": 4,
+     "d": "zeros (= untouched fill)"
+    },
+    {
+     "s": 27052,
+     "l": 4,
+     "d": "zeros (= untouched fill)"
+    },
+    {
+     "s": 32916,
+     "l": 4,
+     "d": "unrecognised"
+    },
+    {
+     "s": 34976,
+     "l": 4,
+     "d": "zeros (= untouched fill)"
+    },
+    {
+     "s": 37012,
+     "l": 4,
+     "d": "unrecognised"
+    },
+    {
+     "s": 39212,
+     "l": 4,
+     "d": "zeros (= untouched fill)"
+    }
+   ]
+  }
+ ],
+ "summary": null,
+ "end": null,
+ "corrupt_lines": 0,
+ "crash_lines": [
+  "Guru Meditation Error: Core  0 panic'ed (Load access fault). Exception was unhandled."
+ ],
+ "verdict": "crash"
+}

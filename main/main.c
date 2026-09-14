@@ -19,8 +19,11 @@
 #include "esp_log.h"
 #include "esp_system.h"
 #include "esp_timer.h"
+#include "esp_vfs_fat.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "gl_input.h"
+#include "hal/usb_serial_jtag_ll.h"
 #include "nvs_flash.h"
 #include "pax_fonts.h"
 #include "pax_gfx.h"
@@ -147,11 +150,54 @@ static bool connect_wifi(void) {
 }
 #endif
 
+static bool usb_host_started = false;
+
+static void start_usb_host(void) {
+    if (usb_host_started) return;
+    log_line("Starting USB HID host (gl_input_init, as graceloader)");
+    gl_input_init();
+    usb_host_started = true;
+}
+
+// tanmatsu-graceloader main.c at 7035d75, steps before mounting the SD card.
+// Done at boot in the graceenv variant; RUN args usbphy=1 / intmount=1 do them
+// later in any variant.
+static wl_handle_t wl_handle = WL_INVALID_HANDLE;
+static bool        usb_phy_switched = false;
+
+static void switch_usb_phy(void) {
+    if (usb_phy_switched) return;
+    usb_phy_switched = true;
+    const usb_serial_jtag_pull_override_vals_t override_disable_usb = {
+        .dm_pd = true, .dm_pu = false, .dp_pd = true, .dp_pu = false};
+    const usb_serial_jtag_pull_override_vals_t override_enable_usb = {
+        .dm_pd = false, .dm_pu = false, .dp_pd = false, .dp_pu = true};
+    usb_serial_jtag_ll_phy_enable_pull_override(&override_disable_usb);
+    usb_serial_jtag_ll_phy_select(0);
+    vTaskDelay(pdMS_TO_TICKS(500));
+    usb_serial_jtag_ll_phy_enable_pull_override(&override_enable_usb);
+    usb_serial_jtag_ll_phy_disable_pull_override();
+}
+
+static void mount_int(void) {
+    if (wl_handle != WL_INVALID_HANDLE) return;
+    esp_vfs_fat_mount_config_t fat_config = {
+        .format_if_mount_failed   = false,
+        .max_files                = 10,
+        .allocation_unit_size     = CONFIG_WL_SECTOR_SIZE,
+        .disk_status_check_enable = false,
+        .use_one_fat              = false,
+    };
+    esp_err_t res = esp_vfs_fat_spiflash_mount_rw_wl("/int", "locfd", &fat_config, &wl_handle);
+    if (res != ESP_OK) ESP_LOGE(TAG, "Failed to mount /int: %s", esp_err_to_name(res));
+}
+
 static void emit_begin(const char* suite, const char* args) {
     sdmmc_card_t* card = sdcard_get_card();
     report_emitf("BEGIN",
                  "{\"t\":\"begin\",\"variant\":\"%s\",\"suite\":\"%s\",\"args\":\"%s\",\"idf\":\"%s\","
                  "\"hosted\":%d,\"chunked_msync\":%d,\"pm\":%d,\"psram_mhz\":%d,\"int_wdt_ms\":%d,"
+                 "\"bsp_init\":%d,\"grace_boot\":%d,\"usb_host\":%d,\"int_mounted\":%d,"
                  "\"reset_reason\":%d,\"free_int\":%u,\"largest_int\":%u,\"free_psram\":%u,"
                  "\"card_name\":\"%s\",\"card_mb\":%llu,\"card_khz\":%d}",
                  CONFIG_IDF6TEST_VARIANT_NAME, suite, args, esp_get_idf_version(),
@@ -170,7 +216,18 @@ static void emit_begin(const char* suite, const char* args) {
 #else
                  0,
 #endif
-                 CONFIG_SPIRAM_SPEED, CONFIG_ESP_INT_WDT_TIMEOUT_MS, (int)esp_reset_reason(),
+                 CONFIG_SPIRAM_SPEED, CONFIG_ESP_INT_WDT_TIMEOUT_MS,
+#if CONFIG_IDF6TEST_BSP_INIT
+                 1,
+#else
+                 0,
+#endif
+#if CONFIG_IDF6TEST_GRACE_BOOT
+                 1,
+#else
+                 0,
+#endif
+                 usb_host_started, wl_handle != WL_INVALID_HANDLE, (int)esp_reset_reason(),
                  (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
                  (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL),
                  (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM), card ? card->cid.name : "",
@@ -195,6 +252,9 @@ static void run_command(char* line) {
     log_line("==============================================================");
     snprintf(text, sizeof(text), "IDF6 SD test, variant %s: RUN %s %s", CONFIG_IDF6TEST_VARIANT_NAME, suite, args);
     log_line(text);
+    if (sdtest_arg_int(args, "usbphy", 0)) switch_usb_phy();
+    if (sdtest_arg_int(args, "intmount", 0)) mount_int();
+    if (sdtest_arg_int(args, "usbhost", 0)) start_usb_host();
     emit_begin(suite, args);
 
     int64_t     t0     = esp_timer_get_time();
@@ -243,6 +303,7 @@ void app_main(void) {
     esp_err_t res = nvs_flash_init();
     if (res != ESP_OK) ESP_LOGE(TAG, "NVS init failed: %d", res);
 
+#if CONFIG_IDF6TEST_BSP_INIT
     const bsp_configuration_t bsp_configuration = {
         .display =
             {
@@ -257,8 +318,14 @@ void app_main(void) {
     }
     init_display();
     ESP_ERROR_CHECK(bsp_input_get_queue(&input_event_queue));
+#endif
 
     report_buf = heap_caps_malloc(REPORT_BYTES, MALLOC_CAP_SPIRAM);
+
+#if CONFIG_IDF6TEST_GRACE_BOOT
+    switch_usb_phy();
+    mount_int();
+#endif
 
     // As graceloader: SD card straight after the BSP, radio left as it is.
     char text[LINE_LEN];
@@ -271,6 +338,10 @@ void app_main(void) {
     }
     log_line(text);
     redraw();
+
+#if CONFIG_IDF6TEST_GRACE_BOOT
+    start_usb_host();
+#endif
 
     QueueHandle_t commands = console_start();
     for (;;) {
@@ -285,7 +356,7 @@ void app_main(void) {
             }
         }
         bsp_input_event_t event;
-        while (xQueueReceive(input_event_queue, &event, 0) == pdTRUE) {
+        while (input_event_queue && xQueueReceive(input_event_queue, &event, 0) == pdTRUE) {
             if (event.type == INPUT_EVENT_TYPE_NAVIGATION && event.args_navigation.state &&
                 (event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_F1 ||
                  event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_ESC)) {
