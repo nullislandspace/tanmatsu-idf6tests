@@ -3,10 +3,16 @@
 Investigation notes, 2026-09-06. Written after migrating `tanmatsu-graceloader`
 from ESP-IDF v5.5.1 to v6.0.2.
 
-**Status: root cause attributed but not proven.** A workaround is in place and
-committed (`ee85b37`). The attribution is [espressif/esp-idf#16233][16233],
-which Espressif filed and then closed *"Resolution: NA"* — i.e. acknowledged
-and not fixed.
+**Status (2026-09-14): root cause found and fix verified on hardware — see
+§12.** Dynamic frequency scaling switches the PSRAM MSPI interface to low-speed
+mode during SD DMA transfers into PSRAM, because the SDMMC driver only holds
+`ESP_PM_APB_FREQ_MAX`. Holding `ESP_PM_CPU_FREQ_MAX` fixes it.
+
+*Original status (2026-09-06, superseded):* root cause attributed but not
+proven. A workaround is in place and committed (`ee85b37`). The attribution is
+[espressif/esp-idf#16233][16233], which Espressif filed and then closed
+*"Resolution: NA"* — i.e. acknowledged and not fixed. §5–§11 are kept as the
+record of how the investigation went; their conclusions are corrected in §12.4.
 
 > **Update 2026-09-14, evening — root cause found, read §12 first.** The
 > corruption is caused by dynamic frequency scaling: the SDMMC driver only
@@ -320,6 +326,11 @@ descriptor were ever clobbered. Worth reporting upstream on its own merits.
 
 ## 9. Practical guidance
 
+> **Superseded by §12.5.** The real rule: SD card DMA is unsafe whenever DFS can
+> scale the CPU below the PSRAM speed (no display running, `CONFIG_PM_ENABLE=y`).
+> Hold an `ESP_PM_CPU_FREQ_MAX` lock. The size-based guidance below was based on
+> the wrong theory; staging also does not prevent the DFS lock-ups.
+
 - **Any SD read larger than ~16 KB straight into a PSRAM destination is
   suspect** on this platform + IDF combination. Chunk it, or stage through
   internal RAM.
@@ -502,6 +513,10 @@ pattern would say where to look:
 [124]: https://github.com/espressif/esp-hosted-mcu/issues/124
 
 ### 11.7 Test plan — `../tanmatsu-idf6tests`
+
+*(As planned before testing. What was actually run, and the additional
+variants that found the cause (`nobsp`, `graceenv`, `pmfix`, `gracefix`), are
+in §12 and the test app's `TESTPLAN.md`.)*
 
 A standalone app on IDF 6.0.2 / badge-bsp 1.5.0, launched from the SD card
 like any other, that:

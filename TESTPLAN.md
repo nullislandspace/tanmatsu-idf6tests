@@ -22,7 +22,7 @@ Conventions:
 - [x] 0.4 Plumbing: `mode_badgelink` works from the launcher; `badgelink start` boots the **AppFS** copy, so `install` now also uploads to AppFS (as fonttest).
 
 ### Phase 1 — automation
-- [x] 1.1 Firmware command console (USB-serial/JTAG driver, PING/RUN/REMOUNT/EXIT, READY banner, idle timeout).
+- [x] 1.1 Firmware command console (USB-serial/JTAG driver, PING/RUN/EXIT, READY banner, 5 min idle timeout → launcher). `REMOUNT` was planned but not needed (see 1.4).
 - [x] 1.2 Framed, CRC-checked result records.
 - [x] 1.3 `main.c` restructure (no startup delay, throttled redraw).
 - [x] 1.4 Suites: smoke, matrix, grace (+ real ELF via `file=`), stress, workaround; `selftest=1`; `wifi=1` connects WiFi before any suite. No `REMOUNT` needed: `dmabuf=0/1` switches `card->host.dma_aligned_buffer` live.
@@ -48,7 +48,7 @@ Conventions:
 
 | ID | Hypothesis | Test | Status | Evidence |
 |---|---|---|---|---|
-| H1 | `dma_aligned_buffer` interaction | `REMOUNT dmabuf=0` | refuted once on graceloader (fuckup §7); retest here | |
+| H1 | `dma_aligned_buffer` interaction | `dmabuf=0` | not the cause (graceloader §7; fix works with it set). Costs speed on unaligned reads, see §5 | `pmfix-workaround` |
 | H2 | DMA into PSRAM itself (address mapping) | `sweep` over 25 MB of PSRAM | refuted (addresses irrelevant on base) | `20260914T180356Z-base-sweep` |
 | H3 | SDMMC controller sharing with ESP-Hosted | variant `nohosted` | not needed: fix works with hosted on | `pmfix`, `gracefix` |
 | H4 | cache msync (non-chunked C2M) | variant `chunkedmsync` | not needed | |
@@ -170,6 +170,10 @@ ESP-Hosted SDIO settings are identical. Differences:
 
 ### graceenv reproduction (2026-09-14)
 
+*(First observations, written before the cause was known. The "cache
+interaction" reading below is superseded by "Root cause" above: the damaged
+memory is PSRAM accessed while MSPI switches speed mode.)*
+
 - Only the graceloader-like boot reproduces; `base` (BSP initialised, display
   framebuffer occupying low PSRAM) never failed, not even with the USB host
   started at runtime.
@@ -185,6 +189,14 @@ ESP-Hosted SDIO settings are identical. Differences:
   random addresses.
 - Addresses: failing buffers at 0x48082000 / 0x48292000 (low PSRAM, free
   because no framebuffer); base's buffers start at 0x482b…
+
+### Unexplained, minor
+
+- `base` `matrix` measured ~7.8 MB/s for large direct reads, while `smoke`,
+  `sweep` and `pmfix` `workaround` measured 12–13 MB/s for the same kind of
+  read. Not investigated (possibly the many small reads/log lines in between).
+- The first `PING` after an app start sometimes arrives prefixed with console
+  junk (`Unknown command: I (PING`); the host retries every second, harmless.
 
 ### Recovery (after the hang)
 
@@ -208,11 +220,23 @@ make cycleall SUITE=matrix                       # all VARIANTS
 - `tools/sdtest.py` connects to `$PORT`, waits for READY/PONG, sends
   `RUN <suite> <args>`, stores `results/<UTC>-<variant>-<suite>.{log,json}`,
   sends `EXIT`. Exit code 0 ok, 3 corrupted reads, 2 crash/error, 1 link/timeout.
-- Suites and args: see the header comment of `main/sdtest.c`. Common args:
-  `dmabuf=0|1`, `io=unbuf|default|fast`, `vbuf=`, `reps=`, `display=1`
-  (redraw per line), `wifi=1` (hosted variants), `selftest=1`.
-- Variants: `sdkconfigs/variant-<name>` (+ `patches/<name>/<idf component>/*.patch`
-  for patched IDF components).
+- Suites (`smoke`, `matrix`, `stress`, `grace`, `workaround`, `canary`,
+  `sweep`) and their args: header comment of `main/sdtest.c`. Args handled by
+  `main.c` for any suite: `pmlock=cpu|apb|nosleep` (hold that PM lock during
+  the suite), `usbphy=1`, `intmount=1`, `usbhost=1` (graceloader's boot
+  steps), `display=1` (redraw per line), `wifi=1` (hosted variants).
+- `make recover` resets the badge (as `make monitor` does) and sends `EXIT`;
+  `sdtest.py` does this by itself after a crash, stall or lost link.
+- Variants (`sdkconfigs/variant-<name>`, plus `patches/<name>/<idf component>/*.patch`):
+
+  | Variant | What | Reproduces? |
+  |---|---|---|
+  | `base` | as graceloader's sdkconfig, BSP (display) initialised | no (DSI holds CPU_FREQ_MAX) |
+  | `nobsp` | base without `bsp_device_initialize()` | **yes** |
+  | `graceenv` | boots exactly like graceloader (no BSP, USB PHY switch, `/int`, USB HID host) | **yes** |
+  | `pmfix` | nobsp + `esp_driver_sdmmc` taking `ESP_PM_CPU_FREQ_MAX` | no (fixed) |
+  | `gracefix` | graceenv + the same patch | no (fixed) |
+  | `nohosted`, `ringfix`, `chunkedmsync` | original hypotheses (ESP-Hosted off, ring wrap fix, chunked msync) | not run: made unnecessary by the root cause |
 - The app returns to the launcher by itself after 5 min without commands.
 - There is **one** app, `at.cavac.idf6test`, installed straight into AppFS
   (no `/int` or `/sd` app directory). Each `make install VARIANT=…` overwrites

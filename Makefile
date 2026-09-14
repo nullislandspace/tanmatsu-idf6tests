@@ -65,7 +65,7 @@ IDF_PARAMS += -DIDF6TEST_EXTRA_COMPONENTS=$(CURDIR)/$(VARIANT_COMPONENTS_DIR)
 endif
 
 # All variants, in the order cycleall runs them.
-VARIANTS ?= base nohosted ringfix chunkedmsync
+VARIANTS ?= base nobsp graceenv pmfix gracefix
 
 #####
 

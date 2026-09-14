@@ -45,7 +45,11 @@
 //               (holds `step` MB more PSRAM per round; rep = round*100+repeat)
 //
 // selftest=1 (any suite) plants a copied 4 KB block into the first case of at
-// least 16 KB, to prove the analysis reports it.
+// least 16 KB, to prove the analysis reports it. freebad=1 frees buffers of bad
+// cases too (by default they are leaked, as the heap around them may be damaged).
+//
+// main.c handles further args for any suite: pmlock=cpu|apb|nosleep,
+// usbphy=1, intmount=1, usbhost=1, display=1, wifi=1 (see TESTPLAN.md).
 
 #include "sdtest.h"
 
