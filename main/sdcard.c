@@ -34,6 +34,7 @@ static esp_err_t sdmmc_host_deinit_noop(void) {
 #define SDCARD_WORKAROUND_HOSTED_DOES_SDMMC_HOST_INIT 0
 #endif
 static bool mounted = false;
+static sdmmc_card_t* s_card = NULL;
 static sd_pwr_ctrl_handle_t pwr_ctrl_handle = NULL;
 
 // DMA buffer in internal RAM (required for SDMMC). ESP-IDF 6 calls
@@ -121,10 +122,21 @@ esp_err_t sdcard_init(void) {
 
     ESP_LOGI(TAG, "SD card mounted successfully");
     sdmmc_card_print_info(stdout, card);
+    s_card  = card;
     mounted = true;
     return ESP_OK;
 }
 
 bool sdcard_is_mounted(void) {
     return mounted;
+}
+
+sdmmc_card_t* sdcard_get_card(void) {
+    return s_card;
+}
+
+// The mounted card keeps its own copy of the host struct, and sdmmc_read_sectors()
+// looks the bounce buffer up there on every call, so it can be switched live.
+void sdcard_set_dma_aligned_buffer(bool enable) {
+    if (s_card) s_card->host.dma_aligned_buffer = enable ? dma_buf : NULL;
 }

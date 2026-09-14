@@ -1,0 +1,40 @@
+I (3117) sdcard: Power cycling SD card...
+W (3117) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (3417) sdcard: SD card power cycle complete
+I (3417) sdcard: Initializing SD card (SDMMC 4-bit mode)
+I (3417) sdcard: Mounting filesystem
+I (3587) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (base) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+W (3637) console: Unknown command: IPING
+@@SDT-PONG@@ {"t":"PONG","variant":"base","mounted":true,"idle_left_s":299,"free_int":473083,"free_psram":30718728} @@09349bc3@@
+==============================================================
+IDF6 SD test, variant base: RUN smoke selftest=1
+@@SDT-BEGIN@@ {"t":"begin","variant":"base","suite":"smoke","args":"selftest=1","idf":"v6.0.2","hosted":1,"chunked_msync":0,"pm":1,"psram_mhz":200,"int_wdt_ms":300,"reset_reason":3,"free_int":472995,"largest_int":319488,"free_psram":30718728,"card_name":"SE16G","card_mb":15193,"card_khz":40000} @@48a9b6de@@
+Pattern file present (8 MB), verifying through 4 KB internal reads...
+  baseline: mismatch in the 4 KB block at 0
+  baseline failed; writing the pattern file again
+Writing 8 MB pattern file through 4 KB internal writes...
+  written in 3744 ms, verifying...
+  baseline OK
+@@SDT-PATTERN@@ {"t":"pattern","written":true,"baseline":true} @@b02c4bb6@@
+  psram    unbuf   direct     db1    4096 @0        #1: ok  2917 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"smoke","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":0,"rep":1,"addr":"0x482b4540","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1371,"kbps":2917,"detail":[]} @@6a846b81@@
+  (selftest: planted a copy of +12288 at +4096 in the next case)
+  psram    unbuf   direct     db1   65536 @0        #1: BAD  12448 KB/s
+    4085 bad bytes (18 fill, 14 zero) in 1 run(s), 4096-byte granularity
+    +4096 len 4096: data from file offset 12288 (+8192)
+@@SDT-CASE@@ {"t":"case","suite":"smoke","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":0,"rep":1,"addr":"0x482b4540","ok":false,"n":65536,"errno":0,"bad":4085,"bad_fill":18,"bad_zero":14,"runs":1,"gran":"4096","us":5141,"kbps":12448,"detail":[{"s":4096,"l":4096,"d":"data from file offset 12288 (+8192)"}]} @@1df8c72d@@
+  psram    unbuf   direct     db1  262144 @0        #1: ok  12742 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"smoke","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":0,"rep":1,"addr":"0x482b4540","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":20090,"kbps":12742,"detail":[]} @@1e9419f9@@
+smoke: 3 cases, 2 good, 1 BAD, 0 skipped
+@@SDT-SUMMARY@@ {"t":"summary","suite":"smoke","cases":3,"good":2,"bad":1,"skipped":0} @@80fb5483@@
+RESULT: CORRUPTED READS FOUND
+Run took 5780 ms
+@@SDT-END@@ {"t":"end","suite":"smoke","status":"bad","ms":5780} @@18e823a9@@
+@@SDT-BYE@@ {"t":"bye"} @@9f989734@@

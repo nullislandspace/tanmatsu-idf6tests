@@ -54,12 +54,18 @@ endif
 
 IDF_PARAMS := -B $(BUILD) -DDEVICE=$(DEVICE) -DSDKCONFIG_DEFAULTS="$(SDKCONFIG_DEFAULTS)" -DSDKCONFIG=$(SDKCONFIG) -DIDF_TARGET=$(IDF_TARGET) -DFAT=$(FAT)
 
-# ringfix: a copy of the IDF's esp_driver_sdmmc with patches/ applied, placed
-# where the project picks it up in preference to the IDF's.
-RINGFIX_DIR := build/components-ringfix
-ifeq ($(VARIANT), ringfix)
-IDF_PARAMS += -DIDF6TEST_EXTRA_COMPONENTS=$(CURDIR)/$(RINGFIX_DIR)
+# Variants with patched IDF components: patches/<variant>/<component>/*.patch
+# are applied to a copy of $(IDF_PATH)/components/<component> in
+# build/components-<variant>, which the project picks up in preference to the
+# IDF's own (see CMakeLists.txt).
+VARIANT_PATCH_DIRS := $(wildcard patches/$(VARIANT)/*)
+VARIANT_COMPONENTS_DIR := build/components-$(VARIANT)
+ifneq ($(VARIANT_PATCH_DIRS),)
+IDF_PARAMS += -DIDF6TEST_EXTRA_COMPONENTS=$(CURDIR)/$(VARIANT_COMPONENTS_DIR)
 endif
+
+# All variants, in the order cycleall runs them.
+VARIANTS ?= base nohosted ringfix chunkedmsync
 
 #####
 
@@ -85,28 +91,59 @@ badgelink:
 APP_SLUG ?= at.cavac.idf6test.$(VARIANT)
 APP_INSTALL_BASE_PATH ?= /int/apps/
 APP_INSTALL_PATH = $(APP_INSTALL_BASE_PATH)$(APP_SLUG)
+APP_TITLE ?= IDF6 SD test $(VARIANT)
+APP_VERSION ?= 1
+
+# Writing an AppFS entry erases flash sectors and takes several seconds, far
+# longer than badgelink's 0.25s default request timeout.
+APPFS_TIMEOUT ?= 30
+
+# A fresh badgelink connection intermittently fails with "Invalid sync" when the
+# TCP proxy still holds bytes from a previous session; retry instead of failing.
+BADGELINK := tools/badgelink_retry.sh $(BADGELINK_CONN)
 
 .PHONY: install
-install: build
+install: build mode_badgelink
 	@echo "=== Installing application ==="
 	@echo "Creating directory $(APP_INSTALL_PATH)..."
-	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) fs mkdir $(APP_INSTALL_PATH) || true
+	$(BADGELINK) fs mkdir $(APP_INSTALL_PATH) || true
 	@echo "Uploading metadata.json..."
 	sed 's/@VARIANT@/$(VARIANT)/g' metadata/metadata.json > $(BUILD)/metadata.json
-	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) fs upload $(APP_INSTALL_PATH)/metadata.json ../../$(BUILD)/metadata.json
-	@echo "Uploading icon16.png..."
-	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) fs upload $(APP_INSTALL_PATH)/icon16.png ../../metadata/icon16.png
-	@echo "Uploading icon32.png..."
-	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) fs upload $(APP_INSTALL_PATH)/icon32.png ../../metadata/icon32.png
-	@echo "Uploading icon64.png..."
-	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) fs upload $(APP_INSTALL_PATH)/icon64.png ../../metadata/icon64.png
+	$(BADGELINK) fs upload $(APP_INSTALL_PATH)/metadata.json $(BUILD)/metadata.json
+	@echo "Uploading icons..."
+	$(BADGELINK) fs upload $(APP_INSTALL_PATH)/icon16.png metadata/icon16.png
+	$(BADGELINK) fs upload $(APP_INSTALL_PATH)/icon32.png metadata/icon32.png
+	$(BADGELINK) fs upload $(APP_INSTALL_PATH)/icon64.png metadata/icon64.png
 	@echo "Uploading application.bin..."
-	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) fs upload $(APP_INSTALL_PATH)/application.bin ../../$(BUILD)/application.bin
+	$(BADGELINK) fs upload $(APP_INSTALL_PATH)/application.bin $(BUILD)/application.bin
+	@echo "Updating AppFS copy of $(APP_SLUG)..."
+	@# `badgelink start` boots the AppFS copy, not /int/apps.
+	$(BADGELINK) --timeout $(APPFS_TIMEOUT) appfs upload $(APP_SLUG) "$(APP_TITLE)" $(APP_VERSION) $(BUILD)/application.bin
 	@echo "=== Installation complete ==="
 
+# Needs BadgeLink mode: after an app hands the badge back, USB is in debug mode.
 .PHONY: run
-run:
-	cd badgelink/tools; ./badgelink.sh $(BADGELINK_CONN) start $(APP_SLUG)
+run: mode_badgelink
+	$(BADGELINK) start $(APP_SLUG)
+
+# Test automation (see TESTPLAN.md)
+#
+#   make testrun VARIANT=base SUITE=matrix ARGS="reps=3"   app must be running
+#   make cycle   VARIANT=base SUITE=matrix                 build, install, run, test
+#   make cycleall SUITE=matrix                             cycle over $(VARIANTS)
+SUITE ?= smoke
+ARGS ?=
+
+.PHONY: testrun cycle cycleall
+testrun:
+	source "$(IDF_SOURCE)" >/dev/null && \
+	python3 tools/sdtest.py --port "$(PORT)" --variant $(VARIANT) --suite $(SUITE) --args "$(ARGS)"
+
+cycle: build install run
+	$(MAKE) testrun
+
+cycleall:
+	for v in $(VARIANTS); do $(MAKE) cycle VARIANT=$$v SUITE=$(SUITE) ARGS="$(ARGS)"; done
 
 # Preparation
 
@@ -193,25 +230,31 @@ checkbuildenv:
 # Building
 
 .PHONY: build
-build: check-sdk icons checkbuildenv $(if $(filter ringfix,$(VARIANT)),ringfix-component)
+build: check-sdk icons checkbuildenv $(if $(VARIANT_PATCH_DIRS),variant-components)
 	source "$(IDF_SOURCE)" >/dev/null && idf.py $(IDF_PARAMS) build
 
-.PHONY: ringfix-component
-ringfix-component:
-	rm -rf $(RINGFIX_DIR)
-	mkdir -p $(RINGFIX_DIR)
-	cp -r "$(IDF_PATH)/components/esp_driver_sdmmc" $(RINGFIX_DIR)/
-	for p in patches/esp_driver_sdmmc-*.patch; do patch -d $(RINGFIX_DIR)/esp_driver_sdmmc -p1 < $$p || exit 1; done
+# Only rewritten when a patch is newer than the copy, so incremental builds stay
+# incremental.
+.PHONY: variant-components
+variant-components:
+	for d in $(VARIANT_PATCH_DIRS); do \
+		comp=$$(basename $$d); dst=$(VARIANT_COMPONENTS_DIR)/$$comp; \
+		if [ -d $$dst ] && [ -z "$$(find $$d -newer $$dst/.patched 2>/dev/null)" ]; then continue; fi; \
+		echo "Patching $$comp for $(VARIANT)"; \
+		rm -rf $$dst; mkdir -p $(VARIANT_COMPONENTS_DIR); \
+		cp -r "$(IDF_PATH)/components/$$comp" $$dst || exit 1; \
+		for p in $$d/*.patch; do patch -d $$dst -p1 < $$p || exit 1; done; \
+		touch $$dst/.patched; \
+	done
 
-# All four variants, one after the other.
 .PHONY: buildvariants installvariants
 buildvariants:
-	for v in base nohosted ringfix chunkedmsync; do $(MAKE) build VARIANT=$$v || exit 1; done
+	for v in $(VARIANTS); do $(MAKE) build VARIANT=$$v || exit 1; done
 installvariants:
-	for v in base nohosted ringfix chunkedmsync; do $(MAKE) install VARIANT=$$v || exit 1; done
+	for v in $(VARIANTS); do $(MAKE) install VARIANT=$$v || exit 1; done
 
 .PHONY: reconfigure
-reconfigure: check-sdk checkbuildenv $(if $(filter ringfix,$(VARIANT)),ringfix-component)
+reconfigure: check-sdk checkbuildenv $(if $(VARIANT_PATCH_DIRS),variant-components)
 	source "$(IDF_SOURCE)" >/dev/null && idf.py $(IDF_PARAMS) reconfigure
 
 # Hardware
@@ -243,17 +286,36 @@ monitor:
 
 # USB mode switching
 #
-# Ask the firmware (running in USB_DEBUG / flash-monitor mode) to switch its
-# USB into BadgeLink (USB_DEVICE) mode, by sending the token "BADGELINK\n" on
-# the USB-serial/JTAG peripheral. Requires firmware that listens for it -- the
-# Tanmatsu launcher does, in main/usb_debug_listener.c.
+# mode_badgelink asks the firmware (the launcher, in USB_DEBUG mode) to switch
+# USB into BadgeLink mode by sending "BADGELINK\n" on the debug console, then
+# waits until BadgeLink actually answers. The request sometimes gets lost
+# silently, so it is repeated every few seconds. Does nothing if BadgeLink
+# already answers, so other targets can depend on it.
 #
 # PORT accepts either a local device path (e.g. /dev/ttyACM0) or an
 # rfc2217:// URL when the device is being forwarded over the network.
+BADGELINK_SWITCH_TRIES ?= 5
+BADGELINK_WAIT_TRIES ?= 5
+
 .PHONY: mode_badgelink
 mode_badgelink:
-	source "$(IDF_SOURCE)" >/dev/null && \
-	python3 -c "import serial, sys; s=serial.serial_for_url('$(PORT)', timeout=1); s.write(b'BADGELINK\n'); s.flush(); sys.stdout.write(s.read(128).decode(errors='replace')); s.close()"
+	if badgelink/tools/badgelink.sh $(BADGELINK_CONN) appfs list >/dev/null 2>&1; then \
+		echo "Badge is already in BadgeLink mode"; exit 0; \
+	fi; \
+	source "$(IDF_SOURCE)" >/dev/null; \
+	for s in $$(seq 1 $(BADGELINK_SWITCH_TRIES)); do \
+		echo "Requesting switch to BadgeLink mode on $(PORT) (attempt $$s)..."; \
+		python3 -c "import serial, sys; s=serial.serial_for_url('$(PORT)', timeout=1); s.write(b'BADGELINK\n'); s.flush(); sys.stdout.write(s.read(128).decode(errors='replace')); s.close()" || true; \
+		echo; \
+		for i in $$(seq 1 $(BADGELINK_WAIT_TRIES)); do \
+			sleep 1; \
+			if badgelink/tools/badgelink.sh $(BADGELINK_CONN) appfs list >/dev/null 2>&1; then \
+				echo "Badge is in BadgeLink mode"; exit 0; \
+			fi; \
+		done; \
+	done; \
+	echo "Timed out waiting for the badge to enter BadgeLink mode" >&2; \
+	exit 1
 
 # Ask the firmware (running in USB_DEVICE / BadgeLink mode) to switch its USB
 # back to flash/monitor (USB_DEBUG) mode via the BadgeLink `mode` command.

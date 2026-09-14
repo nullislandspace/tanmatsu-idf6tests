@@ -1,0 +1,143 @@
+{
+ "meta": {
+  "host_time": "20260914T175704Z",
+  "port": "rfc2217://localhost:4001",
+  "suite": "smoke",
+  "args": "selftest=1",
+  "variant": "base",
+  "git_commit": "122f70e088",
+  "git_dirty": true
+ },
+ "ready": {
+  "t": "PONG",
+  "variant": "base",
+  "mounted": true,
+  "idle_left_s": 299,
+  "free_int": 473083,
+  "free_psram": 30718728
+ },
+ "begin": {
+  "t": "begin",
+  "variant": "base",
+  "suite": "smoke",
+  "args": "selftest=1",
+  "idf": "v6.0.2",
+  "hosted": 1,
+  "chunked_msync": 0,
+  "pm": 1,
+  "psram_mhz": 200,
+  "int_wdt_ms": 300,
+  "reset_reason": 3,
+  "free_int": 472995,
+  "largest_int": 319488,
+  "free_psram": 30718728,
+  "card_name": "SE16G",
+  "card_mb": 15193,
+  "card_khz": 40000
+ },
+ "pattern": {
+  "t": "pattern",
+  "written": true,
+  "baseline": true
+ },
+ "cases": [
+  {
+   "t": "case",
+   "suite": "smoke",
+   "dest": "psram",
+   "io": "unbuf",
+   "method": "direct",
+   "chunk": 4096,
+   "vbuf": 0,
+   "dmabuf": 1,
+   "size": 4096,
+   "off": 0,
+   "rep": 1,
+   "addr": "0x482b4540",
+   "ok": true,
+   "n": 4096,
+   "errno": 0,
+   "bad": 0,
+   "bad_fill": 0,
+   "bad_zero": 0,
+   "runs": 0,
+   "gran": "",
+   "us": 1371,
+   "kbps": 2917,
+   "detail": []
+  },
+  {
+   "t": "case",
+   "suite": "smoke",
+   "dest": "psram",
+   "io": "unbuf",
+   "method": "direct",
+   "chunk": 4096,
+   "vbuf": 0,
+   "dmabuf": 1,
+   "size": 65536,
+   "off": 0,
+   "rep": 1,
+   "addr": "0x482b4540",
+   "ok": false,
+   "n": 65536,
+   "errno": 0,
+   "bad": 4085,
+   "bad_fill": 18,
+   "bad_zero": 14,
+   "runs": 1,
+   "gran": "4096",
+   "us": 5141,
+   "kbps": 12448,
+   "detail": [
+    {
+     "s": 4096,
+     "l": 4096,
+     "d": "data from file offset 12288 (+8192)"
+    }
+   ]
+  },
+  {
+   "t": "case",
+   "suite": "smoke",
+   "dest": "psram",
+   "io": "unbuf",
+   "method": "direct",
+   "chunk": 4096,
+   "vbuf": 0,
+   "dmabuf": 1,
+   "size": 262144,
+   "off": 0,
+   "rep": 1,
+   "addr": "0x482b4540",
+   "ok": true,
+   "n": 262144,
+   "errno": 0,
+   "bad": 0,
+   "bad_fill": 0,
+   "bad_zero": 0,
+   "runs": 0,
+   "gran": "",
+   "us": 20090,
+   "kbps": 12742,
+   "detail": []
+  }
+ ],
+ "summary": {
+  "t": "summary",
+  "suite": "smoke",
+  "cases": 3,
+  "good": 2,
+  "bad": 1,
+  "skipped": 0
+ },
+ "end": {
+  "t": "end",
+  "suite": "smoke",
+  "status": "bad",
+  "ms": 5780
+ },
+ "corrupt_lines": 0,
+ "crash_lines": [],
+ "verdict": "bad"
+}

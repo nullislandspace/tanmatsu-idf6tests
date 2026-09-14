@@ -13,13 +13,6 @@ menu "IDF6 SD card test"
             host init/deinit (as tanmatsu-graceloader does). Without it, the
             SD card owns the controller alone.
 
-    config IDF6TEST_STARTUP_DELAY_MS
-        int "Delay before starting, in ms"
-        default 10000
-        help
-            Launching from the launcher resets the USB serial connection;
-            this gives `make monitor` time to reconnect.
-
     config IDF6TEST_PATTERN_SIZE_MB
         int "Size of the pattern file on the SD card, in MB"
         default 8

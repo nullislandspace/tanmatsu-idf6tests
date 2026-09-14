@@ -1,9 +1,10 @@
-// IDF6 SD card test -- see README.md and idf6_sd_fuckup.md.
+// IDF6 SD card test -- see TESTPLAN.md and idf6_sd_fuckup.md.
 //
-// Mounts the SD card the way tanmatsu-graceloader does, then runs sdtest:
-// large reads straight into PSRAM (and friends), each checked against a
-// self-describing pattern file. The report goes to the console, the screen
-// and /sd/idf6test/results-<variant>.txt.
+// Mounts the SD card the way tanmatsu-graceloader does, then waits for
+// commands on the debug console (see console.h), normally sent by
+// tools/sdtest.py. Each RUN executes one sdtest suite; results go out as
+// CRC-framed records, as text on the console and screen, and are appended to
+// /sd/idf6test/results-<variant>.txt.
 
 #include <inttypes.h>
 #include <stdio.h>
@@ -11,10 +12,12 @@
 #include "bsp/device.h"
 #include "bsp/display.h"
 #include "bsp/input.h"
+#include "console.h"
 #include "driver/gpio.h"
 #include "esp_heap_caps.h"
 #include "esp_idf_version.h"
 #include "esp_log.h"
+#include "esp_system.h"
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -22,6 +25,7 @@
 #include "pax_fonts.h"
 #include "pax_gfx.h"
 #include "pax_text.h"
+#include "report.h"
 #include "sdcard.h"
 #include "sdkconfig.h"
 #include "sdtest.h"
@@ -36,10 +40,11 @@ static char const TAG[] = "idf6test";
 #define BLACK 0xFF000000
 #define WHITE 0xFFFFFFFF
 
-#define FONT_SIZE    9
-#define SCREEN_LINES 52
-#define LINE_LEN     160
-#define REPORT_BYTES (256 * 1024)
+#define FONT_SIZE         9
+#define SCREEN_LINES      52
+#define LINE_LEN          160
+#define REPORT_BYTES      (512 * 1024)
+#define REDRAW_PERIOD_US  (250 * 1000)
 
 static size_t                     display_h_res        = 0;
 static size_t                     display_v_res        = 0;
@@ -48,10 +53,12 @@ static bsp_display_endianness_t   display_data_endian  = 0;
 static pax_buf_t                  fb                   = {0};
 static QueueHandle_t              input_event_queue    = NULL;
 
-static char   screen_lines[SCREEN_LINES][LINE_LEN];
-static int    screen_count = 0;
-static char*  report_buf   = NULL;
-static size_t report_len   = 0;
+static char    screen_lines[SCREEN_LINES][LINE_LEN];
+static int     screen_count = 0;
+static char*   report_buf   = NULL;
+static size_t  report_len   = 0;
+static bool    redraw_every_line = false;  // RUN ... display=1
+static int64_t last_redraw  = 0;
 
 // ---- Output -----------------------------------------------------------------
 
@@ -63,8 +70,11 @@ static void redraw(void) {
         pax_draw_text(&fb, WHITE, pax_font_sky_mono, FONT_SIZE, 2, y * FONT_SIZE, screen_lines[i % SCREEN_LINES]);
     }
     bsp_display_blit(0, 0, display_h_res, display_v_res, pax_buf_get_pixels(&fb));
+    last_redraw = esp_timer_get_time();
 }
 
+// A full-screen blit per line would slow runs down and add display DMA
+// activity in between reads, so redraws are throttled unless display=1.
 static void log_line(const char* line) {
     printf("%s\n", line);
     snprintf(screen_lines[screen_count % SCREEN_LINES], LINE_LEN, "%s", line);
@@ -73,11 +83,11 @@ static void log_line(const char* line) {
         int n = snprintf(report_buf + report_len, REPORT_BYTES - report_len, "%s\n", line);
         if (n > 0 && report_len + n < REPORT_BYTES) report_len += n;
     }
-    redraw();
+    if (redraw_every_line || esp_timer_get_time() - last_redraw > REDRAW_PERIOD_US) redraw();
 }
 
 static void save_report(void) {
-    if (!report_buf) return;
+    if (!report_buf || !sdcard_is_mounted()) return;
     char path[64];
     snprintf(path, sizeof(path), "/sd/idf6test/results-%s.txt", CONFIG_IDF6TEST_VARIANT_NAME);
     FILE* f = fopen(path, "a");
@@ -88,7 +98,6 @@ static void save_report(void) {
     fwrite(report_buf, 1, report_len, f);
     fprintf(f, "\n");
     fclose(f);
-    printf("Report appended to %s\n", path);
 }
 
 // ---- Display setup (from tanmatsu-template) ----------------------------------
@@ -117,46 +126,10 @@ static void init_display(void) {
     }
 }
 
-// ---- Test run ---------------------------------------------------------------
-
-static void header(const char* what) {
-    char line[LINE_LEN];
-    log_line("==============================================================");
-    snprintf(line, sizeof(line), "IDF6 SD test, variant %s: %s", CONFIG_IDF6TEST_VARIANT_NAME, what);
-    log_line(line);
-    snprintf(line, sizeof(line), "ESP-IDF %s, ESP-Hosted %s, chunked C2M msync %s", esp_get_idf_version(),
-#if CONFIG_IDF6TEST_WITH_HOSTED
-             "on",
-#else
-             "off",
-#endif
-#if CONFIG_ESP_MM_CACHE_MSYNC_C2M_CHUNKED_OPS
-             "on"
-#else
-             "off"
-#endif
-    );
-    log_line(line);
-    snprintf(line, sizeof(line), "Free: internal %u (largest %u), PSRAM %u",
-             (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
-             (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL),
-             (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
-    log_line(line);
-}
-
-static void run_tests(const char* what) {
-    report_len = 0;
-    header(what);
-    int64_t t0 = esp_timer_get_time();
-    sdtest_run(log_line);
-    char line[LINE_LEN];
-    snprintf(line, sizeof(line), "Run took %lld s", (esp_timer_get_time() - t0) / 1000000);
-    log_line(line);
-    save_report();
-}
+// ---- Commands ---------------------------------------------------------------
 
 #if CONFIG_IDF6TEST_WITH_HOSTED
-// Called from app_main, whose stack is in internal RAM: wifi_connect_try_all()
+// Runs on the main task, whose stack is in internal RAM: wifi_connect_try_all()
 // reads the saved networks from NVS, which needs that.
 static bool connect_wifi(void) {
     log_line("Connecting to WiFi (networks saved in the launcher)...");
@@ -173,6 +146,93 @@ static bool connect_wifi(void) {
     return true;
 }
 #endif
+
+static void emit_begin(const char* suite, const char* args) {
+    sdmmc_card_t* card = sdcard_get_card();
+    report_emitf("BEGIN",
+                 "{\"t\":\"begin\",\"variant\":\"%s\",\"suite\":\"%s\",\"args\":\"%s\",\"idf\":\"%s\","
+                 "\"hosted\":%d,\"chunked_msync\":%d,\"pm\":%d,\"psram_mhz\":%d,\"int_wdt_ms\":%d,"
+                 "\"reset_reason\":%d,\"free_int\":%u,\"largest_int\":%u,\"free_psram\":%u,"
+                 "\"card_name\":\"%s\",\"card_mb\":%llu,\"card_khz\":%d}",
+                 CONFIG_IDF6TEST_VARIANT_NAME, suite, args, esp_get_idf_version(),
+#if CONFIG_IDF6TEST_WITH_HOSTED
+                 1,
+#else
+                 0,
+#endif
+#if CONFIG_ESP_MM_CACHE_MSYNC_C2M_CHUNKED_OPS
+                 1,
+#else
+                 0,
+#endif
+#if CONFIG_PM_ENABLE
+                 1,
+#else
+                 0,
+#endif
+                 CONFIG_SPIRAM_SPEED, CONFIG_ESP_INT_WDT_TIMEOUT_MS, (int)esp_reset_reason(),
+                 (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
+                 (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL),
+                 (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM), card ? card->cid.name : "",
+                 card ? (unsigned long long)card->csd.capacity * card->csd.sector_size / (1024 * 1024) : 0ULL,
+                 card ? card->real_freq_khz : 0);
+}
+
+static void run_command(char* line) {
+    // "RUN <suite> [args]"
+    char* suite = line + 4;
+    while (*suite == ' ') suite++;
+    char* args = strchr(suite, ' ');
+    if (args) {
+        *args++ = '\0';
+    } else {
+        args = "";
+    }
+
+    report_len        = 0;
+    redraw_every_line = sdtest_arg_int(args, "display", 0) != 0;
+    char text[LINE_LEN];
+    log_line("==============================================================");
+    snprintf(text, sizeof(text), "IDF6 SD test, variant %s: RUN %s %s", CONFIG_IDF6TEST_VARIANT_NAME, suite, args);
+    log_line(text);
+    emit_begin(suite, args);
+
+    int64_t     t0     = esp_timer_get_time();
+    const char* status = "error";
+    if (!sdcard_is_mounted()) {
+        log_line("SD card not mounted");
+    } else {
+#if CONFIG_IDF6TEST_WITH_HOSTED
+        if (sdtest_arg_int(args, "wifi", 0) && !connect_wifi()) {
+            suite = "wifi-failed";  // not a suite: sdtest_run reports an error
+        }
+#endif
+        switch (sdtest_run(suite, args, log_line)) {
+            case SDTEST_OK:
+                status = "ok";
+                break;
+            case SDTEST_BAD:
+                status = "bad";
+                break;
+            default:
+                status = "error";
+                break;
+        }
+    }
+    int64_t ms = (esp_timer_get_time() - t0) / 1000;
+    snprintf(text, sizeof(text), "Run took %lld ms", ms);
+    log_line(text);
+    redraw();
+    save_report();
+    report_emitf("END", "{\"t\":\"end\",\"suite\":\"%s\",\"status\":\"%s\",\"ms\":%lld}", suite, status, ms);
+}
+
+static void return_to_launcher(void) {
+    report_emitf("BYE", "{\"t\":\"bye\"}");
+    fflush(stdout);
+    vTaskDelay(pdMS_TO_TICKS(300));  // let the USB FIFO drain
+    bsp_device_restart_to_launcher();
+}
 
 // ---- Main -------------------------------------------------------------------
 
@@ -200,53 +260,37 @@ void app_main(void) {
 
     report_buf = heap_caps_malloc(REPORT_BYTES, MALLOC_CAP_SPIRAM);
 
-    char line[LINE_LEN];
-    snprintf(line, sizeof(line), "IDF6 SD test (%s): starting in %d s so the monitor can reconnect...",
-             CONFIG_IDF6TEST_VARIANT_NAME, CONFIG_IDF6TEST_STARTUP_DELAY_MS / 1000);
-    log_line(line);
-    vTaskDelay(pdMS_TO_TICKS(CONFIG_IDF6TEST_STARTUP_DELAY_MS));
-
     // As graceloader: SD card straight after the BSP, radio left as it is.
+    char text[LINE_LEN];
     res = sdcard_init();
     if (res != ESP_OK) {
-        snprintf(line, sizeof(line), "SD card mount failed: %s. Press F1 to return to the launcher.",
-                 esp_err_to_name(res));
-        log_line(line);
+        snprintf(text, sizeof(text), "SD card mount failed: %s", esp_err_to_name(res));
     } else {
-        run_tests("first run");
+        snprintf(text, sizeof(text), "IDF6 SD test (%s) ready. Waiting for tools/sdtest.py. F1/Esc: launcher",
+                 CONFIG_IDF6TEST_VARIANT_NAME);
     }
+    log_line(text);
+    redraw();
 
+    QueueHandle_t commands = console_start();
     for (;;) {
-        log_line(
-#if CONFIG_IDF6TEST_WITH_HOSTED
-            "Enter: run again   W: connect WiFi, then run again   F1/Esc: back to launcher"
-#else
-            "Enter: run again   F1/Esc: back to launcher"
-#endif
-        );
-        bool waiting = true;
-        while (waiting) {
-            bsp_input_event_t event;
-            if (xQueueReceive(input_event_queue, &event, portMAX_DELAY) != pdTRUE) continue;
-            if (event.type == INPUT_EVENT_TYPE_NAVIGATION && event.args_navigation.state) {
-                if (event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_F1 ||
-                    event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_ESC) {
-                    bsp_device_restart_to_launcher();
-                }
-                if (event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_RETURN && sdcard_is_mounted()) {
-                    run_tests("run again");
-                    waiting = false;
-                }
+        console_cmd_t cmd;
+        if (xQueueReceive(commands, &cmd, pdMS_TO_TICKS(50)) == pdTRUE) {
+            if (strncmp(cmd.line, "RUN ", 4) == 0) {
+                console_set_busy(true);
+                run_command(cmd.line);
+                console_set_busy(false);
+            } else if (strcmp(cmd.line, "EXIT") == 0) {
+                return_to_launcher();
             }
-#if CONFIG_IDF6TEST_WITH_HOSTED
-            if (event.type == INPUT_EVENT_TYPE_KEYBOARD &&
-                (event.args_keyboard.ascii == 'w' || event.args_keyboard.ascii == 'W') && sdcard_is_mounted()) {
-                if (connect_wifi()) {
-                    run_tests("with WiFi connected");
-                }
-                waiting = false;
+        }
+        bsp_input_event_t event;
+        while (xQueueReceive(input_event_queue, &event, 0) == pdTRUE) {
+            if (event.type == INPUT_EVENT_TYPE_NAVIGATION && event.args_navigation.state &&
+                (event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_F1 ||
+                 event.args_navigation.key == BSP_INPUT_NAVIGATION_KEY_ESC)) {
+                return_to_launcher();
             }
-#endif
         }
     }
 }

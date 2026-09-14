@@ -8,6 +8,8 @@ idf_component_register(
         "main.c"
         "sdcard.c"
         "sdtest.c"
+        "console.c"
+        "report.c"
     PRIV_REQUIRES
         esp_lcd
         fatfs
@@ -18,6 +20,8 @@ idf_component_register(
         vfs
         esp_mm
         heap
+        esp_driver_usb_serial_jtag
+        esp_system
         ${extra_requires}
     INCLUDE_DIRS
         "."

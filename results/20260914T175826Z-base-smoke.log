@@ -1,0 +1,66 @@
+I (1325) esp_psram: SPI SRAM memory test OK
+I (1334) cpu_start: Pro cpu start user code
+I (1334) cpu_start: cpu freq: 360000000 Hz
+I (1335) app_init: Application information:
+I (1335) app_init: Project name:     application
+I (1335) app_init: App version:      pre-v6-refresh-backup-3-g122f70
+I (1335) app_init: Compile time:     Sep 14 2026 19:53:02
+I (1335) app_init: ELF file SHA256:  2ea4d3928...
+I (1336) app_init: ESP-IDF:          v6.0.2
+I (1336) efuse_init: Min chip rev:     v0.1
+I (1336) efuse_init: Max chip rev:     v1.99 
+I (1336) efuse_init: Chip rev:         v1.3
+I (1336) heap_init: Initializing. RAM available for dynamic allocation:
+I (1337) heap_init: At 4FF1EAC0 len 0001C500 (113 KiB): RETENT_RAM
+I (1337) heap_init: At 4FF3AFC0 len 00004BF0 (18 KiB): RAM
+I (1337) heap_init: At 4FF40000 len 00060000 (384 KiB): RAM
+I (1338) heap_init: At 50108180 len 00007E80 (31 KiB): RTCRAM
+I (1338) heap_init: At 30100088 len 00001F78 (7 KiB): SPM
+I (1338) esp_psram: Adding pool of 32768K of PSRAM memory to heap allocator
+I (1339) spi_flash: detected chip: winbond
+I (1339) spi_flash: flash io: qio
+I (1341) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1342) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1343) H_SDIO_DRV: sdio_data_to_rx_buf_task started
+I (1343) main_task: Started on CPU0
+I (1343) esp_psram: Reserving pool of 64K of internal memory for DMA/internal allocations
+I (1343) main_task: Calling app_main()
+E (1373) gpio: gpio_install_isr_service(537): GPIO isr service already installed
+I (1373) ST7701 panel: Install MIPI DSI LCD control IO
+I (1373) ST7701 panel: Install MIPI DSI LCD data panel
+I (1373) st7701: version: 2.0.2
+I (1513) st7701_mipi: LCD ID: FF FF FF
+I (1513) st7701_mipi:  st7701->madctl_val: 0x0, st7701->colmod_val: 0x77
+I (1733) ES8156: ES8156 detected, chip version: 0x1
+I (3073) sdcard: Power cycling SD card...
+W (3073) ldo: The voltage value 0 is out of the recommended range [500, 2700]
+I (3373) sdcard: SD card power cycle complete
+I (3373) sdcard: Initializing SD card (SDMMC 4-bit mode)
+I (3373) sdcard: Mounting filesystem
+I (3543) sdcard: SD card mounted successfully
+Name: SE16G
+Type: SDHC
+Speed: 40.00 MHz (limit: 40.00 MHz)
+Size: 15193MB
+CSD: ver=2, sector_size=512, capacity=31116288 read_bl_len=9
+SSR: bus_width=4
+IDF6 SD test (base) ready. Waiting for tools/sdtest.py. F1/Esc: launcher
+@@SDT-PONG@@ {"t":"PONG","variant":"base","mounted":true,"idle_left_s":299,"free_int":473083,"free_psram":30718728} @@09349bc3@@
+==============================================================
+IDF6 SD test, variant base: RUN smoke 
+@@SDT-BEGIN@@ {"t":"begin","variant":"base","suite":"smoke","args":"","idf":"v6.0.2","hosted":1,"chunked_msync":0,"pm":1,"psram_mhz":200,"int_wdt_ms":300,"reset_reason":3,"free_int":472995,"largest_int":319488,"free_psram":30718728,"card_name":"SE16G","card_mb":15193,"card_khz":40000} @@3260c534@@
+Pattern file present (8 MB), verifying through 4 KB internal reads...
+  baseline OK (1900 ms)
+@@SDT-PATTERN@@ {"t":"pattern","written":false,"baseline":true} @@12cca7a0@@
+  psram    unbuf   direct     db1    4096 @0        #1: ok  2915 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"smoke","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":4096,"off":0,"rep":1,"addr":"0x482b4540","ok":true,"n":4096,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":1372,"kbps":2915,"detail":[]} @@79bd42d4@@
+  psram    unbuf   direct     db1   65536 @0        #1: ok  12220 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"smoke","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":65536,"off":0,"rep":1,"addr":"0x482b4540","ok":true,"n":65536,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":5237,"kbps":12220,"detail":[]} @@326a1c9e@@
+  psram    unbuf   direct     db1  262144 @0        #1: ok  12794 KB/s
+@@SDT-CASE@@ {"t":"case","suite":"smoke","dest":"psram","io":"unbuf","method":"direct","chunk":4096,"vbuf":0,"dmabuf":1,"size":262144,"off":0,"rep":1,"addr":"0x482b4540","ok":true,"n":262144,"errno":0,"bad":0,"bad_fill":0,"bad_zero":0,"runs":0,"gran":"","us":20008,"kbps":12794,"detail":[]} @@d4c0e33c@@
+smoke: 3 cases, 3 good, 0 BAD, 0 skipped
+@@SDT-SUMMARY@@ {"t":"summary","suite":"smoke","cases":3,"good":3,"bad":0,"skipped":0} @@0adcd135@@
+RESULT: all reads correct
+Run took 2009 ms
+@@SDT-END@@ {"t":"end","suite":"smoke","status":"ok","ms":2009} @@5fe09d74@@
+@@SDT-BYE@@ {"t":"bye"} @@9f989734@@
