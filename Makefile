@@ -1,7 +1,11 @@
 # Device parameters
 DEVICE ?= tanmatsu
 PORT ?= /dev/ttyACM0
-BADGELINKPORT ?= $(PORT)
+# BadgeLink transport. Empty (the default) means raw USB through libusb, the
+# only thing the P4 exposes in BadgeLink mode (16d0:0f9a, vendor interface
+# ff:00:00, no CDC-ACM, so there is no /dev/ttyACM* for it). host:port
+# selects a TCP proxy, anything else a serial device.
+BADGELINKPORT ?=
 
 # Build parameters
 IDF_VERSION ?= v6.0.2
@@ -79,8 +83,9 @@ all: build
 
 # Badgelink
 
-# Determine badgelink connection argument: --tcp for host:port, --port for serial devices
-BADGELINK_CONN := $(if $(findstring :,$(BADGELINKPORT)),--tcp $(BADGELINKPORT),--port $(BADGELINKPORT))
+# Determine badgelink connection argument: --tcp for host:port, --port for serial
+# devices, nothing at all for raw USB (badgelink.py then uses libusb)
+BADGELINK_CONN := $(if $(BADGELINKPORT),$(if $(findstring :,$(BADGELINKPORT)),--tcp $(BADGELINKPORT),--port $(BADGELINKPORT)),)
 
 .PHONY: badgelink
 badgelink:
@@ -314,7 +319,7 @@ mode_badgelink:
 # Ask the firmware (running in USB_DEVICE / BadgeLink mode) to switch its USB
 # back to flash/monitor (USB_DEBUG) mode via the BadgeLink `mode` command.
 # Prefers the badgelink checkout created by `make badgelink`; falls back to a
-# component copy. Uses BADGELINKPORT (defaults to PORT) for the connection:
+# component copy. Uses BADGELINKPORT (defaults to raw USB) for the connection:
 # host:port -> --tcp, plain path -> --port.
 BADGELINK_CLONE_SH   := badgelink/tools/badgelink.sh
 BADGELINK_LOCAL_SH   := components/badgeteam__badgelink/tools/badgelink.sh

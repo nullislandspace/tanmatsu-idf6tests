@@ -19,6 +19,10 @@ Holding `ESP_PM_CPU_FREQ_MAX` fixes it without a speed penalty.
 The badge sits in the launcher; everything is driven over the debug console
 (`PORT`) and BadgeLink (`BADGELINKPORT`):
 
+`BADGELINKPORT` is empty by default, which makes the tools talk to BadgeLink
+over raw USB (`16d0:0f9a`); set it to `host:port` to go through a TCP proxy
+such as badgenet's `localhost:4003`.
+
 ```sh
 make cycle VARIANT=nobsp SUITE=canary ARGS="reads=30"            # build, install, run, capture
 make cycle VARIANT=nobsp SUITE=canary ARGS="reads=30 pmlock=cpu" # same with the fix
